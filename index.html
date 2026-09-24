@@ -1,0 +1,2456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unnati — Scholarships for tribal students</title>
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231B4B43'/%3E%3Cpath d='M32 47V27' stroke='%23D9A441' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M32 35C22 35 18 29 18 21c8 0 14 5 14 14z' fill='%23FBF0DA'/%3E%3Cpath d='M32 29c0-9 6-14 14-14 0 8-4 14-14 14z' fill='%23D9A441'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/2.44.0/iconfont/tabler-icons.min.css">
+  <style>
+    :root {
+      --ink: #1F1B16;
+      --ink-soft: #58524A;
+      --ink-faint: #918B81;
+      --paper: #F7F4ED;
+      --paper-raised: #FFFFFF;
+      --teal: #1B4B43;
+      --teal-deep: #123330;
+      --teal-tint: #E4EDE9;
+      --gold: #D9A441;
+      --gold-tint: #FBF0DA;
+      --gold-deep: #8A6417;
+      --red: #B23A48;
+      --red-tint: #F8E6E6;
+      --green: #3C7A4E;
+      --green-tint: #E7F2E7;
+      --border: #E2DCCC;
+      --border-strong: #CBC3AE;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --shadow-card: 0 1px 2px rgba(31, 27, 22, 0.06), 0 1px 1px rgba(31, 27, 22, 0.04);
+      --font-ui: 'IBM Plex Sans', system-ui, sans-serif;
+      --font-display: 'Fraunces', Georgia, serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      background: #E9E4D6;
+      font-family: var(--font-ui);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+      font-size: 15px;
+    }
+
+    .app-shell {
+      max-width: 420px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: var(--paper);
+      position: relative;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.08);
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (min-width: 440px) {
+      .app-shell {
+        min-height: 860px;
+        margin: 24px auto;
+        border-radius: 22px;
+        overflow: hidden;
+      }
+    }
+
+    .screen {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      animation: fadein 0.18s ease;
+    }
+
+    @keyframes fadein {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* ---------- Login ---------- */
+    .screen-login {
+      background: var(--paper);
+    }
+
+    .warli-band {
+      height: 48px;
+      color: var(--teal);
+      opacity: 0.55;
+    }
+
+    .warli-band svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .login-card {
+      padding: 8px 28px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .brand-lockup {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .brand-logo {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    .brand-name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 34px;
+      line-height: 1;
+      margin: 0;
+      color: var(--teal-deep);
+      letter-spacing: 0.5px;
+    }
+
+    .brand-tag {
+      margin: 12px 0 14px;
+      color: var(--ink-soft);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* Login / Create profile tabs */
+    .auth-tabs {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      margin: 18px 0 4px;
+      background: var(--teal-tint);
+      border-radius: var(--radius);
+    }
+
+    .auth-tab {
+      flex: 1;
+      height: 40px;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--ink-soft);
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .auth-tab.active {
+      background: var(--paper-raised);
+      color: var(--teal-deep);
+      box-shadow: var(--shadow-card);
+    }
+
+    /* ---------- Form controls ---------- */
+    .field-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-soft);
+      margin: 14px 0 6px;
+      display: block;
+    }
+
+    .field-label-group {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink-soft);
+      margin: 6px 0 2px;
+    }
+
+    .field-hint {
+      font-size: 12px;
+      color: var(--ink-faint);
+      margin: 6px 0 0;
+    }
+
+    .field-error {
+      font-size: 12px;
+      color: var(--red);
+      margin: 6px 0 0;
+    }
+
+    .input {
+      width: 100%;
+      height: 44px;
+      padding: 0 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-strong);
+      background: var(--paper-raised);
+      color: var(--ink);
+      outline: none;
+    }
+
+    .input:focus {
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px var(--teal-tint);
+    }
+
+    select.input {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2358524A' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 34px;
+    }
+
+    .btn {
+      height: 46px;
+      border-radius: var(--radius-sm);
+      border: none;
+      font-weight: 500;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: transform 0.08s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-block {
+      width: 100%;
+      margin-top: 16px;
+    }
+
+    .btn-primary {
+      background: var(--teal);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover {
+      background: var(--teal-deep);
+    }
+
+    .btn-secondary {
+      background: var(--paper-raised);
+      color: var(--teal-deep);
+      border: 1px solid var(--border-strong);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--teal);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink-soft);
+    }
+
+    .btn-danger {
+      background: var(--red-tint);
+      color: var(--red);
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .icon-btn:hover {
+      background: var(--teal-tint);
+    }
+
+    /* ---------- Generic screen chrome ---------- */
+    .screen-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--border);
+      background: var(--paper);
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .screen-header h2 {
+      font-size: 16px;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .form-body {
+      padding: 16px 20px 32px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 18px 0;
+    }
+
+    /* ---------- Dashboard ---------- */
+    .screen-dashboard {
+      background: var(--paper);
+    }
+
+    .dash-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 20px 12px;
+    }
+
+    .dash-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--teal);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .dash-greeting {
+      flex: 1;
+    }
+
+    .dash-hello {
+      font-size: 12px;
+      color: var(--ink-faint);
+      margin: 0;
+    }
+
+    .dash-name {
+      font-size: 15px;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .badge-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+    }
+
+    .dash-body {
+      padding: 4px 20px 90px;
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .status-card {
+      background: var(--teal);
+      color: var(--gold-tint);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      margin-bottom: 18px;
+    }
+
+    .status-label {
+      font-size: 12px;
+      opacity: 0.8;
+      margin: 0 0 4px;
+    }
+
+    .status-value {
+      font-size: 15px;
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .tile {
+      background: var(--paper-raised);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .tile:hover {
+      border-color: var(--teal);
+    }
+
+    .tile i {
+      font-size: 20px;
+      color: var(--teal);
+    }
+
+    .chatbot-fab {
+      position: absolute;
+      right: 18px;
+      bottom: 84px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--teal-deep);
+      border: none;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+      cursor: pointer;
+    }
+
+    .bottom-nav {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 64px;
+      background: var(--paper-raised);
+      border-top: 1px solid var(--border);
+      display: flex;
+    }
+
+    .bottom-nav-item {
+      flex: 1;
+      border: none;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 11px;
+      color: var(--ink-faint);
+      cursor: pointer;
+    }
+
+    .bottom-nav-item i {
+      font-size: 19px;
+    }
+
+    .bottom-nav-item.active {
+      color: var(--teal);
+    }
+
+    /* ---------- Cards: matches, docs, tracker ---------- */
+    .scheme-card {
+      background: var(--paper-raised);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+    }
+
+    .scheme-card:hover {
+      border-color: var(--teal);
+    }
+
+    .scheme-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .scheme-card h3 {
+      font-size: 15px;
+      margin: 0 0 4px;
+      font-weight: 500;
+    }
+
+    .scheme-card p {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin: 0;
+    }
+
+    .scheme-grant {
+      background: var(--gold-tint);
+      color: var(--gold-deep);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .scheme-meta {
+      display: flex;
+      gap: 14px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+
+    .scheme-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .detail-block {
+      margin-bottom: 18px;
+    }
+
+    .detail-block h4 {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin: 0 0 6px;
+      font-weight: 500;
+    }
+
+    .detail-block ul {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .detail-hero {
+      background: var(--teal-tint);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .detail-hero .scheme-grant {
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .detail-hero p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    .doc-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+      background: var(--paper-raised);
+    }
+
+    .doc-item i {
+      font-size: 18px;
+      color: var(--teal);
+    }
+
+    .doc-item .doc-name {
+      flex: 1;
+      font-size: 14px;
+    }
+
+    .doc-item .doc-status {
+      font-size: 12px;
+    }
+
+    .doc-status.verified {
+      color: var(--green);
+    }
+
+    .doc-status.pending {
+      color: var(--gold-deep);
+    }
+
+    .matching-loader {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      text-align: center;
+      padding-top: 80px;
+      color: var(--ink-soft);
+      font-size: 14px;
+    }
+
+    .spinner {
+      width: 34px;
+      height: 34px;
+      border: 3px solid var(--border);
+      border-top-color: var(--teal);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* ---------- Applications / tracker ---------- */
+    .prefill-note {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold-tint);
+      color: var(--gold-deep);
+      font-size: 12px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 4px;
+    }
+
+    .prefill-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px dashed var(--border);
+      font-size: 13px;
+    }
+
+    .prefill-row span:first-child {
+      color: var(--ink-faint);
+    }
+
+    .app-card {
+      background: var(--paper-raised);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+    }
+
+    .app-card h3 {
+      font-size: 14px;
+      margin: 0 0 4px;
+      font-weight: 500;
+    }
+
+    .app-card .app-stage {
+      font-size: 12px;
+      color: var(--teal);
+      font-weight: 500;
+    }
+
+    .progress-track {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 8px;
+    }
+
+    .progress-step {
+      display: flex;
+      gap: 12px;
+    }
+
+    .progress-dot-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .progress-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid var(--border-strong);
+      background: var(--paper-raised);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: transparent;
+    }
+
+    .progress-line {
+      width: 2px;
+      flex: 1;
+      background: var(--border-strong);
+      min-height: 32px;
+    }
+
+    .progress-step.done .progress-dot {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #fff;
+    }
+
+    .progress-step.done .progress-line {
+      background: var(--teal);
+    }
+
+    .progress-step.current .progress-dot {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+    .progress-content {
+      padding-bottom: 28px;
+    }
+
+    .progress-content h4 {
+      margin: 0 0 2px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .progress-content p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+
+    /* ---------- Notifications / FAQ ---------- */
+    .notif-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .notif-item i {
+      font-size: 18px;
+      color: var(--teal);
+      margin-top: 2px;
+    }
+
+    .notif-item h4 {
+      margin: 0 0 2px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .notif-item p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--ink-faint);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+    }
+
+    .faq-item summary {
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .faq-item p {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin: 8px 0 0;
+    }
+
+    /* ---------- Chat ---------- */
+    .screen-chat {
+      padding-bottom: 0;
+    }
+
+    .chat-log {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .chat-bubble {
+      max-width: 82%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .chat-bubble.bot {
+      background: var(--teal-tint);
+      color: var(--teal-deep);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-bubble.user {
+      background: var(--teal);
+      color: #fff;
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .chat-input-row .input {
+      flex: 1;
+    }
+
+    .send-btn {
+      background: var(--teal);
+      color: #fff;
+    }
+
+    /* ---------- Settings ---------- */
+    .settings-profile-card {
+      background: var(--paper-raised);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      margin-bottom: 18px;
+    }
+
+    .settings-profile-card .row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      padding: 6px 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .settings-profile-card .row:last-child {
+      border-bottom: none;
+    }
+
+    .settings-profile-card .row span:first-child {
+      color: var(--ink-faint);
+    }
+
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+  </style>
+  <script>
+    window.addEventListener("error", function (e) {
+      var app = document.getElementById("app");
+      if (!app) return;
+      app.innerHTML =
+        '<div style="padding:24px;font-family:sans-serif;color:#B23A48;">' +
+        "<h3>Something went wrong loading the app</h3>" +
+        '<pre style="white-space:pre-wrap;font-size:12px;background:#F8E6E6;padding:12px;border-radius:8px;">' +
+        ((e.error && e.error.stack) || e.message) +
+        "</pre>" +
+        "<p>If you opened this file by double-clicking it, try running it through a local server instead " +
+        "(start the backend with <code>python app.py</code>, then open http://localhost:8000).</p>" +
+        "</div>";
+    });
+  </script>
+</head>
+
+<body>
+
+  <noscript>
+    <div style="padding:24px;font-family:sans-serif;">
+      This app needs JavaScript enabled to run. If it's already enabled and you still see a blank page,
+      try opening it through a local server instead of double-clicking the file — see README.md.
+    </div>
+  </noscript>
+
+  <div id="app" class="app-shell"></div>
+
+  <!-- ============ TEMPLATES ============ -->
+
+  <template id="tpl-login">
+    <div class="screen screen-login">
+      <div class="warli-band" aria-hidden="true">
+        <svg viewBox="0 0 400 60" preserveAspectRatio="none">
+          <use href="#warli-pattern"></use>
+        </svg>
+      </div>
+      <div class="login-card">
+        <div class="brand-lockup">
+          <svg class="brand-logo" viewBox="0 0 64 64" role="img" aria-label="Unnati logo">
+            <circle cx="32" cy="32" r="32" fill="#1B4B43" />
+            <path d="M20 48h24" stroke="#FBF0DA" stroke-width="2.5" stroke-linecap="round" opacity="0.6" />
+            <path d="M32 47V27" stroke="#D9A441" stroke-width="3.5" stroke-linecap="round" />
+            <path d="M32 35C22 35 18 29 18 21c8 0 14 5 14 14z" fill="#FBF0DA" />
+            <path d="M32 29c0-9 6-14 14-14 0 8-4 14-14 14z" fill="#D9A441" />
+          </svg>
+          <h1 class="brand-name">Unnati</h1>
+        </div>
+        <p class="brand-tag" data-i18n="tagline">All tribal student scholarships, in one place</p>
+
+        <label class="field-label" for="lang-select" data-i18n="chooseLanguage">Choose your language</label>
+        <select id="lang-select" class="input"></select>
+
+        <div class="auth-tabs" role="tablist">
+          <button class="auth-tab" id="tab-login" role="tab" data-i18n="loginTab">Login</button>
+          <button class="auth-tab" id="tab-create" role="tab" data-i18n="createTab">Create profile</button>
+        </div>
+
+        <!-- ===== LOGIN: mobile + PIN ===== -->
+        <div id="panel-login">
+          <label class="field-label" for="login-mobile" data-i18n="mobileNumber">Mobile number</label>
+          <input id="login-mobile" class="input" type="tel" inputmode="numeric" maxlength="10"
+            placeholder="10-digit mobile number" autocomplete="tel" />
+          <label class="field-label" for="login-pin" data-i18n="enterPin">Enter your 6-digit PIN</label>
+          <input id="login-pin" class="input" type="password" inputmode="numeric" maxlength="6"
+            placeholder="6-digit PIN" autocomplete="current-password" />
+          <p class="field-error" id="login-error" hidden></p>
+          <button class="btn btn-primary btn-block" id="btn-login" data-i18n="loginBtn">Log in</button>
+          <p class="field-hint" style="text-align:center;margin-top:14px"><span data-i18n="newHere">New here?</span></p>
+          <button class="btn btn-ghost btn-block" id="btn-goto-create" style="margin-top:0" data-i18n="createTab">Create
+            profile</button>
+        </div>
+
+        <!-- ===== CREATE PROFILE: mobile -> OTP -> PIN ===== -->
+        <div id="panel-create" hidden>
+          <div id="login-step-mobile">
+            <label class="field-label" for="mobile-input" data-i18n="mobileNumber">Mobile number</label>
+            <input id="mobile-input" class="input" type="tel" inputmode="numeric" maxlength="10"
+              placeholder="10-digit mobile number" />
+            <p class="field-error" id="mobile-error" hidden></p>
+            <button class="btn btn-primary btn-block" id="btn-send-otp" data-i18n="sendOtp">Send OTP</button>
+          </div>
+
+          <div id="login-step-otp" hidden>
+            <label class="field-label" for="otp-input" data-i18n="enterOtp">Enter the OTP sent to your number</label>
+            <input id="otp-input" class="input" type="tel" inputmode="numeric" maxlength="6"
+              placeholder="6-digit OTP" />
+            <p class="field-hint" data-i18n="otpHint">Demo bypass code: <code>123456</code></p>
+            <p class="field-error" id="otp-error" hidden></p>
+            <button class="btn btn-primary btn-block" id="btn-verify-otp" data-i18n="verifyContinue">Verify and
+              continue</button>
+            <button class="btn btn-ghost btn-block" id="btn-back-mobile" data-i18n="changeNumber">Change number</button>
+          </div>
+
+          <div id="login-step-pin" hidden>
+            <label class="field-label" for="pin-input" data-i18n="createPin">Create a 6-digit security PIN</label>
+            <input id="pin-input" class="input" type="password" inputmode="numeric" maxlength="6"
+              placeholder="6-digit PIN" autocomplete="new-password" />
+            <label class="field-label" for="pin-confirm" data-i18n="confirmPin">Confirm PIN</label>
+            <input id="pin-confirm" class="input" type="password" inputmode="numeric" maxlength="6"
+              placeholder="6-digit PIN" autocomplete="new-password" />
+            <p class="field-error" id="pin-error" hidden></p>
+            <button class="btn btn-primary btn-block" id="btn-set-pin" data-i18n="createProfileBtn">Create
+              profile</button>
+          </div>
+
+          <p class="field-hint" style="text-align:center;margin-top:14px"><span data-i18n="haveProfile">Already have a
+              profile?</span></p>
+          <button class="btn btn-ghost btn-block" id="btn-goto-login" style="margin-top:0"
+            data-i18n="loginTab">Login</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-profile">
+    <div class="screen">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 data-i18n="profileTitle">Tell us about you</h2>
+      </header>
+      <form id="profile-form" class="form-body">
+        <label class="field-label" data-i18n="fullName">Full name</label>
+        <input class="input" name="name" required />
+
+        <label class="field-label" data-i18n="age">Age</label>
+        <input class="input" name="age" type="number" min="10" max="35" required />
+
+        <label class="field-label" data-i18n="gender">Gender</label>
+        <select class="input" name="gender" required>
+          <option value="">Select</option>
+          <option data-i18n="female">Female</option>
+          <option data-i18n="male">Male</option>
+          <option data-i18n="other">Other</option>
+        </select>
+
+        <label class="field-label" data-i18n="state">State</label>
+        <select class="input" name="state" required></select>
+
+        <label class="field-label" data-i18n="district">District</label>
+        <input class="input" name="district" required />
+
+        <label class="field-label" data-i18n="tribalSubCaste">Tribal sub-caste</label>
+        <input class="input" name="subCaste" placeholder="e.g. Gond, Santhal, Bhil" required />
+
+        <label class="field-label" data-i18n="courseLevel">Current course level</label>
+        <select class="input" name="courseLevel" required>
+          <option value="">Select</option>
+          <option value="pre-matric" data-i18n="preMatric">Pre-matric (class 9–10)</option>
+          <option value="post-matric" data-i18n="postMatric">Post-matric (class 11+)</option>
+          <option value="ug" data-i18n="ug">Undergraduate</option>
+          <option value="pg" data-i18n="pg">Postgraduate</option>
+        </select>
+
+        <label class="field-label" data-i18n="annualIncome">Family annual income (₹)</label>
+        <input class="input" name="income" type="number" min="0" required />
+
+        <p class="field-hint" id="profile-draft-hint" data-i18n="draftHint">Your progress is saved automatically as you
+          type</p>
+        <button class="btn btn-primary btn-block" type="submit" data-i18n="saveContinue">Save and continue</button>
+      </form>
+    </div>
+  </template>
+
+  <template id="tpl-documents">
+    <div class="screen">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 data-i18n="documentsTitle">Verify your documents</h2>
+      </header>
+      <div class="form-body">
+        <button class="btn btn-secondary btn-block" id="btn-digilocker">
+          <i class="ti ti-cloud-download"></i>
+          <span data-i18n="pullDigilocker">Pull verified documents from DigiLocker</span>
+        </button>
+        <p class="field-hint" data-i18n="digilockerHint">We only request read access to the documents listed below</p>
+
+        <div class="doc-list" id="doc-list"></div>
+
+        <button class="btn btn-primary btn-block" id="btn-docs-continue" data-i18n="continueToMatch">Continue to
+          eligibility matching</button>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-matching">
+    <div class="screen">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 data-i18n="matchingTitle">Matching your profile</h2>
+      </header>
+      <div class="form-body matching-loader" id="matching-loader">
+        <div class="spinner"></div>
+        <p data-i18n="matchingText">Checking your profile against every central and state tribal scholarship scheme…</p>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-dashboard">
+    <div class="screen screen-dashboard">
+      <header class="dash-header">
+        <div class="dash-avatar" id="dash-avatar">R</div>
+        <div class="dash-greeting">
+          <p class="dash-hello" data-i18n="hello">Hello,</p>
+          <p class="dash-name" id="dash-name">—</p>
+        </div>
+        <button class="icon-btn" data-nav="notifications" aria-label="Notifications">
+          <i class="ti ti-bell"></i>
+          <span class="badge-dot" id="notif-dot" hidden></span>
+        </button>
+        <button class="icon-btn" data-nav="settings" aria-label="Settings"><i class="ti ti-settings"></i></button>
+      </header>
+
+      <div class="dash-body">
+        <div class="status-card" id="status-card">
+          <p class="status-label" data-i18n="currentStatus">Current scholarship status</p>
+          <p class="status-value" id="status-value" data-i18n="noApplications">No applications yet</p>
+        </div>
+
+        <div class="tile-grid">
+          <button class="tile" data-nav="matches">
+            <i class="ti ti-sparkles"></i>
+            <span data-i18n="findScholarships">Find scholarships for me</span>
+          </button>
+          <button class="tile" data-nav="tracker">
+            <i class="ti ti-list-check"></i>
+            <span data-i18n="appliedSchemes">My applied schemes</span>
+          </button>
+          <button class="tile" data-nav="documents-locker">
+            <i class="ti ti-folder"></i>
+            <span data-i18n="documentLocker">Document locker</span>
+          </button>
+          <button class="tile" data-nav="help">
+            <i class="ti ti-headset"></i>
+            <span data-i18n="helpVoice">Help and voice support</span>
+          </button>
+        </div>
+      </div>
+
+      <button class="chatbot-fab" data-nav="chatbot" aria-label="AI chatbot"><i
+          class="ti ti-message-chatbot"></i></button>
+      <nav class="bottom-nav">
+        <button class="bottom-nav-item active" data-nav="dashboard"><i class="ti ti-home"></i><span
+            data-i18n="home">Home</span></button>
+        <button class="bottom-nav-item" data-nav="matches"><i class="ti ti-sparkles"></i><span
+            data-i18n="match">Match</span></button>
+        <button class="bottom-nav-item" data-nav="tracker"><i class="ti ti-list-check"></i><span
+            data-i18n="track">Track</span></button>
+        <button class="bottom-nav-item" data-nav="settings"><i class="ti ti-user"></i><span
+            data-i18n="profile">Profile</span></button>
+      </nav>
+    </div>
+  </template>
+
+  <template id="tpl-matches">
+    <div class="screen">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 data-i18n="yourMatches">Scholarships you qualify for</h2>
+      </header>
+      <div class="form-body" id="matches-list"></div>
+    </div>
+  </template>
+
+  <template id="tpl-scheme-detail">
+    <div class="screen">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 id="scheme-detail-title">—</h2>
+      </header>
+      <div class="form-body" id="scheme-detail-body"></div>
+    </div>
+  </template>
+
+  <template id="tpl-apply">
+    <div class="screen">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 data-i18n="applicationTitle">Application</h2>
+      </header>
+      <form class="form-body" id="apply-form">
+        <div class="prefill-note">
+          <i class="ti ti-bolt"></i>
+          <span data-i18n="prefillNote">These fields were filled automatically from your profile</span>
+        </div>
+        <div id="apply-prefilled"></div>
+        <hr class="divider" />
+        <p class="field-label-group" data-i18n="remainingInfo">Remaining information</p>
+        <label class="field-label" data-i18n="bankAccount">Bank account number (Aadhaar-seeded)</label>
+        <input class="input" name="bankAccount" required />
+        <label class="field-label" data-i18n="ifsc">IFSC code</label>
+        <input class="input" name="ifsc" required />
+        <label class="field-label" data-i18n="institute">Institute name</label>
+        <input class="input" name="institute" required />
+        <label class="field-label" data-i18n="rollNo">Enrollment / roll number</label>
+        <input class="input" name="rollNo" required />
+        <button class="btn btn-secondary btn-block" type="button" id="btn-save-draft" data-i18n="saveDraft">Save
+          draft</button>
+        <button class="btn btn-primary btn-block" type="submit" data-i18n="submitApplication">Submit
+          application</button>
+      </form>
+    </div>
+  </template>
+
+  <template id="tpl-tracker">
+    <div class="screen">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 data-i18n="trackerTitle">Application tracker</h2>
+      </header>
+      <div class="form-body" id="tracker-list"></div>
+    </div>
+  </template>
+
+  <template id="tpl-tracker-detail">
+    <div class="screen">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 id="tracker-detail-title">—</h2>
+      </header>
+      <div class="form-body">
+        <div class="progress-track" id="progress-track"></div>
+        <button class="btn btn-secondary btn-block" id="btn-simulate-advance" data-i18n="simulateUpdate">Simulate next
+          status update</button>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-documents-locker">
+    <div class="screen">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 data-i18n="documentLocker">Document locker</h2>
+      </header>
+      <div class="form-body">
+        <div class="doc-list" id="locker-doc-list"></div>
+        <label class="btn btn-secondary btn-block" for="file-upload-input">
+          <i class="ti ti-upload"></i>
+          <span data-i18n="uploadManually">Upload a document manually</span>
+        </label>
+        <input type="file" id="file-upload-input" hidden />
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-help">
+    <div class="screen">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 data-i18n="helpVoice">Help and voice support</h2>
+      </header>
+      <div class="form-body">
+        <button class="btn btn-secondary btn-block" id="btn-voice">
+          <i class="ti ti-microphone"></i>
+          <span data-i18n="tapToSpeak">Tap to ask by voice</span>
+        </button>
+        <p class="field-hint" id="voice-status" data-i18n="voiceHint">Uses your device's speech recognition, if
+          available</p>
+        <div class="faq-list" id="faq-list"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="tpl-chatbot">
+    <div class="screen screen-chat">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 data-i18n="aiChatbot">AI chatbot</h2>
+      </header>
+      <div class="chat-log" id="chat-log"></div>
+      <form class="chat-input-row" id="chat-form">
+        <input class="input" id="chat-input" data-i18n-placeholder="askAnything"
+          placeholder="Ask anything about scholarships…" autocomplete="off" />
+        <button class="icon-btn send-btn" type="submit" aria-label="Send"><i class="ti ti-send"></i></button>
+      </form>
+    </div>
+  </template>
+
+  <template id="tpl-notifications">
+    <div class="screen">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 data-i18n="notifications">Notifications</h2>
+      </header>
+      <div class="form-body" id="notif-list"></div>
+    </div>
+  </template>
+
+  <template id="tpl-settings">
+    <div class="screen">
+      <header class="screen-header">
+        <button class="icon-btn" data-back aria-label="Back"><i class="ti ti-arrow-left"></i></button>
+        <h2 data-i18n="settings">Settings</h2>
+      </header>
+      <div class="form-body">
+        <div class="settings-profile-card" id="settings-profile-card"></div>
+        <label class="field-label" for="settings-lang" data-i18n="language">Language</label>
+        <select id="settings-lang" class="input"></select>
+        <button class="btn btn-secondary btn-block" id="btn-logout" data-i18n="logOut">Log out</button>
+        <button class="btn btn-danger btn-block" id="btn-clear-data" data-i18n="clearData">Delete my profile and
+          data</button>
+      </div>
+    </div>
+  </template>
+
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <pattern id="warli-pattern" viewBox="0 0 40 60" width="40" height="60" patternUnits="userSpaceOnUse">
+        <g fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="20" cy="20" r="6" />
+          <path d="M20 26 L20 34 M14 30 L26 30 M14 38 L26 46 M26 38 L14 46" />
+          <path d="M8 50 L14 44 L20 50 L26 44 L32 50" />
+        </g>
+      </pattern>
+    </defs>
+  </svg>
+
+  <script>
+    const I18N = {
+      en: {
+        langName: "English", tagline: "All tribal student scholarships, in one place",
+        chooseLanguage: "Choose your language", mobileNumber: "Mobile number", sendOtp: "Send OTP",
+        enterOtp: "Enter the OTP sent to your number", otpHint: "Demo bypass code: 123456",
+        verifyContinue: "Verify and continue", changeNumber: "Change number",
+        createPin: "Create a 6-digit security PIN", continue: "Continue",
+        profileTitle: "Tell us about you", fullName: "Full name", age: "Age", gender: "Gender",
+        female: "Female", male: "Male", other: "Other", state: "State", district: "District",
+        tribalSubCaste: "Tribal sub-caste", courseLevel: "Current course level",
+        preMatric: "Pre-matric (class 9–10)", postMatric: "Post-matric (class 11+)",
+        ug: "Undergraduate", pg: "Postgraduate", annualIncome: "Family annual income (₹)",
+        draftHint: "Your progress is saved automatically as you type", saveContinue: "Save and continue",
+        documentsTitle: "Verify your documents", pullDigilocker: "Pull verified documents from DigiLocker",
+        digilockerHint: "We only request read access to the documents listed below",
+        continueToMatch: "Continue to eligibility matching", matchingTitle: "Matching your profile",
+        matchingText: "Checking your profile against every central and state tribal scholarship scheme…",
+        hello: "Hello,", currentStatus: "Current scholarship status", noApplications: "No applications yet",
+        findScholarships: "Find scholarships for me", appliedSchemes: "My applied schemes",
+        documentLocker: "Document locker", helpVoice: "Help and voice support",
+        home: "Home", match: "Match", track: "Track", profile: "Profile",
+        yourMatches: "Scholarships you qualify for", applicationTitle: "Application",
+        prefillNote: "These fields were filled automatically from your profile",
+        remainingInfo: "Remaining information", bankAccount: "Bank account number (Aadhaar-seeded)",
+        ifsc: "IFSC code", institute: "Institute name", rollNo: "Enrollment / roll number",
+        saveDraft: "Save draft", submitApplication: "Submit application", trackerTitle: "Application tracker",
+        simulateUpdate: "Simulate next status update", uploadManually: "Upload a document manually",
+        tapToSpeak: "Tap to ask by voice", voiceHint: "Uses your device's speech recognition, if available",
+        aiChatbot: "AI chatbot", askAnything: "Ask anything about scholarships…", notifications: "Notifications",
+        settings: "Settings", language: "Language", serverDown: "Cannot reach the server. Please make sure it is running.", tooMany: "Too many wrong attempts. Please try again in 15 minutes.", genericError: "Something went wrong. Please try again.",
+        logOut: "Log out", clearData: "Delete my profile and data",
+        loginTab: "Login", createTab: "Create profile", enterPin: "Enter your 6-digit PIN", loginBtn: "Log in", newHere: "New here?", haveProfile: "Already have a profile?", confirmPin: "Confirm PIN", createProfileBtn: "Create profile", noAccount: "No profile found for this number. Please create a profile first.", wrongPin: "Incorrect PIN. Please try again.", alreadyExists: "A profile already exists for this number. Please log in.", pinMismatch: "PINs do not match", invalidMobile: "Enter a valid 10-digit mobile number", invalidOtp: "Enter the 6-digit OTP", invalidPin: "PIN must be exactly 6 digits", confirmDelete: "This permanently deletes your profile and data on this device. Continue?",
+        apply: "Apply now", viewDetails: "View details", deadline: "Deadline", grant: "Grant amount",
+        eligibility: "Eligibility", requiredDocuments: "Required documents", status: "Status",
+      },
+      hi: {
+        langName: "हिन्दी", tagline: "सभी जनजातीय छात्रवृत्तियाँ, एक ही स्थान पर",
+        chooseLanguage: "अपनी भाषा चुनें", mobileNumber: "मोबाइल नंबर", sendOtp: "OTP भेजें",
+        enterOtp: "अपने नंबर पर भेजा गया OTP दर्ज करें", otpHint: "डेमो बाईपास कोड: 123456",
+        verifyContinue: "सत्यापित करें और जारी रखें", changeNumber: "नंबर बदलें",
+        createPin: "6 अंकों का सुरक्षा पिन बनाएं", continue: "जारी रखें",
+        profileTitle: "अपने बारे में बताएं", fullName: "पूरा नाम", age: "उम्र", gender: "लिंग",
+        female: "महिला", male: "पुरुष", other: "अन्य", state: "राज्य", district: "जिला",
+        tribalSubCaste: "जनजातीय उप-जाति", courseLevel: "वर्तमान पाठ्यक्रम स्तर",
+        preMatric: "प्री-मैट्रिक (कक्षा 9–10)", postMatric: "पोस्ट-मैट्रिक (कक्षा 11+)",
+        ug: "स्नातक", pg: "स्नातकोत्तर", annualIncome: "पारिवारिक वार्षिक आय (₹)",
+        draftHint: "आपकी प्रगति स्वतः सहेजी जा रही है", saveContinue: "सहेजें और जारी रखें",
+        documentsTitle: "अपने दस्तावेज़ सत्यापित करें", pullDigilocker: "डिजीलॉकर से सत्यापित दस्तावेज़ लाएं",
+        digilockerHint: "हम केवल नीचे सूचीबद्ध दस्तावेज़ों तक पढ़ने की पहुँच मांगते हैं",
+        continueToMatch: "पात्रता मिलान जारी रखें", matchingTitle: "आपकी प्रोफ़ाइल का मिलान हो रहा है",
+        matchingText: "आपकी प्रोफ़ाइल की तुलना हर केंद्रीय और राज्य जनजातीय योजना से की जा रही है…",
+        hello: "नमस्ते,", currentStatus: "वर्तमान छात्रवृत्ति स्थिति", noApplications: "अभी कोई आवेदन नहीं",
+        findScholarships: "मेरे लिए छात्रवृत्ति खोजें", appliedSchemes: "मेरी आवेदित योजनाएं",
+        documentLocker: "दस्तावेज़ लॉकर", helpVoice: "सहायता और वॉइस सपोर्ट",
+        home: "होम", match: "मिलान", track: "ट्रैक", profile: "प्रोफ़ाइल",
+        yourMatches: "आप जिन छात्रवृत्तियों के पात्र हैं", applicationTitle: "आवेदन",
+        prefillNote: "ये फ़ील्ड आपकी प्रोफ़ाइल से स्वतः भरे गए हैं",
+        remainingInfo: "शेष जानकारी", bankAccount: "बैंक खाता संख्या (आधार-सीडेड)",
+        ifsc: "IFSC कोड", institute: "संस्थान का नाम", rollNo: "नामांकन / रोल नंबर",
+        saveDraft: "ड्राफ्ट सहेजें", submitApplication: "आवेदन जमा करें", trackerTitle: "आवेदन ट्रैकर",
+        simulateUpdate: "अगली स्थिति अपडेट का अनुकरण करें", uploadManually: "दस्तावेज़ मैन्युअल रूप से अपलोड करें",
+        tapToSpeak: "आवाज़ से पूछने हेतु टैप करें", voiceHint: "यदि उपलब्ध हो तो आपके डिवाइस की वॉइस पहचान का उपयोग करता है",
+        aiChatbot: "AI चैटबॉट", askAnything: "छात्रवृत्ति के बारे में कुछ भी पूछें…", notifications: "सूचनाएं",
+        settings: "सेटिंग्स", language: "भाषा", serverDown: "सर्वर से संपर्क नहीं हो पा रहा। कृपया जांचें कि सर्वर चालू है।", tooMany: "बहुत अधिक गलत प्रयास। कृपया 15 मिनट बाद फिर कोशिश करें।", genericError: "कुछ गलत हो गया। कृपया फिर प्रयास करें।",
+        logOut: "लॉग आउट करें", clearData: "मेरी प्रोफ़ाइल और डेटा हटाएं",
+        loginTab: "लॉग इन", createTab: "प्रोफ़ाइल बनाएं", enterPin: "अपना 6 अंकों का पिन दर्ज करें", loginBtn: "लॉग इन करें", newHere: "नए हैं?", haveProfile: "पहले से प्रोफ़ाइल है?", confirmPin: "पिन की पुष्टि करें", createProfileBtn: "प्रोफ़ाइल बनाएं", noAccount: "इस नंबर से कोई प्रोफ़ाइल नहीं मिली। कृपया पहले प्रोफ़ाइल बनाएं।", wrongPin: "गलत पिन। कृपया फिर प्रयास करें।", alreadyExists: "इस नंबर से प्रोफ़ाइल पहले से मौजूद है। कृपया लॉग इन करें।", pinMismatch: "पिन मेल नहीं खाते", invalidMobile: "मान्य 10 अंकों का मोबाइल नंबर दर्ज करें", invalidOtp: "6 अंकों का OTP दर्ज करें", invalidPin: "पिन ठीक 6 अंकों का होना चाहिए", confirmDelete: "यह इस डिवाइस से आपकी प्रोफ़ाइल और डेटा हमेशा के लिए हटा देगा। जारी रखें?",
+        apply: "अभी आवेदन करें", viewDetails: "विवरण देखें", deadline: "अंतिम तिथि", grant: "अनुदान राशि",
+        eligibility: "पात्रता", requiredDocuments: "आवश्यक दस्तावेज़", status: "स्थिति",
+      },
+      or: {
+        langName: "ଓଡ଼ିଆ", tagline: "ସମସ୍ତ ଆଦିବାସୀ ଛାତ୍ର ଛାତ୍ରବୃତ୍ତି, ଏକ ସ୍ଥାନରେ",
+        chooseLanguage: "ଆପଣଙ୍କ ଭାଷା ବାଛନ୍ତୁ", mobileNumber: "ମୋବାଇଲ ନମ୍ବର", sendOtp: "OTP ପଠାନ୍ତୁ",
+        enterOtp: "ଆପଣଙ୍କ ନମ୍ବରକୁ ପଠାଯାଇଥିବା OTP ପ୍ରବେଶ କରନ୍ତୁ", otpHint: "ଡେମୋ ବାଇପାସ୍ କୋଡ୍: 123456",
+        verifyContinue: "ଯାଞ୍ଚ କରନ୍ତୁ ଏବଂ ଜାରି ରଖନ୍ତୁ", changeNumber: "ନମ୍ବର ବଦଳାନ୍ତୁ",
+        createPin: "6 ଅଙ୍କର ସୁରକ୍ଷା ପିନ୍ ତିଆରି କରନ୍ତୁ", continue: "ଜାରି ରଖନ୍ତୁ",
+        profileTitle: "ଆପଣଙ୍କ ବିଷୟରେ କୁହନ୍ତୁ", fullName: "ପୂରା ନାମ", age: "ବୟସ", gender: "ଲିଙ୍ଗ",
+        female: "ମହିଳା", male: "ପୁରୁଷ", other: "ଅନ୍ୟ", state: "ରାଜ୍ୟ", district: "ଜିଲ୍ଲା",
+        tribalSubCaste: "ଆଦିବାସୀ ଉପ-ଜାତି", courseLevel: "ବର୍ତ୍ତମାନ ପାଠ୍ୟକ୍ରମ ସ୍ତର",
+        preMatric: "ପ୍ରି-ମାଟ୍ରିକ (9–10 ଶ୍ରେଣୀ)", postMatric: "ପୋଷ୍ଟ-ମାଟ୍ରିକ (11+ ଶ୍ରେଣୀ)",
+        ug: "ସ୍ନାତକ", pg: "ସ୍ନାତକୋତ୍ତର", annualIncome: "ପାରିବାରିକ ବାର୍ଷିକ ଆୟ (₹)",
+        draftHint: "ଆପଣଙ୍କ ପ୍ରଗତି ସ୍ୱୟଂଚାଳିତ ଭାବରେ ସେଭ୍ ହେଉଛି", saveContinue: "ସେଭ୍ କରନ୍ତୁ ଏବଂ ଜାରି ରଖନ୍ତୁ",
+        documentsTitle: "ଆପଣଙ୍କ ଦସ୍ତାବେଜ ଯାଞ୍ଚ କରନ୍ତୁ", pullDigilocker: "ଡିଜିଲକରରୁ ଯାଞ୍ଚିତ ଦସ୍ତାବେଜ ଆଣନ୍ତୁ",
+        digilockerHint: "ଆମେ କେବଳ ତଳେ ତାଲିକାଭୁକ୍ତ ଦସ୍ତାବେଜଗୁଡ଼ିକର ପଠନ ପ୍ରବେଶ ଅନୁରୋଧ କରୁ",
+        continueToMatch: "ଯୋଗ୍ୟତା ମେଳ ଜାରି ରଖନ୍ତୁ", matchingTitle: "ଆପଣଙ୍କ ପ୍ରୋଫାଇଲ୍ ମେଳ ହେଉଛି",
+        matchingText: "ଆପଣଙ୍କ ପ୍ରୋଫାଇଲ୍ ସମସ୍ତ କେନ୍ଦ୍ର ଏବଂ ରାଜ୍ୟ ଯୋଜନା ସହିତ ଯାଞ୍ଚ ହେଉଛି…",
+        hello: "ନମସ୍କାର,", currentStatus: "ବର୍ତ୍ତମାନ ଛାତ୍ରବୃତ୍ତି ସ୍ଥିତି", noApplications: "ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଆବେଦନ ନାହିଁ",
+        findScholarships: "ମୋ ପାଇଁ ଛାତ୍ରବୃତ୍ତି ଖୋଜନ୍ତୁ", appliedSchemes: "ମୋର ଆବେଦିତ ଯୋଜନା",
+        documentLocker: "ଦସ୍ତାବେଜ ଲକର", helpVoice: "ସହାୟତା ଏବଂ ଭଏସ୍ ସପୋର୍ଟ",
+        home: "ହୋମ", match: "ମେଳ", track: "ଟ୍ରାକ୍", profile: "ପ୍ରୋଫାଇଲ୍",
+        yourMatches: "ଆପଣ ଯୋଗ୍ୟ ଥିବା ଛାତ୍ରବୃତ୍ତି", applicationTitle: "ଆବେଦନ",
+        prefillNote: "ଏହି ଫିଲ୍ଡଗୁଡ଼ିକ ଆପଣଙ୍କ ପ୍ରୋଫାଇଲରୁ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ପୂରଣ ହୋଇଛି",
+        remainingInfo: "ବାକି ସୂଚନା", bankAccount: "ବ୍ୟାଙ୍କ ଖାତା ନମ୍ବର (ଆଧାର-ସିଡେଡ୍)",
+        ifsc: "IFSC କୋଡ୍", institute: "ଅନୁଷ୍ଠାନ ନାମ", rollNo: "ପଞ୍ଜିକରଣ / ରୋଲ୍ ନମ୍ବର",
+        saveDraft: "ଡ୍ରାଫ୍ଟ ସେଭ୍ କରନ୍ତୁ", submitApplication: "ଆବେଦନ ଦାଖଲ କରନ୍ତୁ", trackerTitle: "ଆବେଦନ ଟ୍ରାକର୍",
+        simulateUpdate: "ପରବର୍ତ୍ତୀ ସ୍ଥିତି ଅପଡେଟ୍ ଅନୁକରଣ କରନ୍ତୁ", uploadManually: "ମାନୁଆଲ ଭାବରେ ଦସ୍ତାବେଜ ଅପଲୋଡ୍ କରନ୍ତୁ",
+        tapToSpeak: "ସ୍ୱର ଦ୍ୱାରା ପଚାରିବାକୁ ଟାପ୍ କରନ୍ତୁ", voiceHint: "ଉପଲବ୍ଧ ଥିଲେ ଆପଣଙ୍କ ଡିଭାଇସର ଭଏସ୍ ପରିଚୟ ବ୍ୟବହାର କରେ",
+        aiChatbot: "AI ଚାଟବଟ୍", askAnything: "ଛାତ୍ରବୃତ୍ତି ବିଷୟରେ ଯାହା ଇଚ୍ଛା ପଚାରନ୍ତୁ…", notifications: "ବିଜ୍ଞପ୍ତି",
+        settings: "ସେଟିଂସ୍", language: "ଭାଷା", serverDown: "ସର୍ଭର୍ ସହ ସଂଯୋଗ ହେଉନାହିଁ। ଦୟାକରି ସର୍ଭର୍ ଚାଲୁ ଅଛି କି ଯାଞ୍ଚ କରନ୍ତୁ।", tooMany: "ବହୁତ ଅଧିକ ଭୁଲ୍ ଚେଷ୍ଟା। ଦୟାକରି 15 ମିନିଟ୍ ପରେ ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ।", genericError: "କିଛି ଭୁଲ୍ ହୋଇଗଲା। ଦୟାକରି ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ।",
+        logOut: "ଲଗ୍ ଆଉଟ୍ କରନ୍ତୁ", clearData: "ମୋ ପ୍ରୋଫାଇଲ୍ ଏବଂ ଡାଟା ଲିଭାନ୍ତୁ",
+        loginTab: "ଲଗ୍ ଇନ୍", createTab: "ପ୍ରୋଫାଇଲ୍ ତିଆରି କରନ୍ତୁ", enterPin: "ଆପଣଙ୍କ 6 ଅଙ୍କର ପିନ୍ ଦିଅନ୍ତୁ", loginBtn: "ଲଗ୍ ଇନ୍ କରନ୍ତୁ", newHere: "ନୂଆ କି?", haveProfile: "ପୂର୍ବରୁ ପ୍ରୋଫାଇଲ୍ ଅଛି?", confirmPin: "ପିନ୍ ନିଶ୍ଚିତ କରନ୍ତୁ", createProfileBtn: "ପ୍ରୋଫାଇଲ୍ ତିଆରି କରନ୍ତୁ", noAccount: "ଏହି ନମ୍ବର ପାଇଁ କୌଣସି ପ୍ରୋଫାଇଲ୍ ମିଳିଲା ନାହିଁ। ଦୟାକରି ପ୍ରଥମେ ପ୍ରୋଫାଇଲ୍ ତିଆରି କରନ୍ତୁ।", wrongPin: "ଭୁଲ୍ ପିନ୍। ଦୟାକରି ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ।", alreadyExists: "ଏହି ନମ୍ବର ପାଇଁ ପ୍ରୋଫାଇଲ୍ ପୂର୍ବରୁ ଅଛି। ଦୟାକରି ଲଗ୍ ଇନ୍ କରନ୍ତୁ।", pinMismatch: "ପିନ୍ ମେଳ ଖାଉନାହିଁ", invalidMobile: "ବୈଧ 10 ଅଙ୍କର ମୋବାଇଲ୍ ନମ୍ବର ଦିଅନ୍ତୁ", invalidOtp: "6 ଅଙ୍କର OTP ଦିଅନ୍ତୁ", invalidPin: "ପିନ୍ ଠିକ୍ 6 ଅଙ୍କର ହେବା ଆବଶ୍ୟକ", confirmDelete: "ଏହା ଏହି ଡିଭାଇସରୁ ଆପଣଙ୍କ ପ୍ରୋଫାଇଲ୍ ଏବଂ ଡାଟା ସ୍ଥାୟୀ ଭାବେ ଲିଭାଇଦେବ। ଜାରି ରଖିବେ?",
+        apply: "ବର୍ତ୍ତମାନ ଆବେଦନ କରନ୍ତୁ", viewDetails: "ବିବରଣୀ ଦେଖନ୍ତୁ", deadline: "ଶେଷ ତାରିଖ", grant: "ଅନୁଦାନ ରାଶି",
+        eligibility: "ଯୋଗ୍ୟତା", requiredDocuments: "ଆବଶ୍ୟକ ଦସ୍ତାବେଜ", status: "ସ୍ଥିତି",
+      },
+    };
+
+    function t(key) {
+      const lang = (window.APP_STATE && APP_STATE.lang) || "en";
+      return (I18N[lang] && I18N[lang][key]) || I18N.en[key] || key;
+    }
+
+    const SCHEMES = [
+      {
+        id: "pm-yasasvi-st",
+        name: "PM-YASASVI Scholarship (ST students)",
+        authority: "Ministry of Tribal Affairs",
+        grant: "₹75,000 – 1,25,000 / year",
+        deadline: "31 Oct 2026",
+        levels: ["post-matric", "ug", "pg"],
+        maxIncome: 250000,
+        description: "Central scholarship supporting Scheduled Tribe students in top-tier schools and colleges to reduce dropout rates and improve access to quality education.",
+        eligibility: [
+          "Belongs to a Scheduled Tribe community",
+          "Family annual income below ₹2,50,000",
+          "Enrolled in class 9 or above at a recognised institution",
+        ],
+        documents: ["Tribal / ST certificate", "Income certificate", "Aadhaar card", "Previous year mark sheet"],
+      },
+      {
+        id: "post-matric-st",
+        name: "Post-Matric Scholarship for ST Students",
+        authority: "Ministry of Tribal Affairs",
+        grant: "₹380 – 1,200 / month + fees",
+        deadline: "15 Nov 2026",
+        levels: ["post-matric", "ug", "pg"],
+        maxIncome: 250000,
+        description: "Covers maintenance allowance, tuition, and other compulsory fees for ST students studying beyond matriculation.",
+        eligibility: [
+          "Belongs to a Scheduled Tribe community",
+          "Studying post-matriculation (class 11 onward)",
+          "Family annual income below ₹2,50,000",
+        ],
+        documents: ["Tribal / ST certificate", "Income certificate", "Bonafide student certificate", "Bank passbook (Aadhaar-seeded)"],
+      },
+      {
+        id: "pre-matric-st",
+        name: "Pre-Matric Scholarship for ST Students",
+        authority: "Ministry of Tribal Affairs",
+        grant: "₹150 – 350 / month",
+        deadline: "30 Sep 2026",
+        levels: ["pre-matric"],
+        maxIncome: 200000,
+        description: "Financial assistance for ST students in classes 9 and 10 to prevent early dropout.",
+        eligibility: [
+          "Belongs to a Scheduled Tribe community",
+          "Studying in class 9 or 10",
+          "Family annual income below ₹2,00,000",
+        ],
+        documents: ["Tribal / ST certificate", "Income certificate", "School bonafide certificate"],
+      },
+      {
+        id: "top-class-st",
+        name: "Top Class Education Scheme for ST Students",
+        authority: "Ministry of Tribal Affairs",
+        grant: "Full tuition + living allowance",
+        deadline: "20 Dec 2026",
+        levels: ["ug", "pg"],
+        maxIncome: 600000,
+        description: "Covers full cost of study at listed top-tier institutes (IITs, IIMs, NITs, and similar) for ST students.",
+        eligibility: [
+          "Belongs to a Scheduled Tribe community",
+          "Admitted to a listed premier institute",
+          "Family annual income below ₹6,00,000",
+        ],
+        documents: ["Tribal / ST certificate", "Income certificate", "Admission letter", "Institute fee structure"],
+      },
+      {
+        id: "national-fellowship-st",
+        name: "National Fellowship for ST Students",
+        authority: "Ministry of Tribal Affairs",
+        grant: "₹31,000 – 35,000 / month",
+        deadline: "10 Jan 2027",
+        levels: ["pg"],
+        maxIncome: null,
+        description: "Fellowship for ST students pursuing M.Phil and Ph.D degrees, covering monthly stipend and contingency grant.",
+        eligibility: [
+          "Belongs to a Scheduled Tribe community",
+          "Enrolled in M.Phil / Ph.D at a recognised university",
+          "Qualified through UGC-NET / university admission process",
+        ],
+        documents: ["Tribal / ST certificate", "Admission / enrolment proof", "Aadhaar card"],
+      },
+      {
+        id: "state-tribal-merit",
+        name: "State Tribal Merit Scholarship",
+        authority: "State Tribal Welfare Department",
+        grant: "₹20,000 / year",
+        deadline: "5 Nov 2026",
+        levels: ["post-matric", "ug"],
+        maxIncome: 300000,
+        description: "State-level top-up scholarship for meritorious tribal students, disbursed alongside central scholarships.",
+        eligibility: [
+          "Belongs to a Scheduled Tribe community",
+          "Domicile of the applicant's state",
+          "Scored 60% or above in the previous qualifying exam",
+        ],
+        documents: ["Tribal / ST certificate", "Domicile certificate", "Previous year mark sheet"],
+      },
+    ];
+
+    const STATES = [
+      "Chhattisgarh", "Jharkhand", "Madhya Pradesh", "Odisha", "Maharashtra", "Gujarat",
+      "Rajasthan", "Andhra Pradesh", "Telangana", "West Bengal", "Assam", "Tripura",
+      "Meghalaya", "Nagaland", "Mizoram", "Manipur", "Karnataka", "Kerala", "Tamil Nadu", "Other",
+    ];
+
+    const FAQS = [
+      {
+        q: {en: "How do I know which scholarships I'm eligible for?", hi: "मुझे कैसे पता चलेगा कि मैं किस छात्रवृत्ति के लिए पात्र हूँ?"},
+        a: {en: "Complete your profile with your state, tribal sub-caste, course level and family income. The app automatically matches you against every scheme in our database.", hi: "अपनी प्रोफ़ाइल में राज्य, जनजातीय उप-जाति, पाठ्यक्रम स्तर और पारिवारिक आय भरें। ऐप स्वतः आपको उपयुक्त योजनाओं से मिलाएगा।"},
+      },
+      {
+        q: {en: "What if my documents aren't in DigiLocker?", hi: "अगर मेरे दस्तावेज़ डिजीलॉकर में नहीं हैं तो?"},
+        a: {en: "You can upload them manually from the Document locker screen. We'll still guide you through verification.", hi: "आप उन्हें दस्तावेज़ लॉकर से मैन्युअल रूप से अपलोड कर सकते हैं।"},
+      },
+      {
+        q: {en: "How long does approval usually take?", hi: "स्वीकृति में आम तौर पर कितना समय लगता है?"},
+        a: {en: "It varies by scheme, but you can always see the live stage of your application in the tracker — submitted, verified, approved, or disbursed.", hi: "यह योजना पर निर्भर करता है, लेकिन आप ट्रैकर में अपनी आवेदन की स्थिति हमेशा देख सकते हैं।"},
+      },
+      {
+        q: {en: "Can I save my application and finish it later?", hi: "क्या मैं अपना आवेदन सहेज कर बाद में पूरा कर सकता हूँ?"},
+        a: {en: "Yes. Your profile and application form save automatically as drafts, so a network drop won't lose your progress.", hi: "हाँ। आपकी प्रोफ़ाइल और आवेदन फॉर्म स्वतः ड्राफ्ट के रूप में सहेजे जाते हैं।"},
+      },
+    ];
+
+    const STORAGE_KEY = "unnati_state_v1";
+    const API_BASE = "https://exabyte-ayot.onrender.com";
+
+    // Silent background wake-up ping for Render's free container
+    window.addEventListener("DOMContentLoaded", () => {
+      fetch(`${API_BASE}/api/health`).catch(() => { });
+    });
+
+    function freshState(lang) {
+      return {
+        lang: lang || "en",
+        loggedIn: false,
+        mobile: null,
+        token: null,
+        profile: null,
+        profileDraft: null,
+        documents: {},
+        applications: [],
+        applicationDraft: null,
+        notifications: [],
+      };
+    }
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const st = JSON.parse(raw);
+          delete st.pin;
+          return st;
+        }
+      } catch (e) { /* ignore corrupt state */}
+      return freshState();
+    }
+
+    async function api(path, opts) {
+      const {method = "GET", body, auth = true, keepalive = false} = opts || {};
+      const headers = {"Content-Type": "application/json"};
+      if (auth && APP_STATE.token) headers.Authorization = "Bearer " + APP_STATE.token;
+      let res;
+      try {
+        res = await fetch(API_BASE + "/api" + path, {
+          method, headers, keepalive,
+          body: body !== undefined ? JSON.stringify(body) : undefined,
+        });
+      } catch (e) {
+        const err = new Error("network"); err.code = "network"; throw err;
+      }
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        const err = new Error(data.detail || data.error || "error");
+        err.code = data.detail || data.error || "error"; err.status = res.status;
+        throw err;
+      }
+      return data;
+    }
+
+    function apiErrorMessage(e) {
+      const map = {
+        network: "serverDown", no_account: "noAccount", wrong_pin: "wrongPin", exists: "alreadyExists",
+        too_many: "tooMany", invalid_mobile: "invalidMobile", invalid_pin: "invalidPin",
+      };
+      return t(map[e.code] || "genericError");
+    }
+
+    function persistLocal() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(APP_STATE));
+    }
+
+    let syncTimer = null;
+    async function syncToServer(keepalive) {
+      clearTimeout(syncTimer); syncTimer = null;
+      if (!APP_STATE.loggedIn || !APP_STATE.token) return;
+      const {lang, loggedIn, mobile, token, ...data} = APP_STATE;
+      try {
+        await api("/state", {method: "PUT", body: data, keepalive: !!keepalive});
+      } catch (e) {
+        if (e.status === 401) {forceLogout();}
+        else console.warn("Could not save to server:", e.code);
+      }
+    }
+
+    function saveState() {
+      persistLocal();
+      if (APP_STATE.loggedIn && APP_STATE.token) {
+        clearTimeout(syncTimer);
+        syncTimer = setTimeout(() => syncToServer(), 400);
+      }
+    }
+    window.addEventListener("pagehide", () => {if (syncTimer) syncToServer(true);});
+
+    function forceLogout() {
+      clearTimeout(syncTimer); syncTimer = null;
+      localStorage.removeItem(STORAGE_KEY);
+      window.APP_STATE = freshState(APP_STATE.lang);
+      LOGIN_TAB = "login";
+      NAV_STACK.length = 0;
+      navigate("login");
+    }
+
+    window.APP_STATE = loadState();
+
+    const STAGES = ["submitted", "verified", "approved", "disbursed"];
+    const STAGE_LABELS = {
+      submitted: {en: "Submitted", hi: "जमा किया गया", or: "ଦାଖଲ ହୋଇଛି"},
+      verified: {en: "Verified by institute", hi: "संस्थान द्वारा सत्यापित", or: "ଅନୁଷ୍ଠାନ ଦ୍ୱାରା ଯାଞ୍ଚିତ"},
+      approved: {en: "Approved by state / centre", hi: "राज्य/केंद्र द्वारा स्वीकृत", or: "ରାଜ୍ୟ/କେନ୍ଦ୍ର ଦ୍ୱାରା ଅନୁମୋଦିତ"},
+      disbursed: {en: "Disbursed", hi: "राशि जारी", or: "ବିତରଣ ହୋଇଛି"},
+    };
+
+    const NAV_STACK = [];
+    let CURRENT = null;
+
+    function navigate(screen, params) {
+      NAV_STACK.push({screen, params});
+      render(screen, params);
+    }
+    function replace(screen, params) {
+      NAV_STACK[NAV_STACK.length - 1] = {screen, params};
+      render(screen, params);
+    }
+    function goBack() {
+      NAV_STACK.pop();
+      const prev = NAV_STACK[NAV_STACK.length - 1] || {screen: "dashboard"};
+      render(prev.screen, prev.params, true);
+    }
+
+    function mount(templateId) {
+      const tpl = document.getElementById(templateId);
+      const app = document.getElementById("app");
+      app.innerHTML = "";
+      app.appendChild(tpl.content.cloneNode(true));
+      applyI18n();
+    }
+
+    function applyI18n() {
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        el.textContent = t(el.getAttribute("data-i18n"));
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+        el.setAttribute("placeholder", t(el.getAttribute("data-i18n-placeholder")));
+      });
+    }
+
+    function bindBack() {
+      const btn = document.querySelector("[data-back]");
+      if (btn) btn.addEventListener("click", goBack);
+    }
+    function bindNavTiles() {
+      document.querySelectorAll("[data-nav]").forEach((el) => {
+        el.addEventListener("click", () => navigate(el.getAttribute("data-nav")));
+      });
+    }
+
+    function render(screen, params, isBack) {
+      CURRENT = screen;
+      const renderers = {
+        login: renderLogin,
+        profile: renderProfile,
+        documents: renderDocuments,
+        matching: renderMatching,
+        dashboard: renderDashboard,
+        matches: renderMatches,
+        "scheme-detail": () => renderSchemeDetail(params),
+        apply: () => renderApply(params),
+        tracker: renderTracker,
+        "tracker-detail": () => renderTrackerDetail(params),
+        "documents-locker": renderDocumentsLocker,
+        help: renderHelp,
+        chatbot: renderChatbot,
+        notifications: renderNotifications,
+        settings: renderSettings,
+      };
+      (renderers[screen] || renderDashboard)();
+    }
+
+    function fillLangSelect(select) {
+      select.innerHTML = "";
+      Object.keys(I18N).forEach((code) => {
+        const opt = document.createElement("option");
+        opt.value = code;
+        opt.textContent = I18N[code].langName;
+        select.appendChild(opt);
+      });
+      select.value = APP_STATE.lang;
+    }
+
+    let LOGIN_TAB = "login";
+
+    function renderLogin() {
+      mount("tpl-login");
+      const langSelect = document.getElementById("lang-select");
+      fillLangSelect(langSelect);
+      langSelect.addEventListener("change", () => {
+        APP_STATE.lang = langSelect.value;
+        persistLocal();
+        renderLogin();
+      });
+
+      const tabLogin = document.getElementById("tab-login");
+      const tabCreate = document.getElementById("tab-create");
+      const panelLogin = document.getElementById("panel-login");
+      const panelCreate = document.getElementById("panel-create");
+
+      function showTab(name) {
+        LOGIN_TAB = name;
+        const isLogin = name === "login";
+        panelLogin.hidden = !isLogin;
+        panelCreate.hidden = isLogin;
+        tabLogin.classList.toggle("active", isLogin);
+        tabCreate.classList.toggle("active", !isLogin);
+        tabLogin.setAttribute("aria-selected", isLogin);
+        tabCreate.setAttribute("aria-selected", !isLogin);
+      }
+
+      tabLogin.addEventListener("click", () => showTab("login"));
+      tabCreate.addEventListener("click", () => showTab("create"));
+      document.getElementById("btn-goto-create").addEventListener("click", () => showTab("create"));
+      document.getElementById("btn-goto-login").addEventListener("click", () => showTab("login"));
+      showTab(LOGIN_TAB);
+
+      function showError(el, msg) {el.textContent = msg; el.hidden = false;}
+
+      function startSession(result, mobile) {
+        window.APP_STATE = Object.assign(freshState(APP_STATE.lang), result.state, {
+          lang: APP_STATE.lang, mobile, token: result.token, loggedIn: true,
+        });
+        persistLocal();
+        NAV_STACK.length = 0;
+        navigate(APP_STATE.profile ? "dashboard" : "profile");
+      }
+
+      const loginMobile = document.getElementById("login-mobile");
+      const loginPin = document.getElementById("login-pin");
+      const loginError = document.getElementById("login-error");
+      const btnLogin = document.getElementById("btn-login");
+
+      async function doLogin() {
+        const mobile = loginMobile.value.trim();
+        const pin = loginPin.value.trim();
+        if (!/^\d{10}$/.test(mobile)) return showError(loginError, t("invalidMobile"));
+        if (!/^\d{6}$/.test(pin)) return showError(loginError, t("invalidPin"));
+        loginError.hidden = true;
+        btnLogin.disabled = true;
+        try {
+          const result = await api("/login", {method: "POST", auth: false, body: {mobile, pin}});
+          startSession(result, mobile);
+        } catch (e) {
+          btnLogin.disabled = false;
+          showError(loginError, apiErrorMessage(e));
+        }
+      }
+      btnLogin.addEventListener("click", doLogin);
+      loginPin.addEventListener("keydown", (e) => {if (e.key === "Enter") doLogin();});
+
+      const stepMobile = document.getElementById("login-step-mobile");
+      const stepOtp = document.getElementById("login-step-otp");
+      const stepPin = document.getElementById("login-step-pin");
+      const mobileInput = document.getElementById("mobile-input");
+      const mobileError = document.getElementById("mobile-error");
+      const otpInput = document.getElementById("otp-input");
+      const otpError = document.getElementById("otp-error");
+      const pinInput = document.getElementById("pin-input");
+      const pinConfirm = document.getElementById("pin-confirm");
+      const pinError = document.getElementById("pin-error");
+      const btnSendOtp = document.getElementById("btn-send-otp");
+      const btnSetPin = document.getElementById("btn-set-pin");
+      let newMobile = null;
+
+      btnSendOtp.addEventListener("click", async () => {
+        const val = mobileInput.value.trim();
+        if (!/^\d{10}$/.test(val)) return showError(mobileError, t("invalidMobile"));
+
+        btnSendOtp.disabled = true;
+        mobileError.hidden = true;
+
+        try {
+          const r = await api("/mobile-exists/" + val, {auth: false});
+          if (r.exists) {
+            btnSendOtp.disabled = false;
+            return showError(mobileError, t("alreadyExists"));
+          }
+
+          const res = await fetch(`${API_BASE}/api/send-otp`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({phoneNumber: val})
+          });
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            newMobile = val;
+            stepMobile.hidden = true;
+            stepOtp.hidden = false;
+            otpInput.focus();
+          } else {
+            showError(mobileError, data.message || "Failed to send OTP");
+          }
+        } catch (e) {
+          showError(mobileError, "Server is waking up. Please try once more.");
+        } finally {
+          btnSendOtp.disabled = false;
+        }
+      });
+
+      document.getElementById("btn-back-mobile").addEventListener("click", () => {
+        stepOtp.hidden = true;
+        stepMobile.hidden = false;
+      });
+
+      document.getElementById("btn-verify-otp").addEventListener("click", async () => {
+        const otpVal = otpInput.value.trim();
+        if (!/^\d{6}$/.test(otpVal)) return showError(otpError, t("invalidOtp"));
+
+        otpError.hidden = true;
+        const btnVerify = document.getElementById("btn-verify-otp");
+        btnVerify.disabled = true;
+
+        try {
+          const res = await fetch(`${API_BASE}/api/verify-otp`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({phoneNumber: newMobile, otp: otpVal})
+          });
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            stepOtp.hidden = true;
+            stepPin.hidden = false;
+            pinInput.focus();
+          } else {
+            showError(otpError, data.detail || "Invalid OTP");
+          }
+        } catch (err) {
+          showError(otpError, "Verification failed. Please retry.");
+        } finally {
+          btnVerify.disabled = false;
+        }
+      });
+
+      btnSetPin.addEventListener("click", async () => {
+        const pin = pinInput.value.trim();
+        if (!/^\d{6}$/.test(pin)) return showError(pinError, t("invalidPin"));
+        if (pin !== pinConfirm.value.trim()) return showError(pinError, t("pinMismatch"));
+        pinError.hidden = true;
+        btnSetPin.disabled = true;
+        try {
+          const result = await api("/register", {method: "POST", auth: false, body: {mobile: newMobile, pin}});
+          startSession(result, newMobile);
+        } catch (e) {
+          btnSetPin.disabled = false;
+          showError(pinError, apiErrorMessage(e));
+        }
+      });
+    }
+
+    function renderProfile() {
+      mount("tpl-profile");
+      bindBack();
+      const form = document.getElementById("profile-form");
+      const stateSelect = form.querySelector('[name="state"]');
+      const placeholder = document.createElement("option");
+      placeholder.value = ""; placeholder.textContent = "Select state";
+      placeholder.disabled = true; placeholder.selected = true;
+      stateSelect.appendChild(placeholder);
+      STATES.forEach((s) => {
+        const opt = document.createElement("option");
+        opt.value = s; opt.textContent = s;
+        stateSelect.appendChild(opt);
+      });
+      stateSelect.value = "";
+
+      const draft = APP_STATE.profileDraft || APP_STATE.profile;
+      if (draft) {
+        Object.entries(draft).forEach(([k, v]) => {
+          const field = form.querySelector(`[name="${k}"]`);
+          if (field) field.value = v;
+        });
+      }
+
+      form.addEventListener("input", () => {
+        APP_STATE.profileDraft = Object.fromEntries(new FormData(form).entries());
+        saveState();
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const profileData = Object.fromEntries(new FormData(form).entries());
+        APP_STATE.profile = profileData;
+        saveState();
+
+        try {
+          await fetch(`${API_BASE}/api/state`, {
+            method: "PUT",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({profile: profileData})
+          });
+        } catch (err) {
+          console.warn("Offline: Saved profile locally.");
+        }
+
+        navigate("dashboard");
+      });
+    }
+
+    const REQUIRED_DOCS = ["Tribal / ST certificate", "Income certificate", "Aadhaar card", "Bank passbook (Aadhaar-seeded)"];
+
+    function renderDocuments() {
+      mount("tpl-documents");
+      bindBack();
+      renderDocList();
+
+      document.getElementById("btn-digilocker").addEventListener("click", () => {
+        const button = document.getElementById("btn-digilocker");
+        button.disabled = true;
+        button.querySelector("span").textContent = "Fetching from DigiLocker…";
+        setTimeout(() => {
+          REQUIRED_DOCS.forEach((doc) => {
+            if (!APP_STATE.documents[doc]) {
+              APP_STATE.documents[doc] = {status: Math.random() > 0.25 ? "verified" : "pending", source: "digilocker"};
+            }
+          });
+          saveState();
+          renderDocList();
+          button.disabled = false;
+          button.querySelector("span").textContent = t("pullDigilocker");
+        }, 900);
+      });
+
+      document.getElementById("btn-docs-continue").addEventListener("click", () => {
+        navigate("matching");
+        setTimeout(() => replace("dashboard"), 1600);
+      });
+    }
+
+    function renderDocList() {
+      const list = document.getElementById("doc-list");
+      if (!list) return;
+      list.innerHTML = "";
+      REQUIRED_DOCS.forEach((doc) => {
+        const state = APP_STATE.documents[doc];
+        const div = document.createElement("div");
+        div.className = "doc-item";
+        div.innerHTML = `
+      <i class="ti ti-file-certificate"></i>
+      <span class="doc-name">${doc}</span>
+      <span class="doc-status ${state ? state.status : "pending"}">${state ? (state.status === "verified" ? "Verified" : "Pending review") : "Not added"}</span>
+    `;
+        list.appendChild(div);
+      });
+    }
+
+    function renderMatching() {
+      mount("tpl-matching");
+    }
+
+    function matchSchemes(profile) {
+      if (!profile) return [];
+      const income = Number(profile.income) || 0;
+      return SCHEMES.filter((s) => {
+        const levelOk = s.levels.includes(profile.courseLevel);
+        const incomeOk = s.maxIncome == null || income <= s.maxIncome;
+        return levelOk && incomeOk;
+      });
+    }
+
+    function renderDashboard() {
+      mount("tpl-dashboard");
+      bindNavTiles();
+      const profile = APP_STATE.profile || {};
+      document.getElementById("dash-name").textContent = profile.name || "Student";
+      document.getElementById("dash-avatar").textContent = (profile.name || "S").trim()[0].toUpperCase();
+
+      const statusValue = document.getElementById("status-value");
+      if (APP_STATE.applications.length) {
+        const latest = APP_STATE.applications[APP_STATE.applications.length - 1];
+        const scheme = SCHEMES.find((s) => s.id === latest.schemeId);
+        statusValue.textContent = `${scheme ? scheme.name : "Application"} — ${STAGE_LABELS[latest.stage][APP_STATE.lang] || STAGE_LABELS[latest.stage].en}`;
+      } else {
+        statusValue.textContent = t("noApplications");
+      }
+
+      document.getElementById("notif-dot").hidden = !APP_STATE.notifications.some((n) => !n.read);
+    }
+
+    function renderMatches() {
+      mount("tpl-matches");
+      bindBack();
+      const list = document.getElementById("matches-list");
+      const matches = matchSchemes(APP_STATE.profile);
+
+      if (!matches.length) {
+        list.innerHTML = `<p style="color:var(--ink-faint); font-size:14px;">No matching schemes found yet. Check back after updating your profile.</p>`;
+        return;
+      }
+
+      matches.forEach((s) => {
+        const applied = APP_STATE.applications.find((a) => a.schemeId === s.id);
+        const card = document.createElement("div");
+        card.className = "scheme-card";
+        card.innerHTML = `
+      <div class="scheme-card-top">
+        <div>
+          <h3>${s.name}</h3>
+          <p>${s.authority}</p>
+        </div>
+        <span class="scheme-grant">${s.grant}</span>
+      </div>
+      <div class="scheme-meta">
+        <span><i class="ti ti-calendar"></i> ${s.deadline}</span>
+        ${applied ? `<span><i class="ti ti-check"></i> Applied</span>` : ""}
+      </div>
+    `;
+        card.addEventListener("click", () => navigate("scheme-detail", {id: s.id}));
+        list.appendChild(card);
+      });
+    }
+
+    function renderSchemeDetail(params) {
+      mount("tpl-scheme-detail");
+      bindBack();
+      const scheme = SCHEMES.find((s) => s.id === (params && params.id));
+      if (!scheme) {goBack(); return;}
+      document.getElementById("scheme-detail-title").textContent = scheme.name;
+      const body = document.getElementById("scheme-detail-body");
+      const applied = APP_STATE.applications.find((a) => a.schemeId === scheme.id);
+
+      body.innerHTML = `
+    <div class="detail-hero">
+      <span class="scheme-grant">${scheme.grant}</span>
+      <p>${scheme.description}</p>
+    </div>
+    <div class="detail-block">
+      <h4>${t("deadline")}</h4>
+      <p style="font-size:14px; margin:0;">${scheme.deadline}</p>
+    </div>
+    <div class="detail-block">
+      <h4>${t("eligibility")}</h4>
+      <ul>${scheme.eligibility.map((e) => `<li>${e}</li>`).join("")}</ul>
+    </div>
+    <div class="detail-block">
+      <h4>${t("requiredDocuments")}</h4>
+      <ul>${scheme.documents.map((d) => `<li>${d}</li>`).join("")}</ul>
+    </div>
+  `;
+
+      const btn = document.createElement("button");
+      btn.className = "btn btn-primary btn-block";
+      if (applied) {
+        btn.textContent = "View application status";
+        btn.addEventListener("click", () => navigate("tracker-detail", {id: applied.id}));
+      } else {
+        btn.textContent = t("apply");
+        btn.addEventListener("click", () => navigate("apply", {schemeId: scheme.id}));
+      }
+      body.appendChild(btn);
+    }
+
+    function renderApply(params) {
+      mount("tpl-apply");
+      bindBack();
+      const scheme = SCHEMES.find((s) => s.id === (params && params.schemeId));
+      if (!scheme) {goBack(); return;}
+
+      const profile = APP_STATE.profile || {};
+      const prefilled = document.getElementById("apply-prefilled");
+      const prefillFields = [
+        ["Name", profile.name], ["Age", profile.age], ["State", profile.state],
+        ["District", profile.district], ["Tribal sub-caste", profile.subCaste],
+        ["Course level", profile.courseLevel], ["Family income", profile.income ? `₹${Number(profile.income).toLocaleString("en-IN")}` : ""],
+      ];
+      prefilled.innerHTML = prefillFields.map(([k, v]) => `<div class="prefill-row"><span>${k}</span><span>${v || "—"}</span></div>`).join("");
+
+      const form = document.getElementById("apply-form");
+      const draft = APP_STATE.applicationDraft && APP_STATE.applicationDraft.schemeId === scheme.id ? APP_STATE.applicationDraft.data : null;
+      if (draft) {
+        Object.entries(draft).forEach(([k, v]) => {
+          const f = form.querySelector(`[name="${k}"]`);
+          if (f) f.value = v;
+        });
+      }
+
+      document.getElementById("btn-save-draft").addEventListener("click", () => {
+        APP_STATE.applicationDraft = {schemeId: scheme.id, data: Object.fromEntries(new FormData(form).entries())};
+        saveState();
+        const btn = document.getElementById("btn-save-draft");
+        const original = btn.textContent;
+        btn.textContent = "Draft saved";
+        setTimeout(() => {btn.textContent = original;}, 1400);
+      });
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(form).entries());
+        const applicationId = "app_" + Date.now();
+
+        // 1. Prepare the payload matching the backend ApplicationPayload model
+        const payload = {
+          id: applicationId,
+          applicant_name: APP_STATE.profile?.name || "Applicant",
+          annual_income: parseFloat(APP_STATE.profile?.income || 0),
+          category: "ST",
+          aadhaar_hash: "MASKED_" + (data.bankAccount ? String(data.bankAccount).slice(-4) : "0000")
+        };
+
+        // 2. Send the data to your backend API to store in the database
+        try {
+          const res = await fetch(`${API_BASE}/api/v1/sync-application`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          const result = await res.json();
+          console.log("Database sync response:", result);
+        } catch (err) {
+          console.warn("Backend unavailable; saved locally in offline queue:", err);
+        }
+
+        // 3. Save locally in the browser and navigate to the tracker
+        const application = {
+          id: applicationId,
+          schemeId: scheme.id,
+          stage: "submitted",
+          data,
+          submittedAt: new Date().toISOString(),
+        };
+        APP_STATE.applications.push(application);
+        APP_STATE.applicationDraft = null;
+        APP_STATE.notifications.unshift({
+          id: "n_" + Date.now(),
+          title: `Application submitted — ${scheme.name}`,
+          body: "We'll notify you as your application moves through verification.",
+          read: false,
+          at: new Date().toISOString(),
+        });
+        saveState();
+        NAV_STACK.length = 0;
+        navigate("tracker-detail", { id: application.id });
+      });
+    }
+
+    function renderTracker() {
+      mount("tpl-tracker");
+      bindBack();
+      const list = document.getElementById("tracker-list");
+      if (!APP_STATE.applications.length) {
+        list.innerHTML = `<p style="color:var(--ink-faint); font-size:14px;">You haven't applied to any schemes yet.</p>`;
+        return;
+      }
+      [...APP_STATE.applications].reverse().forEach((app) => {
+        const scheme = SCHEMES.find((s) => s.id === app.schemeId);
+        const card = document.createElement("div");
+        card.className = "app-card";
+        card.innerHTML = `
+      <h3>${scheme ? scheme.name : "Scheme"}</h3>
+      <span class="app-stage">${STAGE_LABELS[app.stage][APP_STATE.lang] || STAGE_LABELS[app.stage].en}</span>
+    `;
+        card.addEventListener("click", () => navigate("tracker-detail", {id: app.id}));
+        list.appendChild(card);
+      });
+    }
+
+    function renderTrackerDetail(params) {
+      mount("tpl-tracker-detail");
+      bindBack();
+      const app = APP_STATE.applications.find((a) => a.id === (params && params.id));
+      if (!app) {goBack(); return;}
+      const scheme = SCHEMES.find((s) => s.id === app.schemeId);
+      document.getElementById("tracker-detail-title").textContent = scheme ? scheme.name : "Application";
+      renderProgressTrack(app);
+
+      const advanceBtn = document.getElementById("btn-simulate-advance");
+      const idx = STAGES.indexOf(app.stage);
+      if (idx >= STAGES.length - 1) {
+        advanceBtn.disabled = true;
+        advanceBtn.textContent = "Fully disbursed";
+      }
+      advanceBtn.addEventListener("click", () => {
+        const i = STAGES.indexOf(app.stage);
+        if (i < STAGES.length - 1) {
+          app.stage = STAGES[i + 1];
+          APP_STATE.notifications.unshift({
+            id: "n_" + Date.now(),
+            title: `${scheme ? scheme.name : "Application"} — status updated`,
+            body: `Your application is now: ${STAGE_LABELS[app.stage].en}`,
+            read: false,
+            at: new Date().toISOString(),
+          });
+          saveState();
+          renderTrackerDetail(params);
+        }
+      });
+    }
+
+    function renderProgressTrack(app) {
+      const track = document.getElementById("progress-track");
+      track.innerHTML = "";
+      const currentIdx = STAGES.indexOf(app.stage);
+      STAGES.forEach((stage, i) => {
+        const done = i < currentIdx;
+        const current = i === currentIdx;
+        const step = document.createElement("div");
+        step.className = "progress-step" + (done ? " done" : "") + (current ? " current" : "");
+        step.innerHTML = `
+      <div class="progress-dot-col">
+        <div class="progress-dot">${done ? '<i class="ti ti-check"></i>' : ""}</div>
+        ${i < STAGES.length - 1 ? '<div class="progress-line"></div>' : ""}
+      </div>
+      <div class="progress-content">
+        <h4>${STAGE_LABELS[stage][APP_STATE.lang] || STAGE_LABELS[stage].en}</h4>
+        <p>${current ? "In progress" : done ? "Completed" : "Pending"}</p>
+      </div>
+    `;
+        track.appendChild(step);
+      });
+    }
+
+    function renderDocumentsLocker() {
+      mount("tpl-documents-locker");
+      bindBack();
+      renderLockerList();
+      document.getElementById("file-upload-input").addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        APP_STATE.documents[file.name] = {status: "pending", source: "manual"};
+        saveState();
+        renderLockerList();
+        e.target.value = "";
+      });
+    }
+
+    function renderLockerList() {
+      const list = document.getElementById("locker-doc-list");
+      list.innerHTML = "";
+      const entries = Object.entries(APP_STATE.documents);
+      if (!entries.length) {
+        list.innerHTML = `<p style="color:var(--ink-faint); font-size:14px;">No documents yet. Pull from DigiLocker or upload manually.</p>`;
+        return;
+      }
+      entries.forEach(([name, meta]) => {
+        const div = document.createElement("div");
+        div.className = "doc-item";
+        div.innerHTML = `
+      <i class="ti ${meta.source === "digilocker" ? "ti-cloud-check" : "ti-file"}"></i>
+      <span class="doc-name">${name}</span>
+      <span class="doc-status ${meta.status}">${meta.status === "verified" ? "Verified" : "Pending review"}</span>
+    `;
+        list.appendChild(div);
+      });
+    }
+
+    function renderHelp() {
+      mount("tpl-help");
+      bindBack();
+      const list = document.getElementById("faq-list");
+      list.innerHTML = "";
+      FAQS.forEach((f) => {
+        const lang = APP_STATE.lang === "or" ? "en" : APP_STATE.lang;
+        const details = document.createElement("details");
+        details.className = "faq-item";
+        details.innerHTML = `<summary>${f.q[lang] || f.q.en}</summary><p>${f.a[lang] || f.a.en}</p>`;
+        list.appendChild(details);
+      });
+
+      const voiceBtn = document.getElementById("btn-voice");
+      const voiceStatus = document.getElementById("voice-status");
+      voiceBtn.addEventListener("click", () => {
+        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRec) {
+          voiceStatus.textContent = "Speech recognition isn't available on this device or browser.";
+          return;
+        }
+        const rec = new SpeechRec();
+        rec.lang = APP_STATE.lang === "hi" ? "hi-IN" : "en-IN";
+        voiceStatus.textContent = "Listening…";
+        rec.start();
+        rec.onresult = (e) => {
+          const transcript = e.results[0][0].transcript;
+          voiceStatus.textContent = `Heard: "${transcript}"`;
+          navigate("chatbot");
+          setTimeout(() => sendChatMessage(transcript), 200);
+        };
+        rec.onerror = () => {voiceStatus.textContent = "Couldn't hear that. Try again.";};
+      });
+    }
+
+    const CHAT_RESPONSES = [
+      {keys: ["eligib", "qualify"], reply: "I can check that from your saved profile. Open 'Find scholarships for me' from the dashboard to see every scheme you currently qualify for, with reasons."},
+      {keys: ["deadline", "last date"], reply: "Deadlines vary by scheme — the PM-YASASVI scholarship closes 31 Oct 2026, and Post-Matric ST closes 15 Nov 2026. Check the scheme detail page for exact dates."},
+      {keys: ["document", "certificate"], reply: "Most schemes need your tribal/ST certificate, income certificate, Aadhaar card, and an Aadhaar-seeded bank passbook. You can pull these from DigiLocker or upload manually in the Document locker."},
+      {keys: ["status", "track"], reply: "Open 'My applied schemes' to see the live stage of each application: submitted, verified, approved, or disbursed."},
+      {keys: ["income"], reply: "Most tribal scholarships cap family annual income between ₹2,00,000 and ₹6,00,000 depending on the scheme. Update your income in Settings if it has changed."},
+    ];
+
+    function renderChatbot() {
+      mount("tpl-chatbot");
+      bindBack();
+      const log = document.getElementById("chat-log");
+      log.innerHTML = "";
+      addChatBubble("Hi! I'm the Unnati assistant. Ask me about eligibility, deadlines, documents, or your application status.", "bot");
+
+      document.getElementById("chat-form").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = document.getElementById("chat-input");
+        const val = input.value.trim();
+        if (!val) return;
+        input.value = "";
+        sendChatMessage(val);
+      });
+    }
+
+    function sendChatMessage(text) {
+      addChatBubble(text, "user");
+      const lower = text.toLowerCase();
+      const match = CHAT_RESPONSES.find((r) => r.keys.some((k) => lower.includes(k)));
+      setTimeout(() => {
+        addChatBubble(match ? match.reply : "I'm a demo assistant with a small set of answers — try asking about eligibility, deadlines, documents, or application status.", "bot");
+      }, 350);
+    }
+
+    function addChatBubble(text, who) {
+      const log = document.getElementById("chat-log");
+      if (!log) return;
+      const bubble = document.createElement("div");
+      bubble.className = "chat-bubble " + who;
+      bubble.textContent = text;
+      log.appendChild(bubble);
+      log.scrollTop = log.scrollHeight;
+    }
+
+    function renderNotifications() {
+      mount("tpl-notifications");
+      bindBack();
+      const list = document.getElementById("notif-list");
+      APP_STATE.notifications.forEach((n) => {n.read = true;});
+      saveState();
+      if (!APP_STATE.notifications.length) {
+        list.innerHTML = `<p style="color:var(--ink-faint); font-size:14px;">No notifications yet.</p>`;
+        return;
+      }
+      APP_STATE.notifications.forEach((n) => {
+        const div = document.createElement("div");
+        div.className = "notif-item";
+        div.innerHTML = `<i class="ti ti-bell-ringing"></i><div><h4>${n.title}</h4><p>${n.body}</p></div>`;
+        list.appendChild(div);
+      });
+    }
+
+    function renderSettings() {
+      mount("tpl-settings");
+      bindBack();
+      const profile = APP_STATE.profile || {};
+      document.getElementById("settings-profile-card").innerHTML = `
+    <div class="row"><span>${t("fullName")}</span><span>${profile.name || "—"}</span></div>
+    <div class="row"><span>${t("state")}</span><span>${profile.state || "—"}</span></div>
+    <div class="row"><span>${t("tribalSubCaste")}</span><span>${profile.subCaste || "—"}</span></div>
+    <div class="row"><span>${t("courseLevel")}</span><span>${profile.courseLevel || "—"}</span></div>
+    <div class="row"><span>${t("annualIncome")}</span><span>${profile.income ? "₹" + Number(profile.income).toLocaleString("en-IN") : "—"}</span></div>
+  `;
+      const langSelect = document.getElementById("settings-lang");
+      fillLangSelect(langSelect);
+      langSelect.addEventListener("change", () => {
+        APP_STATE.lang = langSelect.value;
+        saveState();
+        renderSettings();
+      });
+
+      document.getElementById("btn-logout").addEventListener("click", async () => {
+        await syncToServer();
+        LOGIN_TAB = "login";
+        forceLogout();
+      });
+
+      document.getElementById("btn-clear-data").addEventListener("click", async () => {
+        if (!confirm(t("confirmDelete"))) return;
+        try {
+          await api("/me", {method: "DELETE"});
+        } catch (e) {
+          alert(apiErrorMessage(e));
+          return;
+        }
+        forceLogout();
+        LOGIN_TAB = "create";
+        renderLogin();
+      });
+    }
+
+    (async function init() {
+      if (APP_STATE.loggedIn && APP_STATE.token) {
+        try {
+          const r = await api("/me");
+          window.APP_STATE = Object.assign(freshState(APP_STATE.lang), r.state, {
+            lang: APP_STATE.lang, mobile: APP_STATE.mobile, token: APP_STATE.token, loggedIn: true,
+          });
+          persistLocal();
+        } catch (e) {
+          if (e.code !== "network") {
+            window.APP_STATE = freshState(APP_STATE.lang);
+            localStorage.removeItem(STORAGE_KEY);
+          }
+        }
+      } else if (APP_STATE.loggedIn) {
+        window.APP_STATE = freshState(APP_STATE.lang);
+        localStorage.removeItem(STORAGE_KEY);
+      }
+
+      if (APP_STATE.loggedIn && APP_STATE.profile) navigate("dashboard");
+      else if (APP_STATE.loggedIn) navigate("profile");
+      else navigate("login");
+    })();
+
+  </script>
+</body>
+
+</html>
