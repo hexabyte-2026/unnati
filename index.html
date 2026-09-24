@@ -1924,20 +1924,34 @@
         saveState();
       });
 
-      form.addEventListener("submit", async (e) => {
+     form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const profileData = Object.fromEntries(new FormData(form).entries());
         APP_STATE.profile = profileData;
         saveState();
 
+        // Send profile directly to the database endpoint
         try {
-          await fetch(`${API_BASE}/api/state`, {
-            method: "PUT",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({profile: profileData})
+          const profilePayload = {
+            mobile: APP_STATE.mobile || "9999999999",
+            name: profileData.name || "",
+            age: parseInt(profileData.age, 10) || null,
+            gender: profileData.gender || "",
+            state: profileData.state || "",
+            district: profileData.district || "",
+            subCaste: profileData.subCaste || "",
+            courseLevel: profileData.courseLevel || "",
+            income: parseFloat(profileData.income) || 0.0
+          };
+
+          await fetch(`${API_BASE}/api/v1/save-profile`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(profilePayload)
           });
+          console.log("Profile stored in database successfully.");
         } catch (err) {
-          console.warn("Offline: Saved profile locally.");
+          console.warn("Backend unavailable; saved profile locally.", err);
         }
 
         navigate("dashboard");
@@ -2135,7 +2149,7 @@
         const data = Object.fromEntries(new FormData(form).entries());
         const applicationId = "app_" + Date.now();
 
-        // 1. Prepare the payload matching the backend ApplicationPayload model
+        // 1. Prepare application payload
         const payload = {
           id: applicationId,
           applicant_name: APP_STATE.profile?.name || "Applicant",
@@ -2144,7 +2158,7 @@
           aadhaar_hash: "MASKED_" + (data.bankAccount ? String(data.bankAccount).slice(-4) : "0000")
         };
 
-        // 2. Send the data to your backend API to store in the database
+        // 2. Save application directly to the database
         try {
           const res = await fetch(`${API_BASE}/api/v1/sync-application`, {
             method: "POST",
@@ -2152,12 +2166,12 @@
             body: JSON.stringify(payload)
           });
           const result = await res.json();
-          console.log("Database sync response:", result);
+          console.log("Application stored in database:", result);
         } catch (err) {
-          console.warn("Backend unavailable; saved locally in offline queue:", err);
+          console.warn("Backend unavailable; saved application locally:", err);
         }
 
-        // 3. Save locally in the browser and navigate to the tracker
+        // 3. Update local UI state
         const application = {
           id: applicationId,
           schemeId: scheme.id,
