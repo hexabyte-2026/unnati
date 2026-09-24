@@ -3,8 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unnati — Scholarships for Tribal Students</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>UNNATI — National Tribal Scholarship Portal</title>
   <link rel="icon"
     href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%231B4B43'/%3E%3Cpath d='M32 47V27' stroke='%23D9A441' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M32 35C22 35 18 29 18 21c8 0 14 5 14 14z' fill='%23FBF0DA'/%3E%3Cpath d='M32 29c0-9 6-14 14-14 0 8-4 14-14 14z' fill='%23D9A441'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,25 +17,27 @@
     :root {
       --ink: #1F1B16;
       --ink-soft: #58524A;
-      --ink-faint: #857F74;
-      --paper: #F8F6F0;
+      --ink-faint: #8E877C;
+      --paper: #F7F4ED;
       --paper-raised: #FFFFFF;
       --teal: #1B4B43;
-      --teal-deep: #123330;
-      --teal-tint: #E5EDE9;
+      --teal-deep: #10302B;
+      --teal-tint: #E3EDE9;
       --gold: #D9A441;
-      --gold-tint: #FBF0DA;
+      --gold-tint: #FDF3DF;
       --gold-deep: #8A6417;
       --red: #B23A48;
-      --red-tint: #FBEBEB;
-      --green: #2D6A4F;
-      --green-tint: #E8F4EC;
-      --border: #E5E0D3;
-      --border-strong: #CEC7B5;
+      --red-tint: #FDE8E8;
+      --green: #2E7D47;
+      --green-tint: #E5F4E9;
+      --border: #E3DCCC;
+      --border-strong: #CBC3AE;
+      --radius-lg: 20px;
       --radius: 14px;
       --radius-sm: 8px;
-      --shadow-sm: 0 1px 3px rgba(31, 27, 22, 0.05);
-      --shadow-md: 0 4px 16px rgba(31, 27, 22, 0.08);
+      --shadow-sm: 0 2px 5px rgba(31, 27, 22, 0.05);
+      --shadow-card: 0 4px 14px rgba(27, 75, 67, 0.08);
+      --shadow-float: 0 10px 25px rgba(27, 75, 67, 0.18);
       --font-ui: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
       --font-display: 'Fraunces', Georgia, serif;
     }
@@ -46,36 +48,51 @@
       padding: 0;
     }
 
-    html,
-    body {
-      min-height: 100%;
-      background: #ECE7DC;
+    html, body {
+      width: 100%;
+      min-height: 100dvh;
+      background: #E8E3D5;
       font-family: var(--font-ui);
       color: var(--ink);
       -webkit-font-smoothing: antialiased;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
     }
 
-    /* Universal Responsive App Shell */
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: 15px;
+    }
+
     .app-shell {
       width: 100%;
-      max-width: 1160px;
-      min-height: 100vh;
-      margin: 0 auto;
+      max-width: 480px;
+      min-height: 100dvh;
       background: var(--paper);
+      position: relative;
       display: flex;
       flex-direction: column;
-      position: relative;
-      box-shadow: 0 0 35px rgba(0, 0, 0, 0.07);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.12);
+      transition: max-width 0.25s ease;
     }
 
     @media (min-width: 768px) {
       body {
-        padding: 24px 16px;
+        padding: 24px 0;
       }
       .app-shell {
-        min-height: calc(100vh - 48px);
-        border-radius: 20px;
+        min-height: 860px;
+        max-height: 92vh;
+        border-radius: 26px;
         overflow: hidden;
+        border: 1px solid var(--border-strong);
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .app-shell {
+        max-width: 520px;
       }
     }
 
@@ -83,8 +100,9 @@
       display: flex;
       flex-direction: column;
       flex: 1;
-      width: 100%;
-      animation: fadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      height: 100%;
+      overflow-y: auto;
+      animation: fadeIn 0.2s ease forwards;
     }
 
     @keyframes fadeIn {
@@ -92,97 +110,62 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Standardized Back Navigation Button */
-    .btn-back-nav {
+    .icon-btn {
+      width: 42px;
+      height: 42px;
+      min-width: 42px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--paper-raised);
+      color: var(--teal-deep);
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      background: var(--paper-raised);
-      border: 1px solid var(--border-strong);
-      border-radius: 24px;
-      padding: 6px 14px;
-      color: var(--ink);
-      font-size: 14px;
-      font-weight: 500;
+      justify-content: center;
       cursor: pointer;
+      position: relative;
       transition: all 0.15s ease;
-      box-shadow: var(--shadow-sm);
     }
 
-    .btn-back-nav:hover {
+    .icon-btn:hover {
       background: var(--teal-tint);
       border-color: var(--teal);
-      color: var(--teal-deep);
+      transform: translateY(-1px);
     }
 
-    .btn-back-nav svg {
-      width: 18px;
-      height: 18px;
-      stroke-width: 2.2;
+    .icon-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
     }
 
     .screen-header {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 16px 24px;
-      background: var(--paper-raised);
+      justify-content: space-between;
+      padding: 14px 18px;
       border-bottom: 1px solid var(--border);
+      background: var(--paper-raised);
       position: sticky;
       top: 0;
       z-index: 20;
     }
 
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
     .screen-header h2 {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 600;
       color: var(--teal-deep);
     }
 
     .form-body {
-      padding: 24px;
+      padding: 20px 22px 40px;
       flex: 1;
       overflow-y: auto;
-      max-width: 780px;
-      width: 100%;
-      margin: 0 auto;
-    }
-
-    /* Notification Bell with Badge */
-    .notif-btn {
-      position: relative;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 1px solid var(--border);
-      background: var(--paper-raised);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--ink-soft);
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .notif-btn:hover {
-      background: var(--teal-tint);
-      color: var(--teal-deep);
-    }
-
-    .notif-btn svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .notif-badge {
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
-      background: var(--red);
-      border: 2px solid var(--paper-raised);
     }
 
     .field-label {
@@ -197,25 +180,27 @@
       font-size: 12px;
       color: var(--ink-faint);
       margin-top: 6px;
+      line-height: 1.4;
     }
 
     .field-error {
       font-size: 12px;
       color: var(--red);
       margin-top: 6px;
+      font-weight: 600;
     }
 
     .input {
       width: 100%;
-      height: 44px;
-      padding: 0 14px;
+      height: 48px;
+      padding: 0 16px;
       border-radius: var(--radius-sm);
-      border: 1px solid var(--border-strong);
+      border: 1.5px solid var(--border);
       background: var(--paper-raised);
       color: var(--ink);
-      outline: none;
       font-size: 15px;
-      transition: border-color 0.15s, box-shadow 0.15s;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
     .input:focus {
@@ -225,14 +210,14 @@
 
     select.input {
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2358524A' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231B4B43' stroke-width='2' fill='none'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 14px center;
+      background-position: right 16px center;
       padding-right: 36px;
     }
 
     .btn {
-      height: 46px;
+      height: 48px;
       border-radius: var(--radius-sm);
       border: none;
       font-weight: 600;
@@ -240,24 +225,25 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       cursor: pointer;
-      transition: background 0.15s, transform 0.08s;
+      transition: all 0.15s ease;
       text-decoration: none;
     }
 
     .btn:active {
-      transform: scale(0.99);
+      transform: scale(0.98);
     }
 
     .btn-block {
       width: 100%;
-      margin-top: 16px;
+      margin-top: 14px;
     }
 
     .btn-primary {
       background: var(--teal);
-      color: #FFF;
+      color: #FFFFFF;
+      box-shadow: var(--shadow-sm);
     }
 
     .btn-primary:hover {
@@ -267,7 +253,7 @@
     .btn-secondary {
       background: var(--paper-raised);
       color: var(--teal-deep);
-      border: 1px solid var(--border-strong);
+      border: 1.5px solid var(--border-strong);
     }
 
     .btn-secondary:hover {
@@ -280,58 +266,160 @@
       color: var(--ink-soft);
     }
 
-    .btn-danger {
-      background: var(--red-tint);
+    .btn-exit {
+      background: #F8EDED;
       color: var(--red);
+      border: 1px solid #ECCECE;
     }
 
-    /* Auth Screens */
-    .login-container {
-      max-width: 480px;
-      width: 100%;
-      margin: 40px auto;
-      padding: 32px 24px;
-      background: var(--paper-raised);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-md);
-      border: 1px solid var(--border);
+    .btn-exit:hover {
+      background: #F2DDDD;
     }
 
-    .brand-lockup {
+    .badge-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 1.5px solid #fff;
+    }
+
+    .screen-home {
+      background: linear-gradient(180deg, #FAF8F2 0%, #EDE6D6 100%);
+      padding: 28px 20px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      justify-content: space-between;
+    }
+
+    .home-hero {
+      text-align: center;
+      padding: 6px 0 10px;
+    }
+
+    .unnati-logo-banner {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 14px;
+      background: var(--teal-deep);
+      border-radius: 50%;
       display: flex;
       align-items: center;
-      gap: 14px;
+      justify-content: center;
+      box-shadow: var(--shadow-float);
     }
 
-    .brand-logo {
-      width: 52px;
-      height: 52px;
-      flex-shrink: 0;
+    .unnati-logo-banner svg {
+      width: 60px;
+      height: 60px;
     }
 
-    .brand-name {
+    .portal-title {
       font-family: var(--font-display);
-      font-size: 32px;
+      font-size: 34px;
+      font-weight: 700;
       color: var(--teal-deep);
+      margin-bottom: 6px;
+    }
+
+    .portal-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      background: var(--gold-tint);
+      color: var(--gold-deep);
+      border: 1px solid #ECD39E;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+    }
+
+    .portal-description {
+      font-size: 14px;
+      line-height: 1.55;
+      color: var(--ink-soft);
+      max-width: 92%;
+      margin: 0 auto;
+    }
+
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 8px 0;
+    }
+
+    .feature-card {
+      background: var(--paper-raised);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .feature-icon-box {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      background: var(--teal-tint);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--teal);
+    }
+
+    .feature-icon-box svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .feature-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--teal-deep);
+      margin-bottom: 3px;
+    }
+
+    .feature-card p {
+      font-size: 12px;
+      color: var(--ink-soft);
+      line-height: 1.4;
+    }
+
+    .home-action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .auth-tabs {
       display: flex;
-      gap: 4px;
+      gap: 6px;
       padding: 4px;
-      margin: 20px 0 16px;
+      margin: 16px 0 20px;
       background: var(--teal-tint);
       border-radius: var(--radius-sm);
     }
 
     .auth-tab {
       flex: 1;
-      height: 38px;
+      height: 42px;
       border: none;
-      background: transparent;
-      font-weight: 600;
-      color: var(--ink-soft);
       border-radius: 6px;
+      background: transparent;
+      color: var(--ink-soft);
+      font-weight: 600;
       cursor: pointer;
     }
 
@@ -341,1645 +429,1261 @@
       box-shadow: var(--shadow-sm);
     }
 
-    /* Dashboard & Homepage */
-    .dash-navbar {
+    .dash-topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 28px;
-      background: var(--paper-raised);
-      border-bottom: 1px solid var(--border);
-      flex-wrap: wrap;
-      gap: 14px;
+      padding: 18px 20px 10px;
     }
 
-    .dash-profile-meta {
+    .user-profile-meta {
       display: flex;
       align-items: center;
       gap: 12px;
     }
 
-    .dash-avatar {
-      width: 42px;
-      height: 42px;
+    .user-avatar {
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: var(--teal);
-      color: #FFF;
+      color: #fff;
+      font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 600;
       font-size: 16px;
-    }
-
-    .dash-welcome {
-      font-size: 12px;
-      color: var(--ink-faint);
-    }
-
-    .dash-user-name {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--teal-deep);
-    }
-
-    .dash-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .dash-content {
-      padding: 28px;
-      flex: 1;
-      overflow-y: auto;
-      max-width: 1080px;
-      width: 100%;
-      margin: 0 auto;
-    }
-
-    .hero-banner {
-      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%);
-      color: #FFF;
-      border-radius: var(--radius);
-      padding: 28px;
-      margin-bottom: 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-    }
-
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: 26px;
-      font-weight: 600;
-      color: var(--gold-tint);
-    }
-
-    .hero-desc {
-      font-size: 14px;
-      line-height: 1.6;
-      max-width: 680px;
-      opacity: 0.94;
-    }
-
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .stat-card {
-      background: var(--paper-raised);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
+      border: 2px solid #fff;
       box-shadow: var(--shadow-sm);
     }
 
-    .stat-label {
+    .greeting-text small {
       font-size: 12px;
       color: var(--ink-faint);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
     }
 
-    .stat-num {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--teal-deep);
-      margin-top: 6px;
-    }
-
-    .section-title {
-      font-size: 18px;
+    .greeting-text h3 {
+      font-size: 16px;
       font-weight: 600;
       color: var(--teal-deep);
-      margin-bottom: 16px;
+    }
+
+    .topbar-actions {
       display: flex;
-      align-items: center;
       gap: 8px;
     }
 
-    .pipeline-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .pipeline-step {
-      background: var(--paper-raised);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      border-top: 4px solid var(--teal);
-    }
-
-    .step-number {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--gold-deep);
-      background: var(--gold-tint);
-      padding: 3px 8px;
-      border-radius: 12px;
-      display: inline-block;
-      margin-bottom: 8px;
-    }
-
-    .step-name {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-
-    .step-text {
-      font-size: 13px;
-      color: var(--ink-soft);
-      line-height: 1.5;
-    }
-
-    .tile-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .tile {
-      background: var(--paper-raised);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
+    .dash-container {
+      padding: 12px 20px 96px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-      text-align: left;
+      gap: 16px;
     }
 
-    .tile:hover {
+    .banner-status {
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-deep) 100%);
+      color: #fff;
+      padding: 18px 20px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-card);
+    }
+
+    .banner-status h5 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--gold);
+      margin-bottom: 4px;
+    }
+
+    .banner-status p {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .nav-tile {
+      background: var(--paper-raised);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.15s ease;
+      color: var(--ink);
+      font-weight: 600;
+      font-size: 13.5px;
+    }
+
+    .nav-tile:hover {
       border-color: var(--teal);
-      box-shadow: var(--shadow-md);
       transform: translateY(-2px);
     }
 
-    .tile i {
-      font-size: 26px;
+    .nav-tile svg {
+      width: 26px;
+      height: 26px;
+      fill: var(--teal);
+    }
+
+    .chatbot-fab-btn {
+      position: absolute;
+      right: 20px;
+      bottom: 84px;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: var(--gold);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-float);
+      cursor: pointer;
+      z-index: 25;
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .chatbot-fab-btn:hover {
+      transform: scale(1.08);
+    }
+
+    .chatbot-fab-btn svg {
+      width: 30px;
+      height: 30px;
+      fill: var(--teal-deep);
+    }
+
+    .bottom-navbar {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 68px;
+      background: var(--paper-raised);
+      border-top: 1px solid var(--border);
+      display: flex;
+      z-index: 20;
+    }
+
+    .nav-tab-link {
+      flex: 1;
+      border: none;
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--ink-faint);
+      cursor: pointer;
+    }
+
+    .nav-tab-link.active {
       color: var(--teal);
     }
 
-    .tile-title {
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--ink);
+    .nav-tab-link svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
     }
 
-    .chatbot-fab {
-      position: fixed;
-      right: 28px;
-      bottom: 28px;
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: var(--gold);
-      color: var(--teal-deep);
-      border: none;
-      font-size: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: var(--shadow-md);
-      cursor: pointer;
-      z-index: 100;
-      transition: transform 0.15s ease;
-    }
-
-    .chatbot-fab:hover {
-      transform: scale(1.06);
-    }
-
-    .scheme-card, .app-card {
-      background: var(--paper-raised);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 16px;
-      cursor: pointer;
-      box-shadow: var(--shadow-sm);
-      transition: border-color 0.15s;
-    }
-
-    .scheme-card:hover, .app-card:hover {
-      border-color: var(--teal);
-    }
-
-    .scheme-card-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 12px;
-    }
-
-    .scheme-grant {
-      background: var(--gold-tint);
-      color: var(--gold-deep);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 4px 12px;
-      border-radius: 16px;
-      white-space: nowrap;
-    }
-
-    .doc-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 14px 16px;
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
-      margin-bottom: 12px;
-      background: var(--paper-raised);
-    }
-
-    .doc-status.verified { color: var(--green); font-weight: 600; }
-    .doc-status.pending { color: var(--gold-deep); font-weight: 600; }
-
-    .progress-track {
+    .chat-view-container {
       display: flex;
       flex-direction: column;
-      margin-bottom: 16px;
-    }
-
-    .progress-step {
-      display: flex;
-      gap: 14px;
-    }
-
-    .progress-dot-col {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .progress-dot {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      border: 2px solid var(--border-strong);
-      background: var(--paper-raised);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-    }
-
-    .progress-step.done .progress-dot {
-      background: var(--teal);
-      border-color: var(--teal);
-      color: #FFF;
-    }
-
-    .progress-line {
-      width: 2px;
       flex: 1;
-      background: var(--border-strong);
-      min-height: 36px;
+      height: 100%;
     }
 
-    .progress-step.done .progress-line {
-      background: var(--teal);
-    }
-
-    .progress-content {
-      padding-bottom: 24px;
-    }
-
-    .chat-log {
+    .chat-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 24px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       gap: 12px;
-      max-width: 800px;
-      width: 100%;
-      margin: 0 auto;
     }
 
-    .chat-bubble {
-      max-width: 80%;
+    .chat-msg {
+      max-width: 82%;
       padding: 12px 16px;
-      border-radius: 14px;
+      border-radius: 16px;
       font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.45;
     }
 
-    .chat-bubble.bot {
+    .chat-msg.bot {
       background: var(--teal-tint);
       color: var(--teal-deep);
       align-self: flex-start;
-      border-bottom-left-radius: 2px;
+      border-bottom-left-radius: 4px;
     }
 
-    .chat-bubble.user {
+    .chat-msg.user {
       background: var(--teal);
-      color: #FFF;
+      color: #fff;
       align-self: flex-end;
-      border-bottom-right-radius: 2px;
+      border-bottom-right-radius: 4px;
     }
 
-    .chat-input-row {
-      display: flex;
-      gap: 10px;
-      padding: 16px 24px;
+    .chat-input-bar {
+      padding: 12px 16px;
       border-top: 1px solid var(--border);
       background: var(--paper-raised);
-      max-width: 800px;
-      width: 100%;
-      margin: 0 auto;
-    }
-
-    .prefill-row {
       display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .send-msg-btn {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      border-radius: 50%;
+      background: var(--teal);
+      color: #fff;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .send-msg-btn:hover {
+      background: var(--teal-deep);
+    }
+
+    .send-msg-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+    }
+
+    .doc-item-row {
+      display: flex;
+      align-items: center;
       justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px dashed var(--border);
+      padding: 14px;
+      background: var(--paper-raised);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+    }
+
+    .doc-pill {
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 5px;
+    }
+
+    .doc-pill.verified {
+      background: var(--green-tint);
+      color: var(--green);
+    }
+
+    .doc-pill.pending {
+      background: var(--gold-tint);
+      color: var(--gold-deep);
+    }
+
+    .doc-pill.skipped {
+      background: var(--red-tint);
+      color: var(--red);
+    }
+
+    .faq-item {
+      background: var(--paper-raised);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      margin-bottom: 10px;
+      padding: 12px 14px;
+    }
+
+    .faq-item summary {
       font-size: 14px;
-    }
-
-    .detail-hero {
-      background: var(--teal-tint);
-      border-radius: var(--radius);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .detail-block {
-      margin-bottom: 20px;
-    }
-
-    .detail-block h4 {
-      margin-bottom: 8px;
+      font-weight: 600;
+      cursor: pointer;
       color: var(--teal-deep);
     }
 
-    .detail-block ul {
-      padding-left: 20px;
-      line-height: 1.7;
+    .faq-item p {
+      margin-top: 8px;
+      font-size: 13px;
+      color: var(--ink-soft);
+      line-height: 1.45;
+    }
+
+    ::-webkit-scrollbar {
+      width: 0;
+      height: 0;
     }
   </style>
 </head>
 
 <body>
+
   <div id="app" class="app-shell"></div>
 
-  <!-- Reusable SVG Vector Symbols -->
-  <svg width="0" height="0" style="position:absolute">
+  <!-- ================= VECTOR GRAPHIC ASSETS ================= -->
+  <svg width="0" height="0" style="display:none;">
     <defs>
-      <!-- Guaranteed Back Sign Image -->
-      <g id="icon-back-sign">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="19" y1="12" x2="5" y2="12"></line>
-          <polyline points="12 19 5 12 12 5"></polyline>
-        </svg>
+      <!-- UNNATI LOGO -->
+      <g id="icon-unnati">
+        <circle cx="32" cy="32" r="30" fill="#1B4B43" />
+        <path d="M20 48h24" stroke="#FBF0DA" stroke-width="2.5" stroke-linecap="round" opacity="0.6" />
+        <path d="M32 47V27" stroke="#D9A441" stroke-width="3.5" stroke-linecap="round" />
+        <path d="M32 35C22 35 18 29 18 21c8 0 14 5 14 14z" fill="#FBF0DA" />
+        <path d="M32 29c0-9 6-14 14-14 0 8-4 14-14 14z" fill="#D9A441" />
       </g>
-      <!-- Guaranteed Notification Sign Image -->
-      <g id="icon-notif-sign">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6"></path>
-          <path d="M9 17v1a3 3 0 0 0 6 0v-1"></path>
-        </svg>
+
+      <!-- BACK SIGN IMAGE -->
+      <g id="icon-back">
+        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" />
       </g>
+
+      <!-- NOTIFICATION BELL SIGN -->
+      <g id="icon-notification">
+        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z" />
+      </g>
+
+      <!-- AI CHATBOT LOGO -->
+      <g id="icon-chatbot">
+        <path d="M20 9V7c0-1.1-.9-2-2-2h-3c0-1.66-1.34-3-3-3S9 3.34 9 5H6c-1.1 0-2 .9-2 2v2c-1.66 0-3 1.34-3 3v4c0 1.66 1.34 3 3 3v3c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-3c1.66 0 3-1.34 3-3v-4c0-1.66-1.34-3-3-3zm-2 10H6V7h12v12zm-9-6c-.83 0-1.5-.67-1.5-1.5S8.17 10 9 10s1.5.67 1.5 1.5S9.83 13 9 13zm6 0c-.83 0-1.5-.67-1.5-1.5S14.17 10 15 10s1.5.67 1.5 1.5S15.83 13 15 13z" />
+      </g>
+
+      <!-- SEND SIGN IMAGE -->
+      <g id="icon-send">
+        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+      </g>
+
+      <!-- SKIP SIGN IMAGE -->
+      <g id="icon-skip">
+        <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+      </g>
+
+      <!-- GET STARTED PLAY SIGN -->
+      <g id="icon-play">
+        <path d="M8 5v14l11-7z" />
+      </g>
+
+      <!-- EXIT DOOR SIGN -->
+      <g id="icon-exit">
+        <path d="M10.09 15.59L11.5 17l5-5-5-5-1.41 1.41L12.67 11H3v2h9.67l-2.58 2.59zM19 3H5c-1.11 0-2 .9-2 2v4h2V5h14v14H5v-4H3v4c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
+      </g>
+
+      <!-- NAV ICONS -->
+      <g id="icon-home"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" /></g>
+      <g id="icon-search"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" /></g>
+      <g id="icon-track"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10H7v-2h10v2zm0-4H7V7h10v2z" /></g>
+      <g id="icon-user"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" /></g>
     </defs>
   </svg>
 
-  <!-- ============ TEMPLATES ============ -->
+  <!-- ================= SCREEN TEMPLATES ================= -->
 
-  <!-- LOGIN TEMPLATE -->
+  <!-- 1. HOMEPAGE -->
+  <template id="tpl-home">
+    <div class="screen screen-home">
+      <div class="home-hero">
+        <div class="unnati-logo-banner">
+          <svg viewBox="0 0 64 64"><use href="#icon-unnati"></use></svg>
+        </div>
+        <span class="portal-badge">Govt. of India Initiative</span>
+        <h1 class="portal-title">UNNATI</h1>
+        <p class="portal-description">
+          National Unified Portal for Tribal Student Scholarships. Instant eligibility matching, verified document lockers, and real-time DBT disbursement tracking.
+        </p>
+      </div>
+
+      <div class="features-list">
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <svg viewBox="0 0 24 24"><use href="#icon-search"></use></svg>
+          </div>
+          <div>
+            <h4>Smart Match Engine</h4>
+            <p>Calculates matching central and state schemes according to course, ST sub-caste, and income criteria.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <svg viewBox="0 0 24 24"><use href="#icon-track"></use></svg>
+          </div>
+          <div>
+            <h4>Four-Tier Tracking</h4>
+            <p>Monitor your application from institute nodals to state welfare sanctioning and direct DBT release.</p>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <svg viewBox="0 0 24 24"><use href="#icon-chatbot"></use></svg>
+          </div>
+          <div>
+            <h4>Multilingual AI Assistant</h4>
+            <p>24/7 dedicated support to answer questions on scholarships, documents, deadlines, and eligibility.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="home-action-buttons">
+        <button class="btn btn-primary btn-block" id="btn-home-start">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><use href="#icon-play"></use></svg>
+          <span>GET STARTED</span>
+        </button>
+        <button class="btn btn-exit btn-block" id="btn-home-exit">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><use href="#icon-exit"></use></svg>
+          <span>EXIT</span>
+        </button>
+      </div>
+    </div>
+  </template>
+
+  <!-- 2. AUTHENTICATION -->
   <template id="tpl-login">
     <div class="screen">
-      <div class="login-container">
-        <div class="brand-lockup">
-          <svg class="brand-logo" viewBox="0 0 64 64" role="img">
-            <circle cx="32" cy="32" r="32" fill="#1B4B43" />
-            <path d="M20 48h24" stroke="#FBF0DA" stroke-width="2.5" stroke-linecap="round" opacity="0.6" />
-            <path d="M32 47V27" stroke="#D9A441" stroke-width="3.5" stroke-linecap="round" />
-            <path d="M32 35C22 35 18 29 18 21c8 0 14 5 14 14z" fill="#FBF0DA" />
-            <path d="M32 29c0-9 6-14 14-14 0 8-4 14-14 14z" fill="#D9A441" />
-          </svg>
-          <h1 class="brand-name">Unnati</h1>
+      <header class="screen-header">
+        <div class="header-left">
+          <button class="icon-btn" data-back aria-label="Go Back">
+            <svg viewBox="0 0 24 24"><use href="#icon-back"></use></svg>
+          </button>
+          <h2>Authentication</h2>
         </div>
-        <p style="margin: 10px 0 20px; color: var(--ink-soft); font-size: 14px;" data-i18n="tagline">All tribal student scholarships, unified in one platform.</p>
+      </header>
 
-        <label class="field-label" for="lang-select" data-i18n="chooseLanguage">Choose your language</label>
-        <select id="lang-select" class="input"></select>
-
-        <div class="auth-tabs" role="tablist">
-          <button class="auth-tab active" id="tab-login" data-i18n="loginTab">Login</button>
-          <button class="auth-tab" id="tab-create" data-i18n="createTab">Create profile</button>
+      <div class="form-body">
+        <div style="text-align:center; margin-bottom: 8px;">
+          <h2 style="color:var(--teal-deep); font-family:var(--font-display); font-size:26px;">Welcome to Unnati</h2>
+          <p class="field-hint">Access scholarships, applications, and document vaults.</p>
         </div>
 
-        <div id="panel-login">
-          <label class="field-label" for="login-mobile" data-i18n="mobileNumber">Mobile number</label>
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tab-login">Login</button>
+          <button class="auth-tab" id="tab-signup">Sign Up</button>
+        </div>
+
+        <!-- Login Box -->
+        <div id="box-login">
+          <label class="field-label">Mobile Number</label>
           <input id="login-mobile" class="input" type="tel" maxlength="10" placeholder="10-digit mobile number" />
-          <label class="field-label" for="login-pin" data-i18n="enterPin">Enter 6-digit PIN</label>
-          <input id="login-pin" class="input" type="password" maxlength="6" placeholder="Enter PIN" />
+          <label class="field-label">6-digit Security PIN</label>
+          <input id="login-pin" class="input" type="password" maxlength="6" placeholder="Enter your 6-digit PIN" />
           <p class="field-error" id="login-error" hidden></p>
-          <button class="btn btn-primary btn-block" id="btn-login" data-i18n="loginBtn">Log In</button>
+          <button class="btn btn-primary btn-block" id="btn-do-login">Login to Portal</button>
         </div>
 
-        <div id="panel-create" hidden>
-          <div id="login-step-mobile">
-            <label class="field-label" for="mobile-input" data-i18n="mobileNumber">Mobile number</label>
-            <input id="mobile-input" class="input" type="tel" maxlength="10" placeholder="10-digit mobile number" />
-            <p class="field-error" id="mobile-error" hidden></p>
-            <button class="btn btn-primary btn-block" id="btn-send-otp" data-i18n="sendOtp">Send OTP</button>
-          </div>
-
-          <div id="login-step-otp" hidden>
-            <label class="field-label" for="otp-input" data-i18n="enterOtp">Enter OTP</label>
-            <input id="otp-input" class="input" type="tel" maxlength="6" placeholder="6-digit OTP" />
-            <p class="field-hint" data-i18n="otpHint">Demo bypass code: <code>123456</code></p>
-            <p class="field-error" id="otp-error" hidden></p>
-            <button class="btn btn-primary btn-block" id="btn-verify-otp" data-i18n="verifyContinue">Verify OTP</button>
-          </div>
-
-          <div id="login-step-pin" hidden>
-            <label class="field-label" for="pin-input" data-i18n="createPin">Create PIN</label>
-            <input id="pin-input" class="input" type="password" maxlength="6" placeholder="6-digit PIN" />
-            <label class="field-label" for="pin-confirm" data-i18n="confirmPin">Confirm PIN</label>
-            <input id="pin-confirm" class="input" type="password" maxlength="6" placeholder="Repeat PIN" />
-            <p class="field-error" id="pin-error" hidden></p>
-            <button class="btn btn-primary btn-block" id="btn-set-pin" data-i18n="createProfileBtn">Complete Registration</button>
-          </div>
+        <!-- Signup Box -->
+        <div id="box-signup" hidden>
+          <label class="field-label">Mobile Number</label>
+          <input id="signup-mobile" class="input" type="tel" maxlength="10" placeholder="10-digit mobile number" />
+          <label class="field-label">Create 6-digit Security PIN</label>
+          <input id="signup-pin" class="input" type="password" maxlength="6" placeholder="Create 6-digit PIN" />
+          <label class="field-label">Confirm 6-digit PIN</label>
+          <input id="signup-pin-confirm" class="input" type="password" maxlength="6" placeholder="Confirm 6-digit PIN" />
+          <p class="field-error" id="signup-error" hidden></p>
+          <button class="btn btn-primary btn-block" id="btn-do-signup">Create Profile</button>
         </div>
       </div>
     </div>
   </template>
 
-  <!-- DETAILED HOMEPAGE -->
+  <!-- 3. PERSONAL DETAILS -->
+  <template id="tpl-personal-details">
+    <div class="screen">
+      <header class="screen-header">
+        <div class="header-left">
+          <button class="icon-btn" data-back aria-label="Go Back">
+            <svg viewBox="0 0 24 24"><use href="#icon-back"></use></svg>
+          </button>
+          <h2>Personal Details</h2>
+        </div>
+      </header>
+
+      <form id="details-form" class="form-body">
+        <label class="field-label">Full Name</label>
+        <input class="input" name="name" placeholder="As per official documents" required />
+
+        <label class="field-label">Age</label>
+        <input class="input" name="age" type="number" min="10" max="45" placeholder="e.g. 19" required />
+
+        <label class="field-label">Gender</label>
+        <select class="input" name="gender" required>
+          <option value="">Select Gender</option>
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
+          <option value="Other">Other</option>
+        </select>
+
+        <label class="field-label">Domicile State</label>
+        <select class="input" name="state" id="state-select" required></select>
+
+        <label class="field-label">District</label>
+        <input class="input" name="district" placeholder="Enter District" required />
+
+        <label class="field-label">Tribal Sub-Caste (ST Category)</label>
+        <input class="input" name="subCaste" placeholder="e.g. Santhal, Gond, Bhil, Munda" required />
+
+        <label class="field-label">Course Level</label>
+        <select class="input" name="courseLevel" required>
+          <option value="">Select Course Level</option>
+          <option value="pre-matric">Pre-Matric (Class 9 - 10)</option>
+          <option value="post-matric">Post-Matric (Class 11 - 12)</option>
+          <option value="ug">Undergraduate (B.A., B.Sc., B.Tech, etc.)</option>
+          <option value="pg">Postgraduate (M.A., M.Sc., Ph.D.)</option>
+        </select>
+
+        <label class="field-label">Annual Family Income (₹)</label>
+        <input class="input" name="income" type="number" placeholder="Annual income in Rupees" required />
+
+        <button class="btn btn-primary btn-block" type="submit">Proceed to Documents</button>
+      </form>
+    </div>
+  </template>
+
+  <!-- 4. DOCUMENT UPLOAD WITH SKIP -->
+  <template id="tpl-doc-upload">
+    <div class="screen">
+      <header class="screen-header">
+        <div class="header-left">
+          <button class="icon-btn" data-back aria-label="Go Back">
+            <svg viewBox="0 0 24 24"><use href="#icon-back"></use></svg>
+          </button>
+          <h2>Document Verification</h2>
+        </div>
+      </header>
+
+      <div class="form-body">
+        <p class="field-hint" style="margin-bottom: 16px;">
+          Attach documents to instantly qualify for high-tier tribal scholarships, or skip and complete this later.
+        </p>
+
+        <button class="btn btn-secondary btn-block" id="btn-fetch-digilocker">
+          <i class="ti ti-cloud-download" style="font-size:20px;"></i>
+          <span>Fetch via DigiLocker</span>
+        </button>
+
+        <div style="margin: 20px 0;" id="docs-checklist-container"></div>
+
+        <button class="btn btn-primary btn-block" id="btn-save-docs">Save & Continue</button>
+        
+        <!-- SKIP BUTTON -->
+        <button class="btn btn-ghost btn-block" id="btn-skip-docs" style="border:1.5px dashed var(--border-strong); margin-top:10px;">
+          <svg viewBox="0 0 24 24" style="width:20px;height:20px;fill:currentColor;"><use href="#icon-skip"></use></svg>
+          <span>Skip For Now</span>
+        </button>
+      </div>
+    </div>
+  </template>
+
+  <!-- 5. STUDENT DASHBOARD -->
   <template id="tpl-dashboard">
     <div class="screen">
-      <nav class="dash-navbar">
-        <div class="dash-profile-meta">
-          <div class="dash-avatar" id="dash-avatar">S</div>
-          <div>
-            <div class="dash-welcome" data-i18n="hello">Welcome back,</div>
-            <div class="dash-user-name" id="dash-name">—</div>
-          </div>
-        </div>
-        <div class="dash-actions">
-          <button class="notif-btn" data-nav="notifications" aria-label="Notifications" title="Notifications">
-            <svg><use href="#icon-notif-sign"></use></svg>
-            <span class="notif-badge" id="notif-dot" hidden></span>
-          </button>
-          <button class="btn-back-nav" data-nav="settings">
-            <i class="ti ti-user-cog"></i>
-            <span data-i18n="settings">Settings</span>
-          </button>
-        </div>
-      </nav>
-
-      <div class="dash-content">
-        <!-- Hero Section -->
-        <section class="hero-banner">
-          <h2 class="hero-title" data-i18n="tagline">All tribal student scholarships, unified in one platform.</h2>
-          <p class="hero-desc" data-i18n="heroDesc">
-            Unnati links central, state, and premier institutional schemes directly to your verified profile.
-            Say goodbye to redundant paperwork, missed deadlines, and lost applications.
-          </p>
-          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-            <button class="btn btn-secondary" data-nav="matches" style="background:#FFF; color:var(--teal);" data-i18n="findScholarships">Find scholarships for me</button>
-            <button class="btn" data-nav="help" style="color:#FFF; border:1px solid rgba(255,255,255,0.4);" data-i18n="helpVoice">Help and voice support</button>
-          </div>
-        </section>
-
-        <!-- Dynamic Overview Stats -->
-        <section class="stats-row">
-          <div class="stat-card">
-            <div class="stat-label" data-i18n="statEligible">Eligible Scholarships</div>
-            <div class="stat-num" id="stat-eligible-count">0 Schemes</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label" data-i18n="statApps">Applications Active</div>
-            <div class="stat-num" id="stat-apps-count">0 Active</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label" data-i18n="statDocs">Verified Documents</div>
-            <div class="stat-num" id="stat-docs-count">0 Verified</div>
-          </div>
-        </section>
-
-        <!-- Explanatory Application Workflow -->
-        <div class="section-title"><i class="ti ti-compass"></i> <span data-i18n="howItWorks">How Unnati Works For You</span></div>
-        <div class="pipeline-grid">
-          <div class="pipeline-step">
-            <span class="step-number">Step 01</span>
-            <div class="step-name" data-i18n="step1Title">Single Profile Entry</div>
-            <div class="step-text" data-i18n="step1Text">Your education level, tribe, state, and income are saved once and securely matched.</div>
-          </div>
-          <div class="pipeline-step">
-            <span class="step-number">Step 02</span>
-            <div class="step-name" data-i18n="step2Title">Direct DigiLocker Sync</div>
-            <div class="step-text" data-i18n="step2Text">Pull certified caste, income, and domicile certificates in seconds without scanning.</div>
-          </div>
-          <div class="pipeline-step">
-            <span class="step-number">Step 03</span>
-            <div class="step-name" data-i18n="step3Title">1-Click Application</div>
-            <div class="step-text" data-i18n="step3Text">Forms prefill automatically. Submit to state and central portals with bank seeding checks.</div>
-          </div>
-          <div class="pipeline-step">
-            <span class="step-number">Step 04</span>
-            <div class="step-name" data-i18n="step4Title">Transparent Tracking</div>
-            <div class="step-text" data-i18n="step4Text">Watch verification updates live right until your scholarship grant is disbursed.</div>
+      <div class="dash-topbar">
+        <div class="user-profile-meta">
+          <div class="user-avatar" id="dash-user-avatar">S</div>
+          <div class="greeting-text">
+            <small>Welcome back,</small>
+            <h3 id="dash-user-name">Scholar</h3>
           </div>
         </div>
 
-        <!-- Quick Navigation Tiles -->
-        <div class="section-title"><i class="ti ti-layout-grid"></i> <span data-i18n="services">Services & Utilities</span></div>
-        <div class="tile-grid">
-          <button class="tile" data-nav="matches">
-            <i class="ti ti-sparkles"></i>
-            <span class="tile-title" data-i18n="findScholarships">Find scholarships for me</span>
-            <span style="font-size:12px; color:var(--ink-faint);" data-i18n="tileFindDesc">Check qualified grants & deadlines</span>
+        <div class="topbar-actions">
+          <!-- NOTIFICATION BELL WITH BADGE -->
+          <button class="icon-btn" data-nav="notifications" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><use href="#icon-notification"></use></svg>
+            <span class="badge-dot" id="dash-notif-dot" hidden></span>
           </button>
-          <button class="tile" data-nav="tracker">
-            <i class="ti ti-list-check"></i>
-            <span class="tile-title" data-i18n="appliedSchemes">My applied schemes</span>
-            <span style="font-size:12px; color:var(--ink-faint);" data-i18n="tileTrackDesc">Live multi-stage status tracker</span>
-          </button>
-          <button class="tile" data-nav="documents-locker">
-            <i class="ti ti-folder-check"></i>
-            <span class="tile-title" data-i18n="documentLocker">Document locker</span>
-            <span style="font-size:12px; color:var(--ink-faint);" data-i18n="tileDocsDesc">Manage certificates & bank links</span>
-          </button>
-          <button class="tile" data-nav="help">
-            <i class="ti ti-headset"></i>
-            <span class="tile-title" data-i18n="helpVoice">Help and voice support</span>
-            <span style="font-size:12px; color:var(--ink-faint);" data-i18n="tileHelpDesc">Local audio queries and FAQs</span>
+          <button class="icon-btn" data-nav="settings" aria-label="Settings">
+            <svg viewBox="0 0 24 24"><use href="#icon-user"></use></svg>
           </button>
         </div>
       </div>
 
-      <button class="chatbot-fab" data-nav="chatbot" title="Ask Assistant" aria-label="AI Chatbot">
-        <i class="ti ti-message-chatbot"></i>
+      <div class="dash-container">
+        <div class="banner-status">
+          <h5>Active Scholarship Status</h5>
+          <p id="dash-status-text">No applications in progress</p>
+        </div>
+
+        <div class="action-grid">
+          <button class="nav-tile" data-nav="matches">
+            <svg viewBox="0 0 24 24"><use href="#icon-search"></use></svg>
+            <span>Eligible Schemes</span>
+          </button>
+          <button class="nav-tile" data-nav="tracker">
+            <svg viewBox="0 0 24 24"><use href="#icon-track"></use></svg>
+            <span>Application Status</span>
+          </button>
+          <button class="nav-tile" data-nav="doc-upload">
+            <i class="ti ti-folder" style="font-size:24px; color:var(--teal);"></i>
+            <span>Document Vault</span>
+          </button>
+          <button class="nav-tile" data-nav="help">
+            <i class="ti ti-headset" style="font-size:24px; color:var(--teal);"></i>
+            <span>Help Desk</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- AI CHATBOT LOGO FAB BUTTON -->
+      <button class="chatbot-fab-btn" data-nav="chatbot" aria-label="Ask AI Chatbot">
+        <svg viewBox="0 0 24 24"><use href="#icon-chatbot"></use></svg>
       </button>
-    </div>
-  </template>
 
-  <!-- PROFILE FORM -->
-  <template id="tpl-profile">
-    <div class="screen">
-      <header class="screen-header">
-        <button class="btn-back-nav" data-back><svg><use href="#icon-back-sign"></use></svg><span data-i18n="back">Back</span></button>
-        <h2 data-i18n="profileTitle">Tell us about you</h2>
-      </header>
-      <form id="profile-form" class="form-body">
-        <label class="field-label" data-i18n="fullName">Full name</label>
-        <input class="input" name="name" required />
-
-        <label class="field-label" data-i18n="age">Age</label>
-        <input class="input" name="age" type="number" min="10" max="45" required />
-
-        <label class="field-label" data-i18n="gender">Gender</label>
-        <select class="input" name="gender" required>
-          <option value="">Select gender</option>
-          <option data-i18n="female">Female</option>
-          <option data-i18n="male">Male</option>
-          <option data-i18n="other">Other</option>
-        </select>
-
-        <label class="field-label" data-i18n="state">State</label>
-        <select class="input" name="state" required></select>
-
-        <label class="field-label" data-i18n="district">District</label>
-        <input class="input" name="district" required />
-
-        <label class="field-label" data-i18n="tribalSubCaste">Tribal sub-caste</label>
-        <input class="input" name="subCaste" placeholder="e.g. Gond, Santhal, Bhil, Munda" required />
-
-        <label class="field-label" data-i18n="courseLevel">Current course level</label>
-        <select class="input" name="courseLevel" required>
-          <option value="">Select course level</option>
-          <option value="pre-matric" data-i18n="preMatric">Pre-matric (class 9–10)</option>
-          <option value="post-matric" data-i18n="postMatric">Post-matric (class 11+)</option>
-          <option value="ug" data-i18n="ug">Undergraduate</option>
-          <option value="pg" data-i18n="pg">Postgraduate</option>
-        </select>
-
-        <label class="field-label" data-i18n="annualIncome">Family annual income (₹)</label>
-        <input class="input" name="income" type="number" min="0" placeholder="e.g. 180000" required />
-
-        <button class="btn btn-primary btn-block" type="submit" data-i18n="saveContinue">Save and continue</button>
-      </form>
-    </div>
-  </template>
-
-  <!-- DOCUMENT VERIFICATION -->
-  <template id="tpl-documents">
-    <div class="screen">
-      <header class="screen-header">
-        <button class="btn-back-nav" data-back><svg><use href="#icon-back-sign"></use></svg><span data-i18n="back">Back</span></button>
-        <h2 data-i18n="documentsTitle">Verify your documents</h2>
-      </header>
-      <div class="form-body">
-        <button class="btn btn-secondary btn-block" id="btn-digilocker">
-          <i class="ti ti-cloud-download"></i>
-          <span data-i18n="pullDigilocker">Pull verified documents from DigiLocker</span>
+      <!-- Bottom Nav Bar -->
+      <nav class="bottom-navbar">
+        <button class="nav-tab-link active" data-nav="dashboard">
+          <svg viewBox="0 0 24 24"><use href="#icon-home"></use></svg>
+          <span>Home</span>
         </button>
-        <p class="field-hint" data-i18n="digilockerHint">We only request read access to the documents listed below</p>
-        <div style="margin-top: 20px;" id="doc-list"></div>
-        <button class="btn btn-primary btn-block" id="btn-docs-continue" data-i18n="continueToMatch">Continue to eligibility matching</button>
-      </div>
+        <button class="nav-tab-link" data-nav="matches">
+          <svg viewBox="0 0 24 24"><use href="#icon-search"></use></svg>
+          <span>Schemes</span>
+        </button>
+        <button class="nav-tab-link" data-nav="tracker">
+          <svg viewBox="0 0 24 24"><use href="#icon-track"></use></svg>
+          <span>Track</span>
+        </button>
+        <button class="nav-tab-link" data-nav="settings">
+          <svg viewBox="0 0 24 24"><use href="#icon-user"></use></svg>
+          <span>Profile</span>
+        </button>
+      </nav>
     </div>
   </template>
 
-  <!-- MATCHES TEMPLATE -->
-  <template id="tpl-matches">
-    <div class="screen">
+  <!-- 6. CHATBOT SCREEN -->
+  <template id="tpl-chatbot">
+    <div class="screen chat-view-container">
       <header class="screen-header">
-        <button class="btn-back-nav" data-back><svg><use href="#icon-back-sign"></use></svg><span data-i18n="back">Back</span></button>
-        <h2 data-i18n="yourMatches">Scholarships you qualify for</h2>
-      </header>
-      <div class="form-body" id="matches-list"></div>
-    </div>
-  </template>
-
-  <!-- SCHEME DETAIL TEMPLATE -->
-  <template id="tpl-scheme-detail">
-    <div class="screen">
-      <header class="screen-header">
-        <button class="btn-back-nav" data-back><svg><use href="#icon-back-sign"></use></svg><span data-i18n="back">Back</span></button>
-        <h2 id="scheme-detail-title">—</h2>
-      </header>
-      <div class="form-body" id="scheme-detail-body"></div>
-    </div>
-  </template>
-
-  <!-- APPLICATION FORM -->
-  <template id="tpl-apply">
-    <div class="screen">
-      <header class="screen-header">
-        <button class="btn-back-nav" data-back><svg><use href="#icon-back-sign"></use></svg><span data-i18n="back">Back</span></button>
-        <h2 data-i18n="applicationTitle">Application</h2>
-      </header>
-      <form class="form-body" id="apply-form">
-        <div style="background: var(--teal-tint); padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 16px;">
-          <strong data-i18n="prefillNote">These fields were filled automatically from your profile</strong>
+        <div class="header-left">
+          <button class="icon-btn" data-back aria-label="Go Back">
+            <svg viewBox="0 0 24 24"><use href="#icon-back"></use></svg>
+          </button>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <svg viewBox="0 0 24 24" style="width:22px;height:22px;fill:var(--teal);"><use href="#icon-chatbot"></use></svg>
+            <h2>Unnati AI Assistant</h2>
+          </div>
         </div>
-        <div id="apply-prefilled"></div>
-        
-        <label class="field-label" data-i18n="bankAccount">Bank account number (Aadhaar-seeded)</label>
-        <input class="input" name="bankAccount" required />
+      </header>
 
-        <label class="field-label" data-i18n="ifsc">IFSC code</label>
-        <input class="input" name="ifsc" required />
+      <div class="chat-messages" id="chat-messages-container"></div>
 
-        <label class="field-label" data-i18n="institute">Institute name</label>
-        <input class="input" name="institute" required />
-
-        <label class="field-label" data-i18n="rollNo">Enrollment / roll number</label>
-        <input class="input" name="rollNo" required />
-
-        <button class="btn btn-primary btn-block" type="submit" data-i18n="submitApplication">Submit application</button>
+      <form class="chat-input-bar" id="chat-submit-form">
+        <input class="input" id="chat-text-input" placeholder="Ask about scholarships, deadlines, documents..." autocomplete="off" />
+        <!-- SEND SIGN IMAGE -->
+        <button class="send-msg-btn" type="submit" aria-label="Send Message">
+          <svg viewBox="0 0 24 24"><use href="#icon-send"></use></svg>
+        </button>
       </form>
     </div>
   </template>
 
-  <!-- APPLICATION TRACKER -->
-  <template id="tpl-tracker">
-    <div class="screen">
-      <header class="screen-header">
-        <button class="btn-back-nav" data-back><svg><use href="#icon-back-sign"></use></svg><span data-i18n="back">Back</span></button>
-        <h2 data-i18n="trackerTitle">Application tracker</h2>
-      </header>
-      <div class="form-body" id="tracker-list"></div>
-    </div>
-  </template>
-
-  <!-- TRACKER DETAIL -->
-  <template id="tpl-tracker-detail">
-    <div class="screen">
-      <header class="screen-header">
-        <button class="btn-back-nav" data-back><svg><use href="#icon-back-sign"></use></svg><span data-i18n="back">Back</span></button>
-        <h2 id="tracker-detail-title">—</h2>
-      </header>
-      <div class="form-body">
-        <div class="progress-track" id="progress-track"></div>
-        <button class="btn btn-secondary btn-block" id="btn-simulate-advance" data-i18n="simulateUpdate">Simulate next status update</button>
-      </div>
-    </div>
-  </template>
-
-  <!-- DOCUMENT LOCKER -->
-  <template id="tpl-documents-locker">
-    <div class="screen">
-      <header class="screen-header">
-        <button class="btn-back-nav" data-back><svg><use href="#icon-back-sign"></use></svg><span data-i18n="back">Back</span></button>
-        <h2 data-i18n="documentLocker">Document locker</h2>
-      </header>
-      <div class="form-body">
-        <div id="locker-doc-list"></div>
-        <label class="btn btn-secondary btn-block" for="file-upload-input" style="cursor: pointer; margin-top: 16px;">
-          <i class="ti ti-upload"></i>
-          <span data-i18n="uploadManually">Upload a document manually</span>
-        </label>
-        <input type="file" id="file-upload-input" hidden />
-      </div>
-    </div>
-  </template>
-
-  <!-- HELP & VOICE SUPPORT -->
+  <!-- 7. HELP & VOICE SUPPORT -->
   <template id="tpl-help">
     <div class="screen">
       <header class="screen-header">
-        <button class="btn-back-nav" data-back><svg><use href="#icon-back-sign"></use></svg><span data-i18n="back">Back</span></button>
-        <h2 data-i18n="helpVoice">Help and voice support</h2>
+        <div class="header-left">
+          <button class="icon-btn" data-back aria-label="Go Back">
+            <svg viewBox="0 0 24 24"><use href="#icon-back"></use></svg>
+          </button>
+          <h2>Help & Voice Support</h2>
+        </div>
       </header>
       <div class="form-body">
-        <button class="btn btn-secondary btn-block" id="btn-voice">
-          <i class="ti ti-microphone"></i>
-          <span data-i18n="tapToSpeak">Tap to ask by voice</span>
+        <button class="btn btn-secondary btn-block" id="btn-voice-query">
+          <i class="ti ti-microphone" style="font-size:20px;"></i>
+          <span>Tap to Ask by Voice</span>
         </button>
-        <p class="field-hint" id="voice-status" style="text-align: center; margin: 10px 0 20px;" data-i18n="voiceHint">
-          Uses your device's speech recognition, if available
+        <p class="field-hint" id="voice-hint" style="text-align:center; margin-bottom:18px;">
+          Ask questions in Hindi, English, or regional tribal languages.
         </p>
-        <div id="faq-list"></div>
+
+        <h4 style="font-size:14px; margin-bottom:10px; color:var(--teal-deep);">Frequently Asked Questions</h4>
+        <div id="faq-accordion-list"></div>
       </div>
     </div>
   </template>
 
-  <!-- AI CHATBOT -->
-  <template id="tpl-chatbot">
-    <div class="screen">
-      <header class="screen-header">
-        <button class="btn-back-nav" data-back><svg><use href="#icon-back-sign"></use></svg><span data-i18n="back">Back</span></button>
-        <h2 data-i18n="aiChatbot">AI chatbot</h2>
-      </header>
-      <div class="chat-log" id="chat-log"></div>
-      <form class="chat-input-row" id="chat-form">
-        <input class="input" id="chat-input" data-i18n-placeholder="askAnything" placeholder="Ask anything about scholarships…" autocomplete="off" />
-        <button class="btn btn-primary" style="padding: 0 16px;" type="submit" aria-label="Send"><i class="ti ti-send"></i></button>
-      </form>
-    </div>
-  </template>
-
-  <!-- NOTIFICATIONS -->
+  <!-- 8. NOTIFICATIONS -->
   <template id="tpl-notifications">
     <div class="screen">
       <header class="screen-header">
-        <button class="btn-back-nav" data-back><svg><use href="#icon-back-sign"></use></svg><span data-i18n="back">Back</span></button>
-        <h2 data-i18n="notifications">Notifications</h2>
+        <div class="header-left">
+          <button class="icon-btn" data-back aria-label="Go Back">
+            <svg viewBox="0 0 24 24"><use href="#icon-back"></use></svg>
+          </button>
+          <h2>Notifications</h2>
+        </div>
       </header>
-      <div class="form-body" id="notif-list"></div>
+      <div class="form-body" id="notif-feed"></div>
     </div>
   </template>
 
-  <!-- SETTINGS & PROFILE -->
+  <!-- 9. SCHOLARSHIP MATCHES -->
+  <template id="tpl-matches">
+    <div class="screen">
+      <header class="screen-header">
+        <div class="header-left">
+          <button class="icon-btn" data-back aria-label="Go Back">
+            <svg viewBox="0 0 24 24"><use href="#icon-back"></use></svg>
+          </button>
+          <h2>Matching Schemes</h2>
+        </div>
+      </header>
+      <div class="form-body" id="matches-container"></div>
+    </div>
+  </template>
+
+  <!-- 10. APPLICATION TRACKER -->
+  <template id="tpl-tracker">
+    <div class="screen">
+      <header class="screen-header">
+        <div class="header-left">
+          <button class="icon-btn" data-back aria-label="Go Back">
+            <svg viewBox="0 0 24 24"><use href="#icon-back"></use></svg>
+          </button>
+          <h2>Application Tracker</h2>
+        </div>
+      </header>
+      <div class="form-body" id="tracker-container"></div>
+    </div>
+  </template>
+
+  <!-- 11. SETTINGS / PROFILE -->
   <template id="tpl-settings">
     <div class="screen">
       <header class="screen-header">
-        <button class="btn-back-nav" data-back><svg><use href="#icon-back-sign"></use></svg><span data-i18n="back">Back</span></button>
-        <h2 data-i18n="settings">Settings</h2>
+        <div class="header-left">
+          <button class="icon-btn" data-back aria-label="Go Back">
+            <svg viewBox="0 0 24 24"><use href="#icon-back"></use></svg>
+          </button>
+          <h2>Student Profile</h2>
+        </div>
       </header>
       <div class="form-body">
-        <div class="stat-card" id="settings-profile-card" style="margin-bottom: 20px;"></div>
-        <label class="field-label" for="settings-lang" data-i18n="language">Language</label>
-        <select id="settings-lang" class="input" style="margin-bottom: 20px;"></select>
-        <button class="btn btn-secondary btn-block" id="btn-logout" data-i18n="logOut">Log out</button>
-        <button class="btn btn-danger btn-block" id="btn-clear-data" data-i18n="clearData">Delete my profile and data</button>
+        <div id="settings-summary" style="background:var(--paper-raised); padding:16px; border-radius:var(--radius); border:1px solid var(--border); margin-bottom:20px;"></div>
+        <button class="btn btn-secondary btn-block" id="btn-edit-profile">Edit Personal Details</button>
+        <button class="btn btn-exit btn-block" id="btn-logout">Log Out</button>
       </div>
     </div>
   </template>
 
+  <!-- ================= JAVASCRIPT CONTROLLER ================= -->
   <script>
-    const I18N = {
-      en: {
-        langName: "English", tagline: "All tribal student scholarships, in one place",
-        heroDesc: "Unnati links central, state, and premier institutional schemes directly to your verified profile. Say goodbye to redundant paperwork, missed deadlines, and lost applications.",
-        chooseLanguage: "Choose your language", mobileNumber: "Mobile number", sendOtp: "Send OTP",
-        enterOtp: "Enter the OTP sent to your number", otpHint: "Demo bypass code: 123456",
-        verifyContinue: "Verify and continue", changeNumber: "Change number",
-        createPin: "Create a 6-digit security PIN", continue: "Continue",
-        profileTitle: "Tell us about you", fullName: "Full name", age: "Age", gender: "Gender",
-        female: "Female", male: "Male", other: "Other", state: "State", district: "District",
-        tribalSubCaste: "Tribal sub-caste", courseLevel: "Current course level",
-        preMatric: "Pre-matric (class 9–10)", postMatric: "Post-matric (class 11+)",
-        ug: "Undergraduate", pg: "Postgraduate", annualIncome: "Family annual income (₹)",
-        saveContinue: "Save and continue", documentsTitle: "Verify your documents",
-        pullDigilocker: "Pull verified documents from DigiLocker",
-        digilockerHint: "We only request read access to the documents listed below",
-        continueToMatch: "Continue to eligibility matching", hello: "Welcome back,",
-        findScholarships: "Find scholarships for me", appliedSchemes: "My applied schemes",
-        documentLocker: "Document locker", helpVoice: "Help and voice support",
-        home: "Home", match: "Match", track: "Track", profile: "Profile", back: "Back",
-        yourMatches: "Scholarships you qualify for", applicationTitle: "Application",
-        prefillNote: "These fields were filled automatically from your profile",
-        bankAccount: "Bank account number (Aadhaar-seeded)", ifsc: "IFSC code",
-        institute: "Institute name", rollNo: "Enrollment / roll number",
-        submitApplication: "Submit application", trackerTitle: "Application tracker",
-        simulateUpdate: "Simulate next status update", uploadManually: "Upload a document manually",
-        tapToSpeak: "Tap to ask by voice", voiceHint: "Uses your device's speech recognition, if available",
-        aiChatbot: "AI chatbot", askAnything: "Ask anything about scholarships…", notifications: "Notifications",
-        settings: "Settings", language: "Language", logOut: "Log out", clearData: "Delete my profile and data",
-        loginTab: "Login", createTab: "Create profile", enterPin: "Enter your 6-digit PIN", loginBtn: "Log in",
-        confirmPin: "Confirm PIN", createProfileBtn: "Create profile",
-        apply: "Apply now", deadline: "Deadline", eligibility: "Eligibility", requiredDocuments: "Required documents",
-        statEligible: "Eligible Scholarships", statApps: "Applications Active", statDocs: "Verified Documents",
-        howItWorks: "How Unnati Works For You", services: "Services & Utilities",
-        step1Title: "Single Profile Entry", step1Text: "Your education level, tribe, state, and income are saved once and securely matched.",
-        step2Title: "Direct DigiLocker Sync", step2Text: "Pull certified caste, income, and domicile certificates in seconds without scanning.",
-        step3Title: "1-Click Application", step3Text: "Forms prefill automatically. Submit to state and central portals with bank seeding checks.",
-        step4Title: "Transparent Tracking", step4Text: "Watch verification updates live right until your scholarship grant is disbursed.",
-        tileFindDesc: "Check qualified grants & deadlines", tileTrackDesc: "Live multi-stage status tracker",
-        tileDocsDesc: "Manage certificates & bank links", tileHelpDesc: "Local audio queries and FAQs"
-      },
-      hi: {
-        langName: "हिन्दी", tagline: "सभी जनजातीय छात्रवृत्तियाँ, एक ही स्थान पर",
-        heroDesc: "उन्नति आपकी सत्यापित प्रोफ़ाइल को सीधे केंद्रीय और राज्य योजनाओं से जोड़ती है। अब कागजी परेशानी और तारीख छूटने का डर खत्म।",
-        chooseLanguage: "अपनी भाषा चुनें", mobileNumber: "मोबाइल नंबर", sendOtp: "OTP भेजें",
-        enterOtp: "अपने नंबर पर भेजा गया OTP दर्ज करें", otpHint: "डेमो बाईपास कोड: 123456",
-        verifyContinue: "सत्यापित करें और जारी रखें", changeNumber: "नंबर बदलें",
-        createPin: "6 अंकों का सुरक्षा पिन बनाएं", continue: "जारी रखें",
-        profileTitle: "अपने बारे में बताएं", fullName: "पूरा नाम", age: "उम्र", gender: "लिंग",
-        female: "महिला", male: "पुरुष", other: "अन्य", state: "राज्य", district: "जिला",
-        tribalSubCaste: "जनजातीय उप-जाति", courseLevel: "वर्तमान पाठ्यक्रम स्तर",
-        preMatric: "प्री-मैट्रिक (कक्षा 9–10)", postMatric: "पोस्ट-मैट्रिक (कक्षा 11+)",
-        ug: "स्नातक", pg: "स्नातकोत्तर", annualIncome: "पारिवारिक वार्षिक आय (₹)",
-        saveContinue: "सहेजें और जारी रखें", documentsTitle: "अपने दस्तावेज़ सत्यापित करें",
-        pullDigilocker: "डिजीलॉकर से सत्यापित दस्तावेज़ लाएं",
-        digilockerHint: "हम केवल नीचे सूचीबद्ध दस्तावेज़ों तक पढ़ने की पहुँच मांगते हैं",
-        continueToMatch: "पात्रता मिलान जारी रखें", hello: "नमस्ते,",
-        findScholarships: "मेरे लिए छात्रवृत्ति खोजें", appliedSchemes: "मेरी आवेदित योजनाएं",
-        documentLocker: "दस्तावेज़ लॉकर", helpVoice: "सहायता और वॉइस सपोर्ट",
-        home: "होम", match: "मिलान", track: "ट्रैक", profile: "प्रोफ़ाइल", back: "पीछे जाएं",
-        yourMatches: "आप जिन छात्रवृत्तियों के पात्र हैं", applicationTitle: "आवेदन",
-        prefillNote: "ये फ़ील्ड आपकी प्रोफ़ाइल से स्वतः भरे गए हैं",
-        bankAccount: "बैंक खाता संख्या (आधार-सीडेड)", ifsc: "IFSC कोड",
-        institute: "संस्थान का नाम", rollNo: "नामांकन / रोल नंबर",
-        submitApplication: "आवेदन जमा करें", trackerTitle: "आवेदन ट्रैकर",
-        simulateUpdate: "अगली स्थिति अपडेट का अनुकरण करें", uploadManually: "दस्तावेज़ मैन्युअल रूप से अपलोड करें",
-        tapToSpeak: "आवाज़ से पूछने हेतु टैप करें", voiceHint: "यदि उपलब्ध हो तो आपके डिवाइस की वॉइस पहचान का उपयोग करता है",
-        aiChatbot: "AI चैटबॉट", askAnything: "छात्रवृत्ति के बारे में कुछ भी पूछें…", notifications: "सूचनाएं",
-        settings: "सेटिंग्स", language: "भाषा", logOut: "लॉग आउट करें", clearData: "मेरी प्रोफ़ाइल और डेटा हटाएं",
-        loginTab: "लॉग इन", createTab: "प्रोफ़ाइल बनाएं", enterPin: "अपना 6 अंकों का पिन दर्ज करें", loginBtn: "लॉग इन करें",
-        confirmPin: "पिन की पुष्टि करें", createProfileBtn: "प्रोफ़ाइल बनाएं",
-        apply: "अभी आवेदन करें", deadline: "अंतिम तिथि", eligibility: "पात्रता", requiredDocuments: "आवश्यक दस्तावेज़",
-        statEligible: "योग्य छात्रवृत्तियाँ", statApps: "सक्रिय आवेदन", statDocs: "सत्यापित दस्तावेज़",
-        howItWorks: "उन्नति कैसे कार्य करता है", services: "सेवाएं एवं सुविधाएं",
-        step1Title: "एकल प्रोफ़ाइल प्रविष्टि", step1Text: "आपकी शिक्षा, जनजाति, राज्य और आय एक बार सुरक्षित रूप से दर्ज की जाती है।",
-        step2Title: "डिजीलॉकर सिंक", step2Text: "बिना स्कैन किए अपने जाति और आय प्रमाण पत्र कुछ ही सेकंड में प्राप्त करें।",
-        step3Title: "1-क्लिक आवेदन", step3Text: "फॉर्म स्वतः भर जाते हैं। बैंक सीडिंग जांच के साथ तुरंत आवेदन करें।",
-        step4Title: "पारदर्शी ट्रैकिंग", step4Text: "राशि जारी होने तक अपने आवेदन की लाइव स्थिति देखें।",
-        tileFindDesc: "उपयुक्त योजनाएं व तिथियां देखें", tileTrackDesc: "आवेदन की लाइव स्थिति",
-        tileDocsDesc: "प्रमाणपत्र और बैंक लिंक संभालें", tileHelpDesc: "स्थानीय भाषा में सवाल पूछें"
-      },
-      or: {
-        langName: "ଓଡ଼ିଆ", tagline: "ସମସ୍ତ ଆଦିବାସୀ ଛାତ୍ର ଛାତ୍ରବୃତ୍ତି, ଏକ ସ୍ଥାନରେ",
-        heroDesc: "ଉନ୍ନତି ଆପଣଙ୍କ ପ୍ରୋଫାଇଲକୁ ସିଧାସଳଖ ସରକାରୀ ଯୋଜନା ସହିତ ଯୋଡ଼ିଥାଏ। ଠିକ ସମୟରେ ବିନା କାଗଜପତ୍ର ଝନଝଟରେ ଆବେଦନ କରନ୍ତୁ।",
-        chooseLanguage: "ଆପଣଙ୍କ ଭାଷା ବାଛନ୍ତୁ", mobileNumber: "ମୋବାଇଲ ନମ୍ବର", sendOtp: "OTP ପଠାନ୍ତୁ",
-        enterOtp: "ଆପଣଙ୍କ ନମ୍ବରକୁ ପଠାଯାଇଥିବା OTP ପ୍ରବେଶ କରନ୍ତୁ", otpHint: "ଡେମୋ ବାଇପାସ୍ କୋଡ୍: 123456",
-        verifyContinue: "ଯାଞ୍ଚ କରନ୍ତୁ ଏବଂ ଜାରି ରଖନ୍ତୁ", changeNumber: "ନମ୍ବର ବଦଳାନ୍ତୁ",
-        createPin: "6 ଅଙ୍କର ସୁରକ୍ଷା ପିନ୍ ତିଆରି କରନ୍ତୁ", continue: "ଜାରି ରଖନ୍ତୁ",
-        profileTitle: "ଆପଣଙ୍କ ବିଷୟରେ କୁହନ୍ତୁ", fullName: "ପୂରା ନାମ", age: "ବୟସ", gender: "ଲିଙ୍ଗ",
-        female: "ମହିଳା", male: "ପୁରୁଷ", other: "ଅନ୍ୟ", state: "ରାଜ୍ୟ", district: "ଜିଲ୍ଲା",
-        tribalSubCaste: "ଆଦିବାସୀ ଉପ-ଜାତି", courseLevel: "ବର୍ତ୍ତମାନ ପାଠ୍ୟକ୍ରମ ସ୍ତର",
-        preMatric: "ପ୍ରି-ମାଟ୍ରିକ (9–10 ଶ୍ରେଣୀ)", postMatric: "ପୋଷ୍ଟ-ମାଟ୍ରିକ (11+ ଶ୍ରେଣୀ)",
-        ug: "ସ୍ନାତକ", pg: "ସ୍ନାତକୋତ୍ତର", annualIncome: "ପାରିବାରିକ ବାର୍ଷିକ ଆୟ (₹)",
-        saveContinue: "ସେଭ୍ କରନ୍ତୁ ଏବଂ ଜାରି ରଖନ୍ତୁ", documentsTitle: "ଆପଣଙ୍କ ଦସ୍ତାବେଜ ଯାଞ୍ଚ କରନ୍ତୁ",
-        pullDigilocker: "ଡିଜିଲକରରୁ ଯାଞ୍ଚିତ ଦସ୍ତାବେଜ ଆଣନ୍ତୁ",
-        digilockerHint: "ଆମେ କେବଳ ତଳେ ତାଲିକାଭୁକ୍ତ ଦସ୍ତାବେଜଗୁଡ଼ିକର ପଠନ ପ୍ରବେଶ ଅନୁରୋଧ କରୁ",
-        continueToMatch: "ଯୋଗ୍ୟତା ମେଳ ଜାରି ରଖନ୍ତୁ", hello: "ନମସ୍କାର,",
-        findScholarships: "ମୋ ପାଇଁ ଛାତ୍ରବୃତ୍ତି ଖୋଜନ୍ତୁ", appliedSchemes: "ମୋର ଆବେଦିତ ଯୋଜନା",
-        documentLocker: "ଦସ୍ତାବେଜ ଲକର", helpVoice: "ସହାୟତା ଏବଂ ଭଏସ୍ ସପୋର୍ଟ",
-        home: "ହୋମ", match: "ମେଳ", track: "ଟ୍ରାକ୍", profile: "ପ୍ରୋଫାଇଲ୍", back: "ପଛକୁ ଯାଆନ୍ତୁ",
-        yourMatches: "ଆପଣ ଯୋଗ୍ୟ ଥିବା ଛାତ୍ରବୃତ୍ତି", applicationTitle: "ଆବେଦନ",
-        prefillNote: "ଏହି ଫିଲ୍ଡଗୁଡ଼ିକ ଆପଣଙ୍କ ପ୍ରୋଫାଇଲରୁ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ପୂରଣ ହୋଇଛି",
-        bankAccount: "ବ୍ୟାଙ୍କ ଖାତା ନମ୍ବର (ଆଧାର-ସିଡେଡ୍)", ifsc: "IFSC କୋଡ୍",
-        institute: "ଅନୁଷ୍ଠାନ ନାମ", rollNo: "ପଞ୍ଜିକରଣ / ରୋଲ୍ ନମ୍ବର",
-        submitApplication: "ଆବେଦନ ଦାଖଲ କରନ୍ତୁ", trackerTitle: "ଆବେଦନ ଟ୍ରାକର୍",
-        simulateUpdate: "ପରବର୍ତ୍ତୀ ସ୍ଥିତି ଅପଡେଟ୍ ଅନୁକରଣ କରନ୍ତୁ", uploadManually: "ମାନୁଆଲ ଭାବରେ ଦସ୍ତାବେଜ ଅପଲୋଡ୍ କରନ୍ତୁ",
-        tapToSpeak: "ସ୍ୱର ଦ୍ୱାରା ପଚାରିବାକୁ ଟାପ୍ କରନ୍ତୁ", voiceHint: "ଉପଲବ୍ଧ ଥିଲେ ଆପଣଙ୍କ ଡିଭାଇସର ଭଏସ୍ ପରିଚୟ ବ୍ୟବହାର କରେ",
-        aiChatbot: "AI ଚାଟବଟ୍", askAnything: "ଛାତ୍ରବୃତ୍ତି ବିଷୟରେ ଯାହା ଇଚ୍ଛା ପଚାରନ୍ତୁ…", notifications: "ବିଜ୍ଞପ୍ତି",
-        settings: "ସେଟିଂସ୍", language: "ଭାଷା", logOut: "ଲଗ୍ ଆଉଟ୍ କରନ୍ତୁ", clearData: "ମୋ ପ୍ରୋଫାଇଲ୍ ଏବଂ ଡାଟା ଲିଭାନ୍ତୁ",
-        loginTab: "ଲଗ୍ ଇନ୍", createTab: "ପ୍ରୋଫାଇଲ୍ ତିଆରି କରନ୍ତୁ", enterPin: "ଆପଣଙ୍କ 6 ଅଙ୍କର ପିନ୍ ଦିଅନ୍ତୁ", loginBtn: "ଲଗ୍ ଇନ୍ କରନ୍ତୁ",
-        confirmPin: "ପିନ୍ ନିଶ୍ଚିତ କରନ୍ତୁ", createProfileBtn: "ପ୍ରୋଫାଇଲ୍ ତିଆରି କରନ୍ତୁ",
-        apply: "ବର୍ତ୍ତମାନ ଆବେଦନ କରନ୍ତୁ", deadline: "ଶେଷ ତାରିଖ", eligibility: "ଯୋଗ୍ୟତା", requiredDocuments: "ଆବଶ୍ୟକ ଦସ୍ତାବେଜ",
-        statEligible: "ଯୋଗ୍ୟ ଛାତ୍ରବୃତ୍ତି", statApps: "ସକ୍ରିୟ ଆବେଦନ", statDocs: "ଯାଞ୍ଚ ହୋଇଥିବା ଦସ୍ତାବେଜ",
-        howItWorks: "ଉନ୍ନତି କିପରି କାମ କରେ", services: "ସେବା ଏବଂ ସୁବିଧା",
-        step1Title: "ଗୋଟିଏ ପ୍ରୋଫାଇଲ୍ ପ୍ରବେଶ", step1Text: "ଆପଣଙ୍କ ଶିକ୍ଷା, ଜନଜାତି, ରାଜ୍ୟ ଏବଂ ଆୟ ଥରେ ସୁରକ୍ଷିତ ଭାବରେ ସେଭ୍ କରାଯାଏ।",
-        step2Title: "ଡିଜିଲକର ସିଙ୍କ", step2Text: "ବିନା ସ୍କାନରେ ଆପଣଙ୍କ ଜାତି ଓ ଆୟ ପ୍ରମାଣପତ୍ର କିଛି ସେକେଣ୍ଡରେ ପ୍ରାପ୍ତ କରନ୍ତୁ।",
-        step3Title: "1-କ୍ଲିକ୍ ଆବେଦନ", step3Text: "ଫର୍ମ ସ୍ୱୟଂଚାଳିତ ଭାବରେ ପୂରଣ ହୁଏ। ବ୍ୟାଙ୍କ ସିଡିଂ ସହିତ ତୁରନ୍ତ ଦାଖଲ କରନ୍ତୁ।",
-        step4Title: "ସ୍ୱଚ୍ଛ ଟ୍ରାକିଂ", step4Text: "ରାଶି ପ୍ରଦାନ ପର୍ଯ୍ୟନ୍ତ ଆପଣଙ୍କ ଆବେଦନର ଲାଇଭ୍ ସ୍ଥିତି ଦେଖନ୍ତୁ।",
-        tileFindDesc: "ଯୋଗ୍ୟ ଯୋଜନା ଓ ଶେଷ ତାରିଖ ଦେଖନ୍ତୁ", tileTrackDesc: "ଲାଇଭ୍ ଆବେଦନ ସ୍ଥିତି",
-        tileDocsDesc: "ପ୍ରମାଣପତ୍ର ଓ ବ୍ୟାଙ୍କ ଲିଙ୍କ ପରିଚାଳନା କରନ୍ତୁ", tileHelpDesc: "ସ୍ଥାନୀୟ ଭାଷାରେ ପ୍ରଶ୍ନ ପଚାରନ୍ତୁ"
-      }
-    };
+    const STATES_LIST = [
+      "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Gujarat",
+      "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
+      "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Rajasthan", "Tamil Nadu", "Telangana",
+      "Tripura", "West Bengal", "Other"
+    ];
 
-    function t(key) {
-      const lang = (window.APP_STATE && APP_STATE.lang) || "en";
-      return (I18N[lang] && I18N[lang][key]) || (I18N.en && I18N.en[key]) || key;
-    }
-
-    const SCHEMES = [
+    const SCHEMES_DATA = [
       {
         id: "pm-yasasvi-st",
-        name: "PM-YASASVI Scholarship (ST Students)",
-        authority: "Ministry of Tribal Affairs",
+        name: "PM-YASASVI Central ST Scholarship",
         grant: "₹75,000 – ₹1,25,000 / year",
         deadline: "31 Oct 2026",
         levels: ["post-matric", "ug", "pg"],
         maxIncome: 250000,
-        description: "National financial assistance for meritorious Scheduled Tribe students in accredited institutions across India.",
-        eligibility: ["Scheduled Tribe (ST) community", "Family income below ₹2,50,000", "Enrolled in class 9 or higher"],
-        documents: ["Tribal / ST Certificate", "Income Certificate", "Aadhaar Card", "Previous Marksheet"]
+        desc: "Central grant supporting Scheduled Tribe students in accredited colleges and schools."
       },
       {
         id: "post-matric-st",
-        name: "Post-Matric Scholarship for ST Students",
-        authority: "Ministry of Tribal Affairs",
-        grant: "Full Fees + ₹1,200 / month",
+        name: "Post-Matric Tribal Welfare Scheme",
+        grant: "Full tuition + ₹1,200 / month",
         deadline: "15 Nov 2026",
         levels: ["post-matric", "ug", "pg"],
         maxIncome: 250000,
-        description: "Covers complete compulsory institutional fees, tuition, and boarding allowances for post-matric study.",
-        eligibility: ["Scheduled Tribe (ST) community", "Class 11 and above", "Family annual income below ₹2,50,000"],
-        documents: ["Tribal / ST Certificate", "Income Certificate", "Bonafide Certificate", "Aadhaar-Seeded Passbook"]
+        desc: "Direct allowance for institutional fees and maintenance."
       },
       {
         id: "pre-matric-st",
-        name: "Pre-Matric Scholarship for ST Students",
-        authority: "Ministry of Tribal Affairs",
-        grant: "₹3,500 / year + book grant",
+        name: "Pre-Matric Tribal Advancement Grant",
+        grant: "₹3,500 / year",
         deadline: "30 Sep 2026",
         levels: ["pre-matric"],
         maxIncome: 200000,
-        description: "Aimed at reducing secondary school dropout rates for tribal students in classes 9 and 10.",
-        eligibility: ["Scheduled Tribe (ST) community", "Enrolled in class 9 or 10", "Family annual income below ₹2,00,000"],
-        documents: ["Tribal / ST Certificate", "Income Certificate", "School ID Card"]
-      },
-      {
-        id: "top-class-st",
-        name: "National Fellowship & Premier Grant for ST Students",
-        authority: "Ministry of Tribal Affairs",
-        grant: "Full Tuition + Living Expenses",
-        deadline: "20 Dec 2026",
-        levels: ["ug", "pg"],
-        maxIncome: 600000,
-        description: "Full funding for ST students admitted to notified premier institutes such as IITs, NITs, and IIMs.",
-        eligibility: ["Admitted to a notified premier institute", "Family income below ₹6,00,000"],
-        documents: ["Tribal / ST Certificate", "Admission Offer Letter", "Fee Structure"]
+        desc: "Financial assistance for ST students in grades 9 and 10."
       }
     ];
 
-    const STATES = [
-      "Andhra Pradesh", "Assam", "Chhattisgarh", "Gujarat", "Jharkhand",
-      "Karnataka", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
-      "Mizoram", "Nagaland", "Odisha", "Rajasthan", "Telangana", "Tripura", "West Bengal", "Other"
+    const DEFAULT_DOCS = [
+      "Tribal / ST Certificate",
+      "Income Certificate",
+      "Identity Proof Document",
+      "Bank Passbook (Direct Linked)"
     ];
 
-    const STORAGE_KEY = "unnati_storage_v2";
-    const API_BASE = "https://unnati-fibv.onrender.com";
+    const FAQS = [
+      {
+        q: "How does eligibility matching work?",
+        a: "Unnati evaluates your course level, family income, and ST sub-caste against central and state guidelines to list pre-approved schemes."
+      },
+      {
+        q: "What if I don't have DigiLocker?",
+        a: "You can skip the step initially and manually upload document copies through your Document Vault at any time."
+      },
+      {
+        q: "How long does direct benefit transfer (DBT) take?",
+        a: "Following institute verification and state welfare sanctioning, grants are disbursed directly to your registered account within 2-3 weeks."
+      }
+    ];
 
-    function freshState(lang) {
-      return {
-        lang: lang || "en",
-        loggedIn: false,
-        mobile: null,
-        token: null,
-        profile: null,
-        documents: {
-          "Tribal / ST Certificate": { status: "verified", source: "digilocker" },
-          "Aadhaar Card": { status: "verified", source: "digilocker" }
-        },
-        applications: [],
-        notifications: [
-          { id: "n1", title: "Welcome to Unnati", body: "Complete your profile to auto-match with 4+ tribal schemes.", read: false }
-        ]
-      };
-    }
+    // Reactive State
+    let STATE = {
+      isLoggedIn: false,
+      user: null,
+      documents: {},
+      applications: [],
+      notifications: [
+        { title: "Welcome to Unnati", text: "Fill in your personal details to unlock scholarships.", time: "Just now", read: false }
+      ]
+    };
 
     function loadState() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
-          const st = JSON.parse(raw);
-          delete st.pin;
-          return st;
-        }
-      } catch (e) {}
-      return freshState("en");
+        const stored = localStorage.getItem("unnati_unified_state_v3");
+        if (stored) STATE = JSON.parse(stored);
+      } catch (e) {
+        console.warn("Could not load stored state:", e);
+      }
     }
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(APP_STATE));
+      localStorage.setItem("unnati_unified_state_v3", JSON.stringify(STATE));
     }
 
-    window.APP_STATE = loadState();
-    const NAV_STACK = [];
-
+    // Navigation Stack
+    const STACK = [];
     function navigate(screen, params) {
-      NAV_STACK.push({ screen, params });
+      STACK.push({ screen, params });
       render(screen, params);
-      window.scrollTo(0, 0);
     }
 
     function goBack() {
-      NAV_STACK.pop();
-      const prev = NAV_STACK[NAV_STACK.length - 1] || { screen: APP_STATE.loggedIn ? "dashboard" : "login" };
-      render(prev.screen, prev.params);
-      window.scrollTo(0, 0);
+      if (STACK.length > 1) {
+        STACK.pop();
+        const prev = STACK[STACK.length - 1];
+        render(prev.screen, prev.params);
+      } else {
+        render("home");
+      }
     }
 
-    function mount(templateId) {
-      const tpl = document.getElementById(templateId);
-      const app = document.getElementById("app");
-      app.innerHTML = "";
-      app.appendChild(tpl.content.cloneNode(true));
-      applyI18n();
-      bindGlobalListeners();
-    }
+    function mount(tplId) {
+      const container = document.getElementById("app");
+      const tpl = document.getElementById(tplId);
+      container.innerHTML = "";
+      container.appendChild(tpl.content.cloneNode(true));
 
-    function applyI18n() {
-      document.querySelectorAll("[data-i18n]").forEach((el) => {
-        el.textContent = t(el.getAttribute("data-i18n"));
-      });
-      document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
-        el.setAttribute("placeholder", t(el.getAttribute("data-i18n-placeholder")));
-      });
-    }
+      // Bind all Back buttons
+      const backButtons = container.querySelectorAll("[data-back]");
+      backButtons.forEach(btn => btn.addEventListener("click", goBack));
 
-    function bindGlobalListeners() {
-      document.querySelectorAll("[data-back]").forEach((btn) => {
-        btn.onclick = goBack;
-      });
-      document.querySelectorAll("[data-nav]").forEach((el) => {
-        el.onclick = () => navigate(el.getAttribute("data-nav"));
-      });
-    }
-
-    function matchSchemes(profile) {
-      if (!profile) return SCHEMES;
-      const income = Number(profile.income) || 0;
-      return SCHEMES.filter(s => {
-        const levelMatch = !profile.courseLevel || s.levels.includes(profile.courseLevel);
-        const incomeMatch = !s.maxIncome || income <= s.maxIncome;
-        return levelMatch && incomeMatch;
+      // Bind data-nav navigation buttons
+      container.querySelectorAll("[data-nav]").forEach(el => {
+        el.addEventListener("click", () => navigate(el.getAttribute("data-nav")));
       });
     }
 
     function render(screen, params) {
-      const views = {
-        login: renderLogin,
-        dashboard: renderDashboard,
-        profile: renderProfile,
-        documents: renderDocuments,
-        matches: renderMatches,
-        "scheme-detail": () => renderSchemeDetail(params),
-        apply: () => renderApply(params),
-        tracker: renderTracker,
-        "tracker-detail": () => renderTrackerDetail(params),
-        "documents-locker": renderDocumentsLocker,
-        help: renderHelp,
-        chatbot: renderChatbot,
-        notifications: renderNotifications,
-        settings: renderSettings
-      };
-      (views[screen] || renderDashboard)();
+      switch (screen) {
+        case "home": renderHome(); break;
+        case "login": renderLogin(); break;
+        case "personal-details": renderPersonalDetails(); break;
+        case "doc-upload": renderDocUpload(); break;
+        case "dashboard": renderDashboard(); break;
+        case "chatbot": renderChatbot(); break;
+        case "help": renderHelp(); break;
+        case "matches": renderMatches(); break;
+        case "tracker": renderTracker(); break;
+        case "notifications": renderNotifications(); break;
+        case "settings": renderSettings(); break;
+        default: renderHome();
+      }
     }
 
-    /* VIEW IMPLEMENTATIONS */
+    // 1. HOMEPAGE
+    function renderHome() {
+      mount("tpl-home");
+      document.getElementById("btn-home-start").addEventListener("click", () => {
+        if (STATE.isLoggedIn && STATE.user) {
+          navigate("dashboard");
+        } else {
+          navigate("login");
+        }
+      });
+
+      document.getElementById("btn-home-exit").addEventListener("click", () => {
+        if (confirm("Are you sure you want to exit the UNNATI portal?")) {
+          window.location.href = "about:blank";
+        }
+      });
+    }
+
+    // 2. LOGIN / SIGNUP
     function renderLogin() {
       mount("tpl-login");
-      const langSelect = document.getElementById("lang-select");
-      langSelect.innerHTML = "";
-      Object.keys(I18N).forEach((code) => {
-        const opt = document.createElement("option");
-        opt.value = code;
-        opt.textContent = I18N[code].langName;
-        langSelect.appendChild(opt);
-      });
-      langSelect.value = APP_STATE.lang;
-      langSelect.onchange = () => {
-        APP_STATE.lang = langSelect.value;
-        saveState();
-        renderLogin();
-      };
-
       const tabLogin = document.getElementById("tab-login");
-      const tabCreate = document.getElementById("tab-create");
-      const panelLogin = document.getElementById("panel-login");
-      const panelCreate = document.getElementById("panel-create");
+      const tabSignup = document.getElementById("tab-signup");
+      const boxLogin = document.getElementById("box-login");
+      const boxSignup = document.getElementById("box-signup");
 
-      tabLogin.onclick = () => {
+      tabLogin.addEventListener("click", () => {
         tabLogin.classList.add("active");
-        tabCreate.classList.remove("active");
-        panelLogin.hidden = false;
-        panelCreate.hidden = true;
-      };
+        tabSignup.classList.remove("active");
+        boxLogin.hidden = false;
+        boxSignup.hidden = true;
+      });
 
-      tabCreate.onclick = () => {
-        tabCreate.classList.add("active");
+      tabSignup.addEventListener("click", () => {
+        tabSignup.classList.add("active");
         tabLogin.classList.remove("active");
-        panelLogin.hidden = true;
-        panelCreate.hidden = false;
-      };
+        boxSignup.hidden = false;
+        boxLogin.hidden = true;
+      });
 
-      document.getElementById("btn-login").onclick = () => {
+      // Login handler
+      document.getElementById("btn-do-login").addEventListener("click", () => {
         const mobile = document.getElementById("login-mobile").value.trim();
         const pin = document.getElementById("login-pin").value.trim();
-        if (mobile.length !== 10 || pin.length !== 6) {
-          const err = document.getElementById("login-error");
-          err.textContent = "Please enter a valid 10-digit mobile and 6-digit PIN.";
-          err.hidden = false;
-          return;
-        }
-        APP_STATE.loggedIn = true;
-        APP_STATE.mobile = mobile;
-        if (!APP_STATE.profile) {
-          APP_STATE.profile = { name: "Tribal Student", state: "Odisha", courseLevel: "ug", income: 180000 };
-        }
-        saveState();
-        navigate("dashboard");
-      };
+        const err = document.getElementById("login-error");
 
-      document.getElementById("btn-send-otp").onclick = () => {
-        const mob = document.getElementById("mobile-input").value.trim();
-        if (mob.length !== 10) {
-          const err = document.getElementById("mobile-error");
+        if (!/^\d{10}$/.test(mobile)) {
           err.textContent = "Enter a valid 10-digit mobile number.";
           err.hidden = false;
           return;
         }
-        APP_STATE.mobile = mob;
-        document.getElementById("login-step-mobile").hidden = true;
-        document.getElementById("login-step-otp").hidden = false;
-      };
-
-      document.getElementById("btn-verify-otp").onclick = () => {
-        const otp = document.getElementById("otp-input").value.trim();
-        if (otp.length !== 6) {
-          const err = document.getElementById("otp-error");
-          err.textContent = "Enter the 6-digit OTP code.";
+        if (!/^\d{6}$/.test(pin)) {
+          err.textContent = "PIN must be exactly 6 digits.";
           err.hidden = false;
           return;
         }
-        document.getElementById("login-step-otp").hidden = true;
-        document.getElementById("login-step-pin").hidden = false;
-      };
 
-      document.getElementById("btn-set-pin").onclick = () => {
-        const p1 = document.getElementById("pin-input").value.trim();
-        const p2 = document.getElementById("pin-confirm").value.trim();
-        if (p1.length !== 6 || p1 !== p2) {
-          const err = document.getElementById("pin-error");
+        STATE.isLoggedIn = true;
+        if (!STATE.user) {
+          STATE.user = { mobile, name: "Tribal Scholar" };
+        }
+        saveState();
+        navigate(STATE.user && STATE.user.subCaste ? "dashboard" : "personal-details");
+      });
+
+      // Signup handler
+      document.getElementById("btn-do-signup").addEventListener("click", () => {
+        const mobile = document.getElementById("signup-mobile").value.trim();
+        const pin = document.getElementById("signup-pin").value.trim();
+        const confirmPin = document.getElementById("signup-pin-confirm").value.trim();
+        const err = document.getElementById("signup-error");
+
+        if (!/^\d{10}$/.test(mobile)) {
+          err.textContent = "Enter a valid 10-digit mobile number.";
+          err.hidden = false;
+          return;
+        }
+        if (!/^\d{6}$/.test(pin) || pin !== confirmPin) {
           err.textContent = "PINs must match and be exactly 6 digits.";
           err.hidden = false;
           return;
         }
-        APP_STATE.loggedIn = true;
+
+        STATE.isLoggedIn = true;
+        STATE.user = { mobile };
         saveState();
-        navigate("profile");
-      };
+        navigate("personal-details");
+      });
     }
 
-    function renderDashboard() {
-      mount("tpl-dashboard");
-      const profile = APP_STATE.profile || { name: "Tribal Scholar" };
-      document.getElementById("dash-name").textContent = profile.name || "Student";
-      document.getElementById("dash-avatar").textContent = (profile.name || "U")[0].toUpperCase();
-
-      const matched = matchSchemes(APP_STATE.profile);
-      document.getElementById("stat-eligible-count").textContent = `${matched.length} Schemes`;
-      document.getElementById("stat-apps-count").textContent = `${APP_STATE.applications.length} Active`;
-
-      const verifiedCount = Object.values(APP_STATE.documents).filter(d => d.status === "verified").length;
-      document.getElementById("stat-docs-count").textContent = `${verifiedCount} Verified`;
-
-      const notifDot = document.getElementById("notif-dot");
-      notifDot.hidden = !APP_STATE.notifications.some(n => !n.read);
-    }
-
-    function renderProfile() {
-      mount("tpl-profile");
-      const form = document.getElementById("profile-form");
-      const stateSelect = form.querySelector('[name="state"]');
-      stateSelect.innerHTML = "<option value=''>Select state</option>";
-      STATES.forEach(s => {
+    // 3. PERSONAL DETAILS
+    function renderPersonalDetails() {
+      mount("tpl-personal-details");
+      const stateSelect = document.getElementById("state-select");
+      stateSelect.innerHTML = '<option value="">Select Domicile State</option>';
+      STATES_LIST.forEach(s => {
         const opt = document.createElement("option");
         opt.value = s;
         opt.textContent = s;
         stateSelect.appendChild(opt);
       });
 
-      if (APP_STATE.profile) {
-        Object.entries(APP_STATE.profile).forEach(([k, v]) => {
-          if (form.elements[k]) form.elements[k].value = v;
+      const form = document.getElementById("details-form");
+      if (STATE.user) {
+        Object.entries(STATE.user).forEach(([k, v]) => {
+          const el = form.querySelector(`[name="${k}"]`);
+          if (el) el.value = v;
         });
       }
 
-      form.onsubmit = async e => {
+      form.addEventListener("submit", (e) => {
         e.preventDefault();
-        const profileData = Object.fromEntries(new FormData(form).entries());
-        APP_STATE.profile = profileData;
+        const formData = new FormData(form);
+        STATE.user = Object.assign(STATE.user || {}, Object.fromEntries(formData.entries()));
         saveState();
-
-        try {
-          await fetch(`${API_BASE}/api/v1/save-profile`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              mobile: APP_STATE.mobile || "9999999999",
-              ...profileData,
-              income: parseFloat(profileData.income) || 0
-            })
-          });
-        } catch (err) {
-          console.warn("Server offline; saved profile locally.", err);
-        }
-        navigate("documents");
-      };
-    }
-
-    function renderDocuments() {
-      mount("tpl-documents");
-      const container = document.getElementById("doc-list");
-      const docs = ["Tribal / ST Certificate", "Income Certificate", "Aadhaar Card", "Bank Passbook"];
-
-      function refreshDocs() {
-        container.innerHTML = "";
-        docs.forEach(d => {
-          const item = APP_STATE.documents[d] || { status: "pending" };
-          const div = document.createElement("div");
-          div.className = "doc-item";
-          div.innerHTML = `
-            <i class="ti ti-file-certificate" style="font-size:22px; color:var(--teal);"></i>
-            <div style="flex:1;"><strong>${d}</strong></div>
-            <span class="doc-status ${item.status}">${item.status === "verified" ? "Verified" : "Pending Sync"}</span>
-          `;
-          container.appendChild(div);
-        });
-      }
-
-      refreshDocs();
-
-      document.getElementById("btn-digilocker").onclick = () => {
-        docs.forEach(d => {
-          APP_STATE.documents[d] = { status: "verified", source: "digilocker" };
-        });
-        saveState();
-        refreshDocs();
-      };
-
-      document.getElementById("btn-docs-continue").onclick = () => navigate("matches");
-    }
-
-    function renderMatches() {
-      mount("tpl-matches");
-      const list = document.getElementById("matches-list");
-      const matches = matchSchemes(APP_STATE.profile);
-
-      if (!matches.length) {
-        list.innerHTML = `<p style="color:var(--ink-faint); font-size:14px; text-align:center;">No matching schemes found for this income and course level.</p>`;
-        return;
-      }
-
-      matches.forEach(s => {
-        const card = document.createElement("div");
-        card.className = "scheme-card";
-        card.innerHTML = `
-          <div class="scheme-card-top">
-            <div>
-              <h3 style="font-size: 16px; margin-bottom: 4px;">${s.name}</h3>
-              <p style="font-size: 13px; color: var(--ink-soft);">${s.authority}</p>
-            </div>
-            <span class="scheme-grant">${s.grant}</span>
-          </div>
-          <p style="font-size: 13px; margin: 12px 0; color: var(--ink-soft);">${s.description}</p>
-          <div style="display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--ink-faint);">
-            <span>${t("deadline")}: ${s.deadline}</span>
-            <span style="color: var(--teal); font-weight: 600;">Check Details →</span>
-          </div>
-        `;
-        card.onclick = () => navigate("scheme-detail", { id: s.id });
-        list.appendChild(card);
+        navigate("doc-upload");
       });
     }
 
-    function renderSchemeDetail(params) {
-      mount("tpl-scheme-detail");
-      const scheme = SCHEMES.find(s => s.id === (params && params.id)) || SCHEMES[0];
-      document.getElementById("scheme-detail-title").textContent = scheme.name;
-      const body = document.getElementById("scheme-detail-body");
+    // 4. DOCUMENT UPLOAD WITH SKIP
+    function renderDocUpload() {
+      mount("tpl-doc-upload");
+      const listContainer = document.getElementById("docs-checklist-container");
 
-      body.innerHTML = `
-        <div class="detail-hero">
-          <span class="scheme-grant">${scheme.grant}</span>
-          <p style="margin-top: 10px; font-size: 14px;">${scheme.description}</p>
-        </div>
-        <div class="detail-block">
-          <h4>${t("eligibility")}</h4>
-          <ul>${scheme.eligibility.map(e => `<li>${e}</li>`).join("")}</ul>
-        </div>
-        <div class="detail-block">
-          <h4>${t("requiredDocuments")}</h4>
-          <ul>${scheme.documents.map(d => `<li>${d}</li>`).join("")}</ul>
-        </div>
-        <button class="btn btn-primary btn-block" id="btn-apply-scheme">${t("apply")}</button>
-      `;
-
-      document.getElementById("btn-apply-scheme").onclick = () => navigate("apply", { schemeId: scheme.id });
-    }
-
-    function renderApply(params) {
-      mount("tpl-apply");
-      const scheme = SCHEMES.find(s => s.id === (params && params.schemeId)) || SCHEMES[0];
-      const prefilled = document.getElementById("apply-prefilled");
-      const p = APP_STATE.profile || {};
-
-      prefilled.innerHTML = `
-        <div class="prefill-row"><span>${t("fullName")}</span><strong>${p.name || "—"}</strong></div>
-        <div class="prefill-row"><span>${t("tribalSubCaste")}</span><strong>${p.subCaste || "—"}</strong></div>
-        <div class="prefill-row"><span>${t("state")}</span><strong>${p.state || "—"}</strong></div>
-        <div class="prefill-row"><span>${t("annualIncome")}</span><strong>₹${Number(p.income || 0).toLocaleString("en-IN")}</strong></div>
-      `;
-
-      document.getElementById("apply-form").onsubmit = async e => {
-        e.preventDefault();
-        const formObj = Object.fromEntries(new FormData(e.target).entries());
-        const applicationId = "app_" + Date.now();
-
-        try {
-          await fetch(`${API_BASE}/api/v1/sync-application`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              id: applicationId,
-              applicant_name: p.name || "Applicant",
-              annual_income: parseFloat(p.income || 0),
-              category: "ST",
-              bank_last4: String(formObj.bankAccount || "0000").slice(-4)
-            })
-          });
-        } catch (err) {
-          console.warn("Backend unavailable; continuing locally.");
-        }
-
-        const application = {
-          id: applicationId,
-          schemeId: scheme.id,
-          schemeName: scheme.name,
-          stage: 0,
-          date: new Date().toLocaleDateString()
-        };
-        APP_STATE.applications.push(application);
-        APP_STATE.notifications.unshift({
-          id: "n_" + Date.now(),
-          title: `Application Submitted: ${application.schemeName}`,
-          body: "Your application is currently pending verification from your institute.",
-          read: false
-        });
-        saveState();
-        navigate("tracker");
-      };
-    }
-
-    function renderTracker() {
-      mount("tpl-tracker");
-      const container = document.getElementById("tracker-list");
-      if (!APP_STATE.applications.length) {
-        container.innerHTML = `<p style="text-align: center; color: var(--ink-faint); margin-top: 40px;">No applications submitted yet.</p>`;
-        return;
-      }
-
-      const stages = ["Submitted", "Verified by Institute", "Approved by State", "Disbursed"];
-
-      [...APP_STATE.applications].reverse().forEach(app => {
-        const div = document.createElement("div");
-        div.className = "app-card";
-        div.innerHTML = `
-          <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h3 style="font-size: 15px;">${app.schemeName}</h3>
-            <span class="scheme-grant">${stages[app.stage]}</span>
-          </div>
-          <p style="font-size: 12px; color: var(--ink-faint); margin-top: 8px;">Submitted on: ${app.date}</p>
-        `;
-        div.onclick = () => navigate("tracker-detail", { id: app.id });
-        container.appendChild(div);
-      });
-    }
-
-    function renderTrackerDetail(params) {
-      mount("tpl-tracker-detail");
-      const app = APP_STATE.applications.find(a => a.id === (params && params.id)) || APP_STATE.applications[0];
-      const stages = ["Submitted to Portal", "Verified by Institute", "Approved by State / Centre", "Disbursed to Bank Account"];
-      const track = document.getElementById("progress-track");
-      document.getElementById("tracker-detail-title").textContent = app ? app.schemeName : "Application Status";
-
-      function updateTimeline() {
-        track.innerHTML = "";
-        stages.forEach((st, idx) => {
-          const done = idx <= (app ? app.stage : 0);
-          const div = document.createElement("div");
-          div.className = `progress-step ${done ? "done" : ""}`;
-          div.innerHTML = `
-            <div class="progress-dot-col">
-              <div class="progress-dot">${done ? "✓" : ""}</div>
-              ${idx < stages.length - 1 ? '<div class="progress-line"></div>' : ""}
-            </div>
-            <div class="progress-content">
-              <div style="font-size: 14px; font-weight: 600;">${st}</div>
-              <div style="font-size: 12px; color: var(--ink-faint);">${done ? "Completed / In Review" : "Pending"}</div>
-            </div>
+      function updateDocList() {
+        listContainer.innerHTML = "";
+        DEFAULT_DOCS.forEach(doc => {
+          const status = STATE.documents[doc] || "pending";
+          const row = document.createElement("div");
+          row.className = "doc-item-row";
+          row.innerHTML = `
+            <span style="font-size:14px; font-weight:500;">${doc}</span>
+            <span class="doc-pill ${status}">${status.toUpperCase()}</span>
           `;
-          track.appendChild(div);
+          listContainer.appendChild(row);
         });
       }
+      updateDocList();
 
-      updateTimeline();
-
-      const advanceBtn = document.getElementById("btn-simulate-advance");
-      if (app && app.stage >= stages.length - 1) {
-        advanceBtn.disabled = true;
-        advanceBtn.textContent = "Fully Disbursed";
-      }
-
-      advanceBtn.onclick = () => {
-        if (app && app.stage < stages.length - 1) {
-          app.stage += 1;
+      document.getElementById("btn-fetch-digilocker").addEventListener("click", () => {
+        const btn = document.getElementById("btn-fetch-digilocker");
+        btn.disabled = true;
+        btn.querySelector("span").textContent = "Verifying with DigiLocker...";
+        setTimeout(() => {
+          DEFAULT_DOCS.forEach(d => STATE.documents[d] = "verified");
           saveState();
-          updateTimeline();
-          if (app.stage >= stages.length - 1) {
-            advanceBtn.disabled = true;
-            advanceBtn.textContent = "Fully Disbursed";
-          }
-        }
-      };
-    }
-
-    function renderDocumentsLocker() {
-      mount("tpl-documents-locker");
-      const container = document.getElementById("locker-doc-list");
-      Object.entries(APP_STATE.documents).forEach(([name, meta]) => {
-        const div = document.createElement("div");
-        div.className = "doc-item";
-        div.innerHTML = `
-          <i class="ti ti-file" style="font-size: 20px; color: var(--teal);"></i>
-          <span style="flex:1; font-weight: 500;">${name}</span>
-          <span class="doc-status ${meta.status}">${meta.status === "verified" ? "Verified" : "Pending"}</span>
-        `;
-        container.appendChild(div);
+          updateDocList();
+          btn.disabled = false;
+          btn.querySelector("span").textContent = "Documents Verified via DigiLocker";
+        }, 800);
       });
 
-      document.getElementById("file-upload-input").onchange = e => {
-        const file = e.target.files[0];
-        if (!file) return;
-        APP_STATE.documents[file.name] = { status: "pending", source: "manual" };
+      document.getElementById("btn-save-docs").addEventListener("click", () => {
         saveState();
-        renderDocumentsLocker();
-      };
-    }
-
-    function renderHelp() {
-      mount("tpl-help");
-      const container = document.getElementById("faq-list");
-      const faqs = [
-        { q: "How are eligible tribal scholarships calculated?", a: "By matching your state domicile, verified ST sub-caste, annual income ceiling, and registered college level." },
-        { q: "Is Aadhaar bank account seeding mandatory?", a: "Yes, government Direct Benefit Transfer (DBT) requires your savings bank account to be linked and active with Aadhaar." },
-        { q: "Can I save my application and complete it later?", a: "Yes, all verified inputs and steps remain safe in your local browser profile." }
-      ];
-
-      container.innerHTML = "";
-      faqs.forEach(f => {
-        const div = document.createElement("div");
-        div.style.padding = "14px 0";
-        div.style.borderBottom = "1px solid var(--border)";
-        div.innerHTML = `<strong>${f.q}</strong><p style="font-size:13px; color:var(--ink-soft); margin-top:6px;">${f.a}</p>`;
-        container.appendChild(div);
+        navigate("dashboard");
       });
 
-      const voiceBtn = document.getElementById("btn-voice");
-      const voiceStatus = document.getElementById("voice-status");
-      voiceBtn.onclick = () => {
-        const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRec) {
-          voiceStatus.textContent = "Speech recognition is not supported on this browser.";
-          return;
-        }
-        const rec = new SpeechRec();
-        rec.lang = APP_STATE.lang === "hi" ? "hi-IN" : "en-IN";
-        voiceStatus.textContent = "Listening… speak now.";
-        rec.start();
-        rec.onresult = e => {
-          const spokenText = e.results[0][0].transcript;
-          voiceStatus.textContent = `Heard: "${spokenText}"`;
-          navigate("chatbot");
-          setTimeout(() => sendChatMessage(spokenText), 300);
-        };
-        rec.onerror = () => { voiceStatus.textContent = "Could not detect audio clearly. Try again."; };
-      };
+      // SKIP BUTTON LOGIC
+      document.getElementById("btn-skip-docs").addEventListener("click", () => {
+        DEFAULT_DOCS.forEach(d => {
+          if (!STATE.documents[d]) STATE.documents[d] = "skipped";
+        });
+        saveState();
+        navigate("dashboard");
+      });
     }
 
+    // 5. DASHBOARD
+    function renderDashboard() {
+      mount("tpl-dashboard");
+      const user = STATE.user || {};
+      document.getElementById("dash-user-name").textContent = user.name || "Scholar";
+      document.getElementById("dash-user-avatar").textContent = (user.name || "S")[0].toUpperCase();
+
+      const statusEl = document.getElementById("dash-status-text");
+      if (STATE.applications.length > 0) {
+        statusEl.textContent = `${STATE.applications[0].schemeName} — Under Verification`;
+      } else {
+        statusEl.textContent = "No active applications in progress.";
+      }
+
+      // Check notification badge
+      const hasUnread = STATE.notifications.some(n => !n.read);
+      document.getElementById("dash-notif-dot").hidden = !hasUnread;
+    }
+
+    // 6. CHATBOT
     function renderChatbot() {
       mount("tpl-chatbot");
-      const log = document.getElementById("chat-log");
+      const msgBox = document.getElementById("chat-messages-container");
+      const form = document.getElementById("chat-submit-form");
+      const input = document.getElementById("chat-text-input");
 
-      function addMsg(txt, sender) {
-        const bubble = document.createElement("div");
-        bubble.className = `chat-bubble ${sender}`;
-        bubble.textContent = txt;
-        log.appendChild(bubble);
-        log.scrollTop = log.scrollHeight;
+      function addBubble(text, sender) {
+        const div = document.createElement("div");
+        div.className = `chat-msg ${sender}`;
+        div.textContent = text;
+        msgBox.appendChild(div);
+        msgBox.scrollTop = msgBox.scrollHeight;
       }
 
-      addMsg("Hello! I am your Unnati Tribal Scholarship Assistant. Ask me about dates, criteria, or documents.", "bot");
+      addBubble("Johar! I am Unnati AI. How can I assist you with tribal scholarships, eligibility, or documentation today?", "bot");
 
-      window.sendChatMessage = function (val) {
-        addMsg(val, "user");
-        setTimeout(() => {
-          addMsg("Tribal post-matric and national higher education applications for ST students are open. Verify your documents to check your exact grant amount.", "bot");
-        }, 400);
-      };
-
-      document.getElementById("chat-form").onsubmit = e => {
+      form.addEventListener("submit", (e) => {
         e.preventDefault();
-        const input = document.getElementById("chat-input");
-        const val = input.value.trim();
-        if (!val) return;
+        const text = input.value.trim();
+        if (!text) return;
+        addBubble(text, "user");
         input.value = "";
-        sendChatMessage(val);
-      };
+
+        setTimeout(() => {
+          const lower = text.toLowerCase();
+          let reply = "You can view all matching central and state tribal scholarships under the Schemes section.";
+          if (lower.includes("doc") || lower.includes("certificate")) {
+            reply = "Key required documents include your ST Certificate, Income Certificate, and Official Bank Passbook.";
+          } else if (lower.includes("eligib") || lower.includes("apply")) {
+            reply = "Eligibility is calculated using your registered course level, ST sub-caste, and annual family income.";
+          } else if (lower.includes("deadline") || lower.includes("date")) {
+            reply = "PM-YASASVI closes on 31 Oct 2026, and the Post-Matric scheme closes on 15 Nov 2026.";
+          }
+          addBubble(reply, "bot");
+        }, 400);
+      });
     }
 
+    // 7. HELP DESK
+    function renderHelp() {
+      mount("tpl-help");
+      const faqList = document.getElementById("faq-accordion-list");
+      faqList.innerHTML = "";
+      FAQS.forEach(item => {
+        const d = document.createElement("details");
+        d.className = "faq-item";
+        d.innerHTML = `<summary>${item.q}</summary><p>${item.a}</p>`;
+        faqList.appendChild(d);
+      });
+
+      const voiceBtn = document.getElementById("btn-voice-query");
+      const hint = document.getElementById("voice-hint");
+      voiceBtn.addEventListener("click", () => {
+        const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!Speech) {
+          hint.textContent = "Speech recognition is not supported on this browser.";
+          return;
+        }
+        const rec = new Speech();
+        rec.lang = "en-IN";
+        hint.textContent = "Listening... speak now.";
+        rec.start();
+        rec.onresult = (e) => {
+          const transcript = e.results[0][0].transcript;
+          hint.textContent = `Heard: "${transcript}"`;
+          navigate("chatbot");
+          setTimeout(() => {
+            const inp = document.getElementById("chat-text-input");
+            if (inp) {
+              inp.value = transcript;
+              document.getElementById("chat-submit-form").dispatchEvent(new Event("submit"));
+            }
+          }, 300);
+        };
+        rec.onerror = () => { hint.textContent = "Could not catch that. Please tap to try again."; };
+      });
+    }
+
+    // 8. SCHOLARSHIP MATCHES
+    function renderMatches() {
+      mount("tpl-matches");
+      const container = document.getElementById("matches-container");
+      container.innerHTML = "";
+
+      SCHEMES_DATA.forEach(sc => {
+        const alreadyApplied = STATE.applications.some(a => a.id === sc.id);
+        const card = document.createElement("div");
+        card.className = "feature-card";
+        card.style.flexDirection = "column";
+        card.style.marginBottom = "12px";
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; width:100%; align-items:flex-start;">
+            <h4 style="font-size:15px;">${sc.name}</h4>
+            <span style="background:var(--gold-tint); color:var(--gold-deep); font-size:11px; padding:3px 8px; border-radius:10px; font-weight:600;">${sc.grant}</span>
+          </div>
+          <p style="margin:4px 0 10px;">${sc.desc}</p>
+          <button class="btn ${alreadyApplied ? 'btn-secondary' : 'btn-primary'} btn-block" style="height:40px; font-size:13.5px;" ${alreadyApplied ? 'disabled' : ''} onclick="applyScheme('${sc.id}', '${sc.name}')">
+            ${alreadyApplied ? 'Already Applied' : 'Apply Now'}
+          </button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    window.applyScheme = function(id, name) {
+      STATE.applications.unshift({ id, schemeName: name, date: new Date().toLocaleDateString() });
+      STATE.notifications.unshift({ title: "Application Submitted", text: `Applied for ${name}. Verification in progress.`, time: "Just now", read: false });
+      saveState();
+      navigate("tracker");
+    };
+
+    // 9. APPLICATION TRACKER
+    function renderTracker() {
+      mount("tpl-tracker");
+      const c = document.getElementById("tracker-container");
+      if (!STATE.applications.length) {
+        c.innerHTML = '<p class="field-hint" style="text-align:center; padding-top:40px;">No applications submitted yet.</p>';
+        return;
+      }
+      c.innerHTML = "";
+      STATE.applications.forEach(a => {
+        const d = document.createElement("div");
+        d.className = "feature-card";
+        d.style.marginBottom = "10px";
+        d.innerHTML = `
+          <div>
+            <h4>${a.schemeName}</h4>
+            <p style="color:var(--teal); font-weight:600; margin-top:2px;">Stage: Verification at Institute Nodal</p>
+            <small style="color:var(--ink-faint);">Submitted on: ${a.date}</small>
+          </div>
+        `;
+        c.appendChild(d);
+      });
+    }
+
+    // 10. NOTIFICATIONS
     function renderNotifications() {
       mount("tpl-notifications");
-      const container = document.getElementById("notif-list");
-      APP_STATE.notifications.forEach(n => { n.read = true; });
+      const c = document.getElementById("notif-feed");
+      c.innerHTML = "";
+
+      // Mark all as read
+      STATE.notifications.forEach(n => n.read = true);
       saveState();
 
-      container.innerHTML = "";
-      APP_STATE.notifications.forEach(n => {
-        const div = document.createElement("div");
-        div.style.padding = "16px 0";
-        div.style.borderBottom = "1px solid var(--border)";
-        div.innerHTML = `<h4 style="font-size: 14px; margin-bottom: 4px;">${n.title}</h4><p style="font-size: 13px; color: var(--ink-soft);">${n.body}</p>`;
-        container.appendChild(div);
+      STATE.notifications.forEach(n => {
+        const item = document.createElement("div");
+        item.className = "feature-card";
+        item.style.marginBottom = "8px";
+        item.innerHTML = `<div><h4>${n.title}</h4><p>${n.text}</p><small style="color:var(--ink-faint);">${n.time}</small></div>`;
+        c.appendChild(item);
       });
     }
 
+    // 11. SETTINGS
     function renderSettings() {
       mount("tpl-settings");
-      const p = APP_STATE.profile || {};
-      document.getElementById("settings-profile-card").innerHTML = `
-        <div style="font-size: 13px; line-height: 1.8;">
-          <div><strong>${t("fullName")}:</strong> ${p.name || "Student"}</div>
-          <div><strong>${t("state")}:</strong> ${p.state || "—"}</div>
-          <div><strong>${t("tribalSubCaste")}:</strong> ${p.subCaste || "—"}</div>
-          <div><strong>${t("annualIncome")}:</strong> ₹${Number(p.income || 0).toLocaleString("en-IN")}</div>
-        </div>
+      const box = document.getElementById("settings-summary");
+      const u = STATE.user || {};
+      box.innerHTML = `
+        <p><strong>Name:</strong> ${u.name || "—"}</p>
+        <p style="margin-top:6px;"><strong>Mobile:</strong> ${u.mobile || "—"}</p>
+        <p style="margin-top:6px;"><strong>Domicile State:</strong> ${u.state || "—"}</p>
+        <p style="margin-top:6px;"><strong>Tribal Sub-Caste:</strong> ${u.subCaste || "—"}</p>
+        <p style="margin-top:6px;"><strong>Course Level:</strong> ${u.courseLevel || "—"}</p>
       `;
 
-      const langSelect = document.getElementById("settings-lang");
-      langSelect.innerHTML = "";
-      Object.keys(I18N).forEach((code) => {
-        const opt = document.createElement("option");
-        opt.value = code;
-        opt.textContent = I18N[code].langName;
-        langSelect.appendChild(opt);
+      document.getElementById("btn-edit-profile").addEventListener("click", () => navigate("personal-details"));
+      document.getElementById("btn-logout").addEventListener("click", () => {
+        STATE.isLoggedIn = false;
+        saveState();
+        navigate("home");
       });
-      langSelect.value = APP_STATE.lang;
-      langSelect.onchange = () => {
-        APP_STATE.lang = langSelect.value;
-        saveState();
-        renderSettings();
-      };
-
-      document.getElementById("btn-logout").onclick = () => {
-        APP_STATE.loggedIn = false;
-        saveState();
-        navigate("login");
-      };
-
-      document.getElementById("btn-clear-data").onclick = () => {
-        if (!confirm("This will clear your locally saved profile on this device. Continue?")) return;
-        localStorage.removeItem(STORAGE_KEY);
-        window.APP_STATE = freshState("en");
-        navigate("login");
-      };
     }
 
-    // Startup routing
-    (function init() {
-      if (APP_STATE.loggedIn) {
-        navigate("dashboard");
-      } else {
-        navigate("login");
-      }
-    })();
+    // INITIALIZATION
+    loadState();
+    navigate("home");
   </script>
 </body>
 
