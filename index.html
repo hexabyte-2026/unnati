@@ -631,20 +631,48 @@
       height: 100%;
     }
 
+    .chat-quick-chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px 16px;
+      background: var(--paper);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    .chat-chip {
+      background: var(--paper-raised);
+      color: var(--teal-deep);
+      border: 1px solid var(--border-strong);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .chat-chip:hover {
+      background: var(--teal);
+      color: #fff;
+      border-color: var(--teal);
+    }
+
     .chat-messages {
       flex: 1;
       overflow-y: auto;
-      padding: 20px;
+      padding: 16px;
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
 
     .chat-msg {
-      max-width: 82%;
+      max-width: 86%;
       padding: 12px 16px;
       border-radius: 16px;
-      font-size: 14px;
+      font-size: 13.5px;
       line-height: 1.45;
     }
 
@@ -884,8 +912,8 @@
             <svg viewBox="0 0 24 24"><use href="#icon-chatbot"></use></svg>
           </div>
           <div>
-            <h4>Multilingual AI Assistant</h4>
-            <p>24/7 dedicated support to answer questions on scholarships, documents, deadlines, and eligibility criteria.</p>
+            <h4>Tribal Scholar AI Engine</h4>
+            <p>Intelligent assistant answering queries on scheme eligibility, portals, documents, and real-time application stages.</p>
           </div>
         </div>
       </div>
@@ -1237,6 +1265,14 @@
         </div>
       </header>
 
+      <div class="chat-quick-chips">
+        <button class="chat-chip" data-chip="Which schemes am I eligible for?">My Eligibility</button>
+        <button class="chat-chip" data-chip="Explain the 3 portals (NSP, SFMP, NOS)">3 Disconnected Portals</button>
+        <button class="chat-chip" data-chip="What documents do I need?">Required Documents</button>
+        <button class="chat-chip" data-chip="What is NFST fellowship amount?">NFST Fellowship</button>
+        <button class="chat-chip" data-chip="How does National Overseas Scholarship work?">Overseas (NOS)</button>
+      </div>
+
       <div class="chat-messages" id="chat-messages-container"></div>
 
       <form class="chat-input-bar" id="chat-submit-form">
@@ -1340,6 +1376,8 @@
 
   <!-- ================= JAVASCRIPT CONTROLLER ================= -->
   <script>
+    const API_BASE = "https://unnati-fibv.onrender.com";
+
     const STATES_LIST = [
       "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh", "Gujarat",
       "Jharkhand", "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
@@ -1435,7 +1473,7 @@
 
     function loadState() {
       try {
-        const stored = localStorage.getItem("unnati_mota_state_v2");
+        const stored = localStorage.getItem("unnati_mota_state_v4");
         if (stored) STATE = JSON.parse(stored);
       } catch (e) {
         console.warn("Could not load stored state:", e);
@@ -1443,16 +1481,26 @@
     }
 
     function saveState() {
-      localStorage.setItem("unnati_mota_state_v2", JSON.stringify(STATE));
+      localStorage.setItem("unnati_mota_state_v4", JSON.stringify(STATE));
     }
 
     const STACK = [];
+    let activeSpeechInstance = null;
+
     function navigate(screen, params) {
+      if (activeSpeechInstance) {
+        try { activeSpeechInstance.abort(); } catch (e) {}
+        activeSpeechInstance = null;
+      }
       STACK.push({ screen, params });
       render(screen, params);
     }
 
     function goBack() {
+      if (activeSpeechInstance) {
+        try { activeSpeechInstance.abort(); } catch (e) {}
+        activeSpeechInstance = null;
+      }
       if (STACK.length > 1) {
         STACK.pop();
         const prev = STACK[STACK.length - 1];
@@ -1540,9 +1588,11 @@
         STATE.isLoggedIn = true;
         if (!STATE.user) {
           STATE.user = { mobile, name: "Tribal Scholar" };
+        } else {
+          STATE.user.mobile = mobile;
         }
         saveState();
-        navigate(STATE.user && STATE.user.subCaste ? "dashboard" : "personal-details");
+        navigate(STATE.user && STATE.user.courseLevel ? "dashboard" : "personal-details");
       });
     }
 
@@ -1649,11 +1699,41 @@
         });
       }
 
-      form.addEventListener("submit", (e) => {
+      form.addEventListener("submit", async (e) => {
         e.preventDefault();
         const formData = new FormData(form);
-        STATE.user = Object.assign(STATE.user || {}, Object.fromEntries(formData.entries()));
+        const formEntries = Object.fromEntries(formData.entries());
+        STATE.user = Object.assign(STATE.user || {}, formEntries);
         saveState();
+
+        try {
+          const profilePayload = {
+            mobile: STATE.user.mobile || STATE.tempMobile || "9999999999",
+            name: formEntries.name ? formEntries.name.trim() : "Scholar",
+            age: formEntries.age ? parseInt(formEntries.age, 10) : null,
+            gender: formEntries.gender || "",
+            state: formEntries.state || "",
+            district: formEntries.district ? formEntries.district.trim() : "",
+            subCaste: formEntries.subCaste ? formEntries.subCaste.trim() : "",
+            courseLevel: formEntries.courseLevel || "",
+            income: formEntries.income ? parseFloat(formEntries.income) : 0.0
+          };
+
+          const res = await fetch(`${API_BASE}/api/v1/save-profile`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(profilePayload)
+          });
+
+          if (!res.ok) {
+            console.warn("Backend response status:", res.status);
+          } else {
+            console.log("Profile synchronized with cloud database.");
+          }
+        } catch (err) {
+          console.warn("Backend currently unreachable; profile cached locally.", err);
+        }
+
         navigate("doc-upload");
       });
     }
@@ -1721,41 +1801,104 @@
       document.getElementById("dash-notif-dot").hidden = !hasUnread;
     }
 
+    function answerScholarQuery(query) {
+      const q = query.toLowerCase();
+      const user = STATE.user || {};
+      const course = (user.courseLevel || "").toLowerCase();
+      const income = parseFloat(user.income) || 0;
+
+      if (q.includes("my eligib") || q.includes("am i eligib") || q.includes("which scheme") || q.includes("what can i apply")) {
+        if (!user.courseLevel) {
+          return "Please complete your Personal Details first. MoTA offers 5 schemes: Pre-Matric (classes 9-10), Post-Matric (class 11-postgrad), Top Class (premier institutes), National Fellowship/NFST (M.Phil/Ph.D.), and National Overseas Scholarship/NOS (abroad).";
+        }
+        let eligible = [];
+        if (course === "pre-matric" && income <= 250000) eligible.push("Pre-Matric Scholarship (NSP)");
+        if ((course === "post-matric" || course === "ug" || course === "pg") && income <= 250000) eligible.push("Post-Matric Scholarship (NSP)");
+        if ((course === "ug" || course === "pg") && income <= 600000) eligible.push("Top Class Education Scheme (NSP)");
+        if (course === "pg") eligible.push("National Fellowship for ST Students (SFMP - Canara Bank)");
+        if (course === "overseas" && income <= 600000) eligible.push("National Overseas Scholarship / NOS (Standalone NOS Portal)");
+        
+        if (eligible.length > 0) {
+          return `Based on your profile (${user.courseLevel.toUpperCase()}, Family Income: ₹${income.toLocaleString()}): You qualify for: ${eligible.join(", ")}. Head to the 'Schemes' section to apply directly.`;
+        } else {
+          return `Based on your profile, you may explore Post-Matric or Top Class scholarships. Please verify your course level and family income limit in Settings.`;
+        }
+      }
+
+      if (q.includes("3 portal") || q.includes("three portal") || q.includes("disconnected") || q.includes("nsp") || q.includes("sfmp") || q.includes("canara") || q.includes("nos portal")) {
+        return "MoTA's 5 scholarship schemes historically operate across 3 distinct systems: (1) National Scholarship Portal (NSP) for Pre-Matric, Post-Matric, and Top Class; (2) SFMP (Canara Bank) for National Fellowship (NFST); and (3) The standalone NOS Portal for overseas studies. UNNATI unifies application discovery and tracking into this single window.";
+      }
+
+      if (q.includes("pre-matric") || q.includes("pre matric")) {
+        return "Pre-Matric Scholarship for ST Students: Meant for students in classes 9 and 10 with family income ≤ ₹2.5 Lakh/year. Grants range from ₹3,500 to ₹7,000/year to prevent early dropouts, hosted on NSP.";
+      }
+      if (q.includes("post-matric") || q.includes("post matric")) {
+        return "Post-Matric Scholarship for ST Students: Covers class 11 through postgraduate education. It pays full compulsory institutional fees plus a monthly maintenance allowance of up to ₹1,200/month for hostellers (income ceiling ≤ ₹2.5 Lakh/year), hosted on NSP.";
+      }
+
+      if (q.includes("top class") || q.includes("premier") || q.includes("iit") || q.includes("iim") || q.includes("nit")) {
+        return "Top Class Education for ST Students: Funds ST students admitted into notified premier institutes (such as IITs, NITs, IIMs, and National Law Universities). It covers full tuition fees plus ₹3,000/month living allowances (income limit ≤ ₹6.0 Lakh/year), hosted on NSP.";
+      }
+
+      if (q.includes("fellowship") || q.includes("nfst") || q.includes("phd") || q.includes("m.phil") || q.includes("research")) {
+        return "National Fellowship for ST Students (NFST): Dedicated research fellowship for ST scholars pursuing M.Phil and Ph.D. in Indian universities. Fellowship ranges between ₹31,000 and ₹35,000/month plus contingency grants, synchronized through the SFMP Portal (Canara Bank) with no parental income ceiling.";
+      }
+
+      if (q.includes("overseas") || q.includes("nos") || q.includes("abroad") || q.includes("foreign")) {
+        return "National Overseas Scholarship (NOS): Provides financial assistance for selected ST scholars to pursue Master's and Ph.D. degrees abroad. It covers full tuition fees, annual maintenance allowance (£9,900 in the UK or $15,400 in the US/other countries), and round-trip airfare (income limit ≤ ₹6.0 Lakh/year), hosted on the standalone NOS Portal.";
+      }
+
+      if (q.includes("doc") || q.includes("certificate") || q.includes("upload") || q.includes("paper")) {
+        return "Essential documents for MoTA scholarships: (1) ST Category/Caste Certificate, (2) Family Income Certificate, (3) Identity Proof Document, and (4) Bank Passbook (directly linked for DBT). You can pull them in one click via DigiLocker.";
+      }
+
+      if (q.includes("deadline") || q.includes("date") || q.includes("last date")) {
+        return "Upcoming MoTA deadlines for 2026-27: Pre-Matric (30 Sep 2026), Top Class (31 Oct 2026), Post-Matric (15 Nov 2026), National Fellowship NFST (31 Dec 2026), and National Overseas Scholarship NOS (15 Jan 2027).";
+      }
+
+      return "Johar! I can assist you with all 5 MoTA scholarship schemes (Pre-Matric, Post-Matric, Top Class on NSP; NFST on SFMP; NOS on the overseas portal). You can ask me about your eligibility, scheme benefits, deadlines, or required documents.";
+    }
+
+    function addChatBubble(text, sender) {
+      const msgBox = document.getElementById("chat-messages-container");
+      if (!msgBox) return;
+      const div = document.createElement("div");
+      div.className = `chat-msg ${sender}`;
+      div.textContent = text;
+      msgBox.appendChild(div);
+      msgBox.scrollTop = msgBox.scrollHeight;
+    }
+
     function renderChatbot() {
       mount("tpl-chatbot");
       const msgBox = document.getElementById("chat-messages-container");
       const form = document.getElementById("chat-submit-form");
       const input = document.getElementById("chat-text-input");
 
-      function addBubble(text, sender) {
-        const div = document.createElement("div");
-        div.className = `chat-msg ${sender}`;
-        div.textContent = text;
-        msgBox.appendChild(div);
-        msgBox.scrollTop = msgBox.scrollHeight;
-      }
+      document.querySelectorAll(".chat-chip").forEach(chip => {
+        chip.addEventListener("click", () => {
+          const queryText = chip.getAttribute("data-chip");
+          addChatBubble(queryText, "user");
+          setTimeout(() => {
+            const reply = answerScholarQuery(queryText);
+            addChatBubble(reply, "bot");
+          }, 350);
+        });
+      });
 
-      addBubble("Johar! I am Unnati AI. How can I assist you with MoTA's five scholarship schemes across NSP, SFMP (Canara Bank), and the NOS Portal?", "bot");
+      addChatBubble("Johar! I am Unnati AI, specialized in the Ministry of Tribal Affairs (MoTA) scholarship ecosystem. Ask me about the 5 schemes across NSP, SFMP, and the NOS Portal or click any suggestion above.", "bot");
 
       form.addEventListener("submit", (e) => {
         e.preventDefault();
         const text = input.value.trim();
         if (!text) return;
-        addBubble(text, "user");
+        addChatBubble(text, "user");
         input.value = "";
 
         setTimeout(() => {
-          const lower = text.toLowerCase();
-          let reply = "MoTA operates 5 schemes: Pre-Matric, Post-Matric, Top Class (on NSP), National Fellowship (on SFMP / Canara Bank), and National Overseas Scholarship (on the NOS Portal).";
-          if (lower.includes("fellowship") || lower.includes("nfst") || lower.includes("sfmp")) {
-            reply = "National Fellowship for ST Students (NFST) provides ₹31,000–₹35,000/month for M.Phil and Ph.D. scholars, synchronized through the SFMP Portal (Canara Bank).";
-          } else if (lower.includes("overseas") || lower.includes("nos") || lower.includes("abroad")) {
-            reply = "The National Overseas Scholarship (NOS) supports Master's and Ph.D. students studying abroad, covering international fees, living expenses, and airfare via the standalone NOS Portal.";
-          } else if (lower.includes("doc") || lower.includes("certificate")) {
-            reply = "Required documents for MoTA schemes include your ST Certificate, Income Certificate, and Official Bank Passbook.";
-          }
-          addBubble(reply, "bot");
-        }, 400);
+          const reply = answerScholarQuery(text);
+          addChatBubble(reply, "bot");
+        }, 350);
       });
     }
 
@@ -1778,13 +1921,18 @@
           hint.textContent = "Speech recognition is not supported on this browser.";
           return;
         }
+        if (activeSpeechInstance) {
+          try { activeSpeechInstance.abort(); } catch (e) {}
+        }
         const rec = new Speech();
+        activeSpeechInstance = rec;
         rec.lang = "en-IN";
         hint.textContent = "Listening... speak now.";
         rec.start();
         rec.onresult = (e) => {
           const transcript = e.results[0][0].transcript;
           hint.textContent = `Heard: "${transcript}"`;
+          activeSpeechInstance = null;
           navigate("chatbot");
           setTimeout(() => {
             const inp = document.getElementById("chat-text-input");
@@ -1794,7 +1942,13 @@
             }
           }, 300);
         };
-        rec.onerror = () => { hint.textContent = "Could not catch that. Please tap to try again."; };
+        rec.onerror = () => { 
+          hint.textContent = "Could not catch that. Please tap to try again.";
+          activeSpeechInstance = null;
+        };
+        rec.onend = () => {
+          activeSpeechInstance = null;
+        };
       });
     }
 
@@ -1809,29 +1963,77 @@
         card.className = "feature-card";
         card.style.flexDirection = "column";
         card.style.marginBottom = "12px";
-        card.innerHTML = `
-          <div style="display:flex; justify-content:space-between; width:100%; align-items:flex-start;">
-            <div>
-              <h4 style="font-size:15px;">${sc.name}</h4>
-              <span class="portal-tag">${sc.portal}</span>
-            </div>
-            <span style="background:var(--gold-tint); color:var(--gold-deep); font-size:11px; padding:3px 8px; border-radius:10px; font-weight:600; text-align:right;">${sc.grant}</span>
-          </div>
-          <p style="margin:8px 0 10px;">${sc.desc}</p>
-          <button class="btn ${alreadyApplied ? 'btn-secondary' : 'btn-primary'} btn-block" style="height:40px; font-size:13.5px;" ${alreadyApplied ? 'disabled' : ''} onclick="applyScheme('${sc.id}', '${sc.name}', '${sc.portal}')">
-            ${alreadyApplied ? 'Application in Progress' : 'Apply via Unified Portal'}
-          </button>
-        `;
+
+        const topRow = document.createElement("div");
+        topRow.style.cssText = "display:flex; justify-content:space-between; width:100%; align-items:flex-start;";
+
+        const titleDiv = document.createElement("div");
+        const h4 = document.createElement("h4");
+        h4.style.fontSize = "15px";
+        h4.textContent = sc.name;
+        const tag = document.createElement("span");
+        tag.className = "portal-tag";
+        tag.textContent = sc.portal;
+        titleDiv.appendChild(h4);
+        titleDiv.appendChild(tag);
+
+        const grantSpan = document.createElement("span");
+        grantSpan.style.cssText = "background:var(--gold-tint); color:var(--gold-deep); font-size:11px; padding:3px 8px; border-radius:10px; font-weight:600; text-align:right;";
+        grantSpan.textContent = sc.grant;
+
+        topRow.appendChild(titleDiv);
+        topRow.appendChild(grantSpan);
+
+        const descP = document.createElement("p");
+        descP.style.cssText = "margin:8px 0 10px;";
+        descP.textContent = sc.desc;
+
+        const actionBtn = document.createElement("button");
+        actionBtn.className = `btn ${alreadyApplied ? 'btn-secondary' : 'btn-primary'} btn-block`;
+        actionBtn.style.cssText = "height:40px; font-size:13.5px;";
+        actionBtn.disabled = alreadyApplied;
+        actionBtn.textContent = alreadyApplied ? 'Application in Progress' : 'Apply via Unified Portal';
+
+        actionBtn.addEventListener("click", async () => {
+          const appId = "app_" + Date.now();
+          const user = STATE.user || {};
+          const mobileRef = user.mobile || STATE.tempMobile || "0000";
+
+          const payload = {
+            id: appId,
+            applicant_name: user.name ? user.name.trim() : "Scholar",
+            annual_income: parseFloat(user.income || 0),
+            category: "ST",
+            aadhaar_hash: "MASKED_" + (mobileRef.length >= 4 ? mobileRef.slice(-4) : "0000")
+          };
+
+          try {
+            const res = await fetch(`${API_BASE}/api/v1/sync-application`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+            if (!res.ok) {
+              console.warn("Sync application returned status:", res.status);
+            } else {
+              console.log("Application stored in database:", payload.id);
+            }
+          } catch (err) {
+            console.warn("Backend unreachable; application queued locally:", err);
+          }
+
+          STATE.applications.unshift({ id: sc.id, schemeName: sc.name, portal: sc.portal, date: new Date().toLocaleDateString() });
+          STATE.notifications.unshift({ title: "Application Submitted", text: `Applied for ${sc.name}. Integrated with ${sc.portal}.`, time: "Just now", read: false });
+          saveState();
+          navigate("tracker");
+        });
+
+        card.appendChild(topRow);
+        card.appendChild(descP);
+        card.appendChild(actionBtn);
         container.appendChild(card);
       });
     }
-
-    window.applyScheme = function(id, name, portal) {
-      STATE.applications.unshift({ id, schemeName: name, portal: portal, date: new Date().toLocaleDateString() });
-      STATE.notifications.unshift({ title: "Application Submitted", text: `Applied for ${name}. Integrated with ${portal}.`, time: "Just now", read: false });
-      saveState();
-      navigate("tracker");
-    };
 
     function renderTracker() {
       mount("tpl-tracker");
